@@ -1,0 +1,63 @@
+<%- include("partials/header.ejs") %> 
+
+<!--    Import recipe objects, maybe array of them
+        these objects have their info and link,
+        loop and display in container 
+
+        I'm wondering if there is a better way to exchange data than I'm currently doing,
+        I am importing the recipe data on the backend, and passing the entire JSON to the view as a local variable.
+
+        Is there better way to get large(r) data from server to client?
+            --This may just be handled by good ol' SQL in the future.
+-->
+
+<main>
+
+<div>
+    <h1>Popular Recipes</h1>
+</div>
+
+<% if (locals.recipes) { %>
+    <div class="popularRecipesContainer">
+        <% recipes.forEach(recipe => { %>
+            <% let queryString = "/recipe?id=" + recipe.id %>
+            <a href=<%= queryString %> >
+                <div class="recipeItem">
+                    <div class="recipeTitle">
+                        <h2><%= recipe.name %></h2>
+                    </div>
+                    <div class="recipeBody">
+                        <p>A great <%= recipe.type %> food.</p>
+                    </div>
+                </div>
+            </a>
+        <% }) %>
+    </div>
+<% } else { %>
+    <% console.log("Error loading recipe JSON data") %>
+<% } %>
+
+<!--
+    <div class="recipeItem">
+        <div class="recipeTitle">
+        </div>
+        <div class="recipeBody">
+            <div class="recipeIngredients">
+                <ul>
+                    <li>Chicken</li>
+                    <li>Taco Shells</li>
+                    <li>Salt</li>
+                    <li>Pepper</li>
+                    <li>Salsa</li>
+                </ul>
+            </div>
+            <p> Cut up chicken and place into taco shells.
+                Season chicken and add salsa on top. Voila!
+            </p>
+        </div>
+    </div>
+-->
+
+</main>
+
+<%- include("partials/footer.ejs") %>
