@@ -10,7 +10,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const app = express()
 const port = 3000
 
-app.use(express.static("public"))
+app.use(express.static(__dirname + "/public"))
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get("/", (req, res) => {
@@ -38,6 +38,10 @@ app.get("/recipe", (req, res) => {
 app.post("/search", (req, res) => {
     const input = req.body["siteSearch"]
     res.render("search.ejs", { searchTerm : input})
+})
+
+app.get("/create", (req, res) => {
+    res.render("create.ejs")
 })
 
 app.listen(port, () => {

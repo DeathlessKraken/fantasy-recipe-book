@@ -10,19 +10,20 @@
 </head>
 
 <header>
-    <div>
-        <p>Sean's Recipe Book</p>
-        <div class="headerMenu">
-            <form action="/browse" method="get">
-                <input type="submit" value="Browse All">
+    <p>Sean's Recipe Book</p>
+    <div class="headerNav">
+        <form action="/browse" method="get">
+            <input type="submit" value="Browse All">
+        </form>
+        <form action="/create">
+            <input type="submit" value="Submit your own!"> 
+        </form>
+        <div class="searchContainer">
+            <form action="/search" method="post">
+                <input type="search" name="siteSearch" placeholder="Search..." autocomplete="off">
+                <input type="submit" value="Go">
             </form>
         </div>
-    </div>
-    <div class="searchContainer">
-        <form action="/search" method="post">
-            <input type="search" name="siteSearch" placeholder="Search..." autocomplete="off">
-            <input type="submit" value="Go">
-        </form>
     </div>
 </header>
 
