@@ -1,21 +1,23 @@
 import express from "express"
 import bodyParser from "body-parser"
+import pg from "pg"
 
-import recipeFile from "./public/recipes.json" assert {type:'json'}
+//id, type [breakfast, 2nd breakfast, lunch, dinner], name, description, instructions, ingredients
 
-import { dirname } from "path"
-import { fileURLToPath } from "url"
-const __dirname = dirname(fileURLToPath(import.meta.url))
+const app = express();
+const port = 3000;
+const db = new pg.Client({
+    user: "postgres",
+    host: "localhost",
+    database: ""
+});
 
-const app = express()
-const port = 3000
-
-app.use(express.static(__dirname + "/public"))
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-    res.render("index.ejs", {recipes: recipeFile})
-})
+    res.render("index.ejs", {recipes: recipes});
+});
 
 app.get("/recipe", (req, res) => {
     const recipeId = req.query.id;
