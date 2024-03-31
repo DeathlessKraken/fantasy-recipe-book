@@ -1,4 +1,16 @@
 .content {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 20% 60% 1fr;
+    grid-template-rows: min-content;
+    grid-template-areas: 
+        "drawer discover sidebar";
+    gap: 0 2em;
+}
+
+.gridItemDrawer {
+    grid-area: drawer;
+}
+
+.gridItemDiscover {
+    grid-area: discover;
 }

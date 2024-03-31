@@ -19,8 +19,12 @@ export default function App() {
         <div className={styles.app}>
             <Header onMenuClick={handleClick}/>
             <div className={styles.content}>
-                <Drawer open={menuOpen} onClose={handleClose}/>
-                <Discover />
+                <div className={styles.gridItemDrawer}>
+                    <Drawer open={menuOpen} onClose={handleClose}/>
+                </div>
+                <div className={styles.gridItemDiscover}>
+                    <Discover />
+                </div>
             </div>
         </div>
     );

@@ -24,10 +24,8 @@ export default function Drawer(props) {
                     <i className="fa-solid fa-xmark"></i>
                 </div>
                 <div className={styles.drawerItems}>
-                    <a href="#home" name='home' onClick={handleClick}>Home</a>
-                    <a href="#projects" name='projects' onClick={handleClick}>Projects</a>
-                    <a href="#experience" name='experience' onClick={handleClick}>Experience</a>
-                    <a href="#contact" name='contact' onClick={handleClick}>Contact Me</a>
+                    <a href="#home" name='home' onClick={handleClick}>Fix my href</a>
+                    <a href="#projects" name='projects' onClick={handleClick}>Add hover to me</a>
                 </div>
             </div>
         </>
