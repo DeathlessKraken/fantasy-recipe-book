@@ -10,9 +10,10 @@ export default function Search() {
 
     return (
         <div className={styles.search}>
-            <label htmlFor="search">
+            <div>
                 <i className="fa-solid fa-magnifying-glass"></i>
-            </label>
+                <label htmlFor="search"></label>
+            </div>
             <div className={styles.smallInput}>
                 <input 
                     type="text" 

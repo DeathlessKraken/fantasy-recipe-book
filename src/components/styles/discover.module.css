@@ -10,11 +10,12 @@
 }
 
 .discoverItems {
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 20em;
-    grid-auto-rows: 20em;
-    background-color: rgb(153, 125, 73);
+    grid-template-rows: 25em;
+    grid-auto-rows: 25em;
+    background-color: rgb(138, 120, 87);
     border-radius: 8px;
     padding: 1em;
     gap: 2em;
