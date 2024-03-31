@@ -1,4 +1,5 @@
 import Card from '../base/Card';
+import SortBy from '../base/SortBy';
 import styles from '../styles/discover.module.css';
 
 export default function Discover() {
@@ -43,7 +44,16 @@ export default function Discover() {
 
     return (
         <div className={styles.discoverContainer}>
-            <p>Discover</p>
+            <div className={styles.discoverHeader}>
+                <p>Discover</p>
+                <SortBy 
+                    name='discoverSort'
+                    options={[
+                        'Popular',
+                        'Latest'
+                    ]}
+                />
+            </div>
             <div className={styles.discoverItems}>
                 {
                     cards.map((card, index) => {

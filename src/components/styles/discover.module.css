@@ -3,7 +3,12 @@
     width: 60vw;
 }
 
-.discoverContainer > p {
+.discoverHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.discoverHeader > p {
     font-size: 4em;
     font-weight: 700;
     padding: 0.5em 0;

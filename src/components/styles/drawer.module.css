@@ -18,7 +18,7 @@
     width: 20vw;
     height: 100vh;
     background-color: #202124;
-    transition: 500ms;
+    transition: 250ms;
 }
 
 .closeButton {
