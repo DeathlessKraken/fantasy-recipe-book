@@ -1,7 +1,7 @@
 import styles from '../styles/drawer.module.css';
 
 export default function Drawer(props) {
-    const { open, onClose, options, style } = props;
+    const { open, onClose, options, style, overlay } = props;
 
     /* Options: [
         {
@@ -25,6 +25,9 @@ export default function Drawer(props) {
                 className={styles.drawerOverlay} 
                 hidden={!open}
                 onClick={handleClick}
+                style={{
+                    backgroundColor: !overlay && 'transparent'
+                }}
             ></div>
             <div 
                 className={styles.menuDrawer} 

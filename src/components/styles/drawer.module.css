@@ -4,6 +4,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
+    background-color: #1b1b1b94;
 }
 
 .menuDrawer {
@@ -15,7 +16,7 @@
     flex-direction: column;
     gap: 2em;
     padding: 7em 2em;
-    width: 20vw;
+    width: 18vw;
     height: 100vh;
     background-color: #202124;
     transition: 250ms;
