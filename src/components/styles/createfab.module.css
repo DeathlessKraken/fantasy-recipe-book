@@ -1,0 +1,29 @@
+.createFab {
+    position: fixed;
+    bottom: 3em;
+    right: 4em;
+    width: 4em;
+    height: 4em;
+    border-radius: 50%;
+    background-color: rgb(145, 109, 32);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.createFab > i {
+    font-size: xx-large;
+}
+
+
+@media (hover: hover) {
+    .createFab:hover {
+        background-color: rgb(167, 127, 42);
+    }
+}
+
+.createFab:active {
+    background-color: rgb(102, 77, 23);
+}
