@@ -23,7 +23,7 @@ export default function Drawer(props) {
         <>
             <div 
                 className={styles.drawerOverlay} 
-                hidden={!open}
+                hidden={overlay ? !open : true}
                 onClick={handleClick}
                 style={{
                     backgroundColor: !overlay && 'transparent'

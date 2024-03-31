@@ -1,18 +1,18 @@
 import Header from './container/Header';
 import Discover from './container/Discover';
 import Drawer from './base/Drawer';
-import { useState } from 'react';
+//import { useState } from 'react';
 import styles from './styles/app.module.css';
 
 export default function App() {
-    const [menuOpen, setMenuOpen] = useState(false);
+    //const [menuOpen, setMenuOpen] = useState(false);
 
     function handleClick() {
-        setMenuOpen(prevState => !prevState);
+        //setMenuOpen(prevState => !prevState);
     }
 
     function handleClose() {
-        setMenuOpen(false);
+        //setMenuOpen(false);
     }
 
     return (
@@ -21,8 +21,11 @@ export default function App() {
             <div className={styles.content}>
                 <div className={styles.gridItemDrawer}>
                     <Drawer 
-                        open={menuOpen} 
+                        open={true} 
                         onClose={handleClose}
+                        style={{
+                            width: '15vw'
+                        }}
                         options={[
                             {
                                 name: 'Home',
