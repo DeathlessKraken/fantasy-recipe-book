@@ -20,7 +20,24 @@ export default function App() {
             <Header onMenuClick={handleClick}/>
             <div className={styles.content}>
                 <div className={styles.gridItemDrawer}>
-                    <Drawer open={menuOpen} onClose={handleClose}/>
+                    <Drawer 
+                        open={menuOpen} 
+                        onClose={handleClose}
+                        options={[
+                            {
+                                name: 'Home',
+                                href: '#',
+                            },
+                            {
+                                name: 'Post Recipe',
+                                href: '#',
+                            },
+                            {
+                                name: 'Random Recipe',
+                                href: '#',
+                            },
+                        ]}
+                    />
                 </div>
                 <div className={styles.gridItemDiscover}>
                     <Discover />
