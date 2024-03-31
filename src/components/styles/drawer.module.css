@@ -21,16 +21,6 @@
     transition: 250ms;
 }
 
-.closeButton {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 2em;
-    width: 2em;
-    cursor: pointer;
-    border-radius: 8px;
-}
-
 .drawerItems {
     display: flex;
     flex-direction: column;
@@ -46,13 +36,12 @@
     padding: 1em 2em;
 }
 
-.drawerItems > a:active,
-.closeButton:active {
+.drawerItems > a:active {
     background-color: rgb(6, 103, 160);
 }
 
 @media (hover: hover) {
-    .closeButton:hover {
-        background-color: #444444;
+    .drawerItems > a:hover {
+        background-color: rgba(92, 92, 92, 0.301);
     }
 }
