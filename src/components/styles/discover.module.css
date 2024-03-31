@@ -1,0 +1,21 @@
+.discoverContainer {
+    margin-top: 5em;
+    width: 60vw;
+}
+
+.discoverContainer > p {
+    font-size: 4em;
+    font-weight: 700;
+    padding: 0.5em 0;
+}
+
+.discoverItems {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 20em;
+    grid-auto-rows: 20em;
+    background-color: rgb(153, 125, 73);
+    border-radius: 8px;
+    padding: 1em;
+    gap: 2em;
+}
