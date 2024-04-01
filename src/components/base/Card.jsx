@@ -5,10 +5,12 @@ export default function Card(props) {
     const { 
         className,
         style,
+        id,
         imgSrc,
         imgAlt,
         title,
-        content
+        content,
+        onCardClick
     } = props;
 
     return (
@@ -16,15 +18,17 @@ export default function Card(props) {
             className={className ? className + " " + styles.card : styles.card}
             style={{...style}}
         >
-            <div className={styles.cardMedia}> 
-                <img src={imgSrc} alt={imgAlt} />
-            </div>
-            <div className={styles.cardBody}>
-                <div className={styles.cardTitle}>
-                    <p>{title}</p>
+            <div className={styles.cardClickArea} onClick={() => onCardClick(id)}>
+                <div className={styles.cardMedia}> 
+                    <img src={imgSrc} alt={imgAlt} />
                 </div>
-                <div className={styles.cardContent}>
-                    <p>{content}</p>
+                <div className={styles.cardBody}>
+                    <div className={styles.cardTitle}>
+                        <p>{title}</p>
+                    </div>
+                    <div className={styles.cardContent}>
+                        <p>{content}</p>
+                    </div>
                 </div>
             </div>
             <div className={styles.actionContainer}>

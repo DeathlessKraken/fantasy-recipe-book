@@ -1,0 +1,35 @@
+.recipeContainer {
+    margin-top: 5em;
+    width: 60vw;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.recipeContainer > i {
+    font-size: xx-large;
+    margin-top: 1em;
+    width: 1em;
+    height: 1em;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.recipeContainer > p {
+    font-size: xx-large;
+}
+
+
+.recipe {
+    background-color: rgb(138, 120, 87);
+    border-radius: 8px;
+    padding: 1em;
+}
+
+
+@media (hover: hover) {
+    .recipeContainer > i:hover {
+       color: rgb(75, 74, 74);
+    }
+}
