@@ -44,7 +44,6 @@ export default function ActionDrawer() {
     ];
 
     function handleClose() {
-        console.log("DRAWER CLOSED")
     }
 
     return (

@@ -1,8 +1,13 @@
+import { useEffect } from 'react';
 import FontAwesomeIcon from '../base/FontAwesomeIcon';
 import styles from '../styles/recipe.module.css';
 
 export default function Recipe(props) {
     const { recipe, onRecipeClick } = props;
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
 
     function handleClick(id) {
         onRecipeClick(id);
