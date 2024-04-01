@@ -1,7 +1,7 @@
 export default function FontAwesomeIcon(props) {
-    const { icon } = props;
+    const { icon, style } = props;
 
     return (
-        <i className={icon}></i>
+        <i className={icon} style={style} ></i>
     );
 }

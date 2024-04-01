@@ -3,6 +3,8 @@
     --secondary-color: #3E8DE3;
     --tertiary-color: #143AA2;
     --bg-color: #2e2e2e;
+    --bg-color2: #1f1f1f;
+    --button-color: rgb(69, 86, 138);
 }
 
 * {

@@ -35,14 +35,9 @@
     background-color: #17181a;
     border-radius: 0.5em;
     padding: 1em 2em;
-}
-
-.drawerItems > a:active {
-    background-color: rgb(6, 103, 160);
-}
-
-@media (hover: hover) {
-    .drawerItems > a:hover {
-        background-color: rgba(92, 92, 92, 0.301);
-    }
+    display: flex;
+    justify-content: start;
+    align-items: last baseline;
+    gap: 1em;
+    white-space: nowrap;
 }
