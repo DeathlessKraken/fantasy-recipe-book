@@ -75,7 +75,9 @@ export default function App() {
     }
 
     //Need to have visual post uploading procedure
-    async function handlePost(postData) {
+    function handlePost(postData) {
+        let isGoodPost = false;
+
         fetch("/api/post", {
             method: 'POST',
             body: JSON.stringify(postData),
@@ -83,8 +85,16 @@ export default function App() {
                 "Content-type": "application/json; charset=UTF-8"
             }
         })
-        .then((res) => res.json())
-        .then((json) => console.log('DATA FROM POST RESPONSE: ', json))
+        .then((res) => {
+            if(res.status === 400) {
+                console.error("Error", res.status);
+            }
+            res.json()
+        })
+        .then((json) => {
+            console.log('DATA FROM POST RESPONSE: ', json)
+            isGoodPost = true;
+        })
         .catch(e => console.error("ERROR POSTING DATA: ", e));
     }
 

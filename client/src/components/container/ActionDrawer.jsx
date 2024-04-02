@@ -14,7 +14,8 @@ export default function ActionDrawer(props) {
         fontSize: '1.2em',
         borderRadius: '4px',
         border: 'none',
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
+        cursor: 'pointer',
     };
 
     const iconStyle = {

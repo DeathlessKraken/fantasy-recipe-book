@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import FontAwesomeIcon from '../base/FontAwesomeIcon';
 import styles from '../styles/postrecipe.module.css';
+import PostModal from './PostModal';
 
 export default function PostRecipe(props) {
     const { onReturnClick, onPost } = props;
+    const [showPostModal, setShowPostModal] = useState(false);
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -37,7 +39,7 @@ export default function PostRecipe(props) {
         return true;
     }
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         //Remember to ONLY SUBMIT IF ALL REQUIRED FIELDS filled, 
         //and at least 1 instruction and 1 ingredient.
         //Also think about 'sanitizing' data before posting to db... (SANITIZE SERVER SIDE - SEND SUCCESS/FAILURE)
@@ -53,7 +55,11 @@ export default function PostRecipe(props) {
         } else if (inputs.ingredients.ingredient1.length < 3) {
             scrollTopSetError("You must have one ingredient with 3 characters.");
         } else {
-            onPost(inputs);
+            setShowPostModal(true);
+            await onPost(inputs);
+            setTimeout(() => {setShowPostModal(false);}, 1000);
+            
+
             event.preventDefault(); //Refresh?? Probably not.
         }
     }
@@ -149,6 +155,7 @@ export default function PostRecipe(props) {
 
     return (
         <div className={styles.postContainer}>
+            { showPostModal && <PostModal /> }
             <FontAwesomeIcon icon="fa-solid fa-arrow-left" onClick={onReturnClick}/>
             <p>Post a New Recipe</p>
             <form name='recipe' method='POST' className={styles.post}>

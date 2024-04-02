@@ -97,6 +97,10 @@ const cards = [
     }         
 ];
 
+function sanitizePostData(data) {
+    return false;
+}
+
 //When api route requested, get data from db and respond with json data
 
 
@@ -107,9 +111,16 @@ app.get("/api/", async (req, res) => {
 });
 
 app.post("/api/post", (req, res) => {
+    //Sanitize data, and query db
     const data = req.body;
-    console.log(data);
-    res.json(data);
+    if (sanitizePostData(data) !== false) {
+        //query db if sanitize returns good data, otherwise false means error
+
+        res.status(201).json(data);
+    } else {   
+        res.status(400).json("Cannot understand request body. Check submission data.");
+        console.log(data);
+    }
 });
 
 //Needs to be below nearly all other routes.
