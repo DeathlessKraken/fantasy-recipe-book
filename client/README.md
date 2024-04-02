@@ -14,6 +14,7 @@
 - It appears you can use regex on routes. Useful for mistyped urls?
 - random recipe button does NOT work when posting recipe
 - transition custom recipe checkbox original recipe link smoothly
+- check for PROFANITY
 
 SOLUTION TO VARIABLE HEIGHT CARDS:
 WHEN TITLE/DESCRIPTION OF CARDS OVERFLOW/WHITESPACE WRAP, 

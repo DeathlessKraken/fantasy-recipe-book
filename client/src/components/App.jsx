@@ -74,6 +74,20 @@ export default function App() {
         return Math.floor(Math.random() * (apiData.length));
     }
 
+    //Need to have visual post uploading procedure
+    async function handlePost(postData) {
+        fetch("/api/post", {
+            method: 'POST',
+            body: JSON.stringify(postData),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+        .then((res) => res.json())
+        .then((json) => console.log('DATA FROM POST RESPONSE: ', json))
+        .catch(e => console.error("ERROR POSTING DATA: ", e));
+    }
+
     return (
         <div className={styles.app} onScroll={() => console.log("SCROLLED")}>
             <Header />
@@ -85,7 +99,7 @@ export default function App() {
 
                     {loading && <DiscoverSkeleton />}
 
-                    {isPosting && <PostRecipe onReturnClick={handleReturnClick} />}
+                    {isPosting && <PostRecipe onReturnClick={handleReturnClick} onPost={handlePost}/>}
 
                     {apiData && (!isPosting && (recipeId < 0 ? <Discover apiData={apiData} onCardClick={handleCardClick}/> : 
                         <Recipe recipe={apiData[recipeId]} onRecipeClick={handleReturnClick}/>))

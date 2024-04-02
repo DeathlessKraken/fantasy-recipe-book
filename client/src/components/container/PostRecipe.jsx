@@ -3,7 +3,7 @@ import FontAwesomeIcon from '../base/FontAwesomeIcon';
 import styles from '../styles/postrecipe.module.css';
 
 export default function PostRecipe(props) {
-    const { onReturnClick } = props;
+    const { onReturnClick, onPost } = props;
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -26,14 +26,36 @@ export default function PostRecipe(props) {
         is_published: false,
     });
 
+    function scrollTopSetError(message) {
+        //funciton box
+        console.log("scroll top set error: ", message);
+    }
+
+    function isGoodLink(link) {
+        //funciton box
+        //testing for now, always true
+        return true;
+    }
+
     function handleSubmit(event) {
         //Remember to ONLY SUBMIT IF ALL REQUIRED FIELDS filled, 
         //and at least 1 instruction and 1 ingredient.
-        //Also think about 'sanitizing' data before posting to db...
+        //Also think about 'sanitizing' data before posting to db... (SANITIZE SERVER SIDE - SEND SUCCESS/FAILURE)
         //Tell app to post data to api.
-        console.log(inputs);
 
-        event.preventDefault(); //Refresh?? Probably not.
+        //Title length must be at least 3 characters
+        if(inputs.title.length < 3) {
+            scrollTopSetError("Title must be 3 characters or longer.");
+        } else if (!inputs.is_personal && !isGoodLink(inputs.original_post)) {
+            scrollTopSetError("You must have a working link if this is not your own recipe.");
+        } else if (inputs.instructions.step1.length < 10) {
+            scrollTopSetError("You must have one instruction step with at least 10 characters.");
+        } else if (inputs.ingredients.ingredient1.length < 3) {
+            scrollTopSetError("You must have one ingredient with 3 characters.");
+        } else {
+            onPost(inputs);
+            event.preventDefault(); //Refresh?? Probably not.
+        }
     }
 
     function handleChange(event) {
@@ -50,6 +72,16 @@ export default function PostRecipe(props) {
                     ...prevState,
                     instructions: {
                         ...prevState.instructions,
+                        [event.target.name]: event.target.value
+                    }
+                });
+            });
+        } else if ((event.target.name).includes('ingredient')) {
+            setInputs(prevState => {
+                return ({
+                    ...prevState,
+                    ingredients: {
+                        ...prevState.ingredients,
                         [event.target.name]: event.target.value
                     }
                 });
@@ -146,6 +178,7 @@ export default function PostRecipe(props) {
                         className={styles.select}
                         autoComplete="off"
                     >
+                        <option value='none'>None</option>
                         <option value='hp'>Harry Potter</option>
                         <option value='got'>Game of Thrones</option>
                         <option value='lotr'>Lord of the Rings</option>

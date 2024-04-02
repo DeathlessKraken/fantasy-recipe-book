@@ -17,6 +17,7 @@ const db = new pg.Client({
 
 //Middlewares
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 
 const cards = [
@@ -97,10 +98,18 @@ const cards = [
 ];
 
 //When api route requested, get data from db and respond with json data
-//Routes
 
+
+//Future valid routes: /post?id=? ... /user?id=?
+//Routes
 app.get("/api/", async (req, res) => {
     res.json(cards);
+});
+
+app.post("/api/post", (req, res) => {
+    const data = req.body;
+    console.log(data);
+    res.json(data);
 });
 
 //Needs to be below nearly all other routes.
