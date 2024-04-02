@@ -56,8 +56,14 @@ export default function PostRecipe(props) {
             scrollTopSetError("You must have one ingredient with 3 characters.");
         } else {
             setShowPostModal(true);
-            await onPost(inputs);
-            setTimeout(() => {setShowPostModal(false);}, 1000);
+            const submitStatus = await onPost(inputs);
+            setShowPostModal(false);
+            if(submitStatus) {
+                scrollTopSetError(submitStatus);
+            } else {
+                //Post good all around, load up new post for viewing.
+                console.log("Good Post. Loading...");
+            }
             
 
             event.preventDefault(); //Refresh?? Probably not.

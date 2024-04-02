@@ -15,6 +15,7 @@
 - random recipe button does NOT work when posting recipe
 - transition custom recipe checkbox original recipe link smoothly
 - check for PROFANITY
+- users cant post unless they make an account.
 
 SOLUTION TO VARIABLE HEIGHT CARDS:
 WHEN TITLE/DESCRIPTION OF CARDS OVERFLOW/WHITESPACE WRAP, 

@@ -43,9 +43,13 @@ export default function App() {
         }
     }, []);
 
-    function handleReturnClick() { //function does recieve recipeId as argument, FYI
+    function handleReturnClick(recipeId) { //function does recieve recipeId as argument, FYI
         setIsPosting(false);
-        setRecipeId(-1);
+        if(recipeId) {
+            setRecipeId(recipeId);
+        } else {
+            setRecipeId(-1);
+        }
         window.scrollTo(0, savedScrollPosition);
     }
 
@@ -75,27 +79,29 @@ export default function App() {
     }
 
     //Need to have visual post uploading procedure
-    function handlePost(postData) {
-        let isGoodPost = false;
-
-        fetch("/api/post", {
+    async function handlePost(postData) {
+        let errorMessage = "";
+        
+        await fetch("/api/", {
             method: 'POST',
             body: JSON.stringify(postData),
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }
         })
-        .then((res) => {
-            if(res.status === 400) {
-                console.error("Error", res.status);
-            }
-            res.json()
-        })
+        .then((res) => res.json())
         .then((json) => {
-            console.log('DATA FROM POST RESPONSE: ', json)
-            isGoodPost = true;
+            if(json.error) {
+                throw new Error(json.error.status + " " + json.error.message);
+            } else {
+                console.log('DATA FROM POST RESPONSE: ', json)
+            }
+            //Returns new recipe id
+            //Data return needs to include new recipe id, so post component can load up new post.
         })
-        .catch(e => console.error("ERROR POSTING DATA: ", e));
+        .catch(e => {errorMessage = e.message});
+
+        return errorMessage;
     }
 
     return (
