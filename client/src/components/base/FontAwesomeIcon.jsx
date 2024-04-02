@@ -1,7 +1,7 @@
 export default function FontAwesomeIcon(props) {
-    const { icon, style, onClick } = props;
+    const { icon, iconStyle, onClick } = props;
 
     return (
-        <i className={icon} style={style} onClick={onClick}></i>
+        <i className={icon} style={iconStyle} onClick={onClick}></i>
     );
 }

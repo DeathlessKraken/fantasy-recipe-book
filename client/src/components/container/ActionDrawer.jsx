@@ -6,6 +6,19 @@ export default function ActionDrawer(props) {
     const optionStyle = {
         backgroundColor: '#73392D',
         color: '#FFFFFF',
+        display: 'flex',
+        justifyContent: 'start',
+        alignItems: 'baseline',
+        gap: '1em',
+        padding: '0.5em 1em',
+        fontSize: '1.2em',
+        borderRadius: '4px',
+        border: 'none',
+        whiteSpace: 'nowrap'
+    };
+
+    const iconStyle = {
+        width: '1em'
     };
 
     const selectorStyles = {
@@ -55,6 +68,7 @@ export default function ActionDrawer(props) {
             }}
             options={options}
             icons={icons}
+            iconStyle={iconStyle}
         >
         </Drawer>
     );

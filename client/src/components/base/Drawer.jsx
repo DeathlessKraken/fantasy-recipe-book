@@ -37,7 +37,7 @@ Options: [
 */
 
 export default function Drawer(props) {
-    const { children, open = true, onClose, options, style, overlay, icons } = props;
+    const { children, open = true, onClose, options, style, overlay, icons, iconStyle } = props;
 
     const [currentButton, setCurrentButton] = useState({
         name: '',
@@ -103,7 +103,7 @@ export default function Drawer(props) {
                                 onMouseLeave={handleButton}
                                 style={generateStyle(option)}
                             >
-                                {icons && <FontAwesomeIcon icon={icons[index]}/>}
+                                {icons && <FontAwesomeIcon icon={icons[index]} iconStyle={iconStyle}/>}
                                 {option.name}
                             </button>
                         );

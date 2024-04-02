@@ -13,6 +13,7 @@
 - //May need to revisit. Supposed to scroll to top on 'Home' button click.
 - It appears you can use regex on routes. Useful for mistyped urls?
 - random recipe button does NOT work when posting recipe
+- transition custom recipe checkbox original recipe link smoothly
 
 SOLUTION TO VARIABLE HEIGHT CARDS:
 WHEN TITLE/DESCRIPTION OF CARDS OVERFLOW/WHITESPACE WRAP, 

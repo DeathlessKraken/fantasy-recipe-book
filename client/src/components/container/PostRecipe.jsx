@@ -29,6 +29,7 @@ export default function PostRecipe(props) {
     function handleSubmit(event) {
         //Remember to ONLY SUBMIT IF ALL REQUIRED FIELDS filled, 
         //and at least 1 instruction and 1 ingredient.
+        //Also think about 'sanitizing' data before posting to db...
         //Tell app to post data to api.
         console.log(inputs);
 
@@ -142,7 +143,7 @@ export default function PostRecipe(props) {
                         id='fandom' 
                         value={inputs.fandom}
                         onChange={handleChange}
-                        className={styles.textArea}
+                        className={styles.select}
                         autoComplete="off"
                     >
                         <option value='hp'>Harry Potter</option>
@@ -162,8 +163,10 @@ export default function PostRecipe(props) {
                         onChange={handleChange}
                         className={styles.checkBox}
                     />
+                    <sup>Did you add some flare, and really make it own your own?</sup>
                 </div>
-
+                
+                {!inputs.is_personal && 
                 <div className={styles.smallInput}>
                     <label htmlFor="original_post">Original Recipe Link: </label>
                     <input 
@@ -177,14 +180,15 @@ export default function PostRecipe(props) {
                         className={styles.textArea}
                         autoComplete="off"
                     />
-                </div>
+                </div>}
 
                 <div className={styles.smallInput}>
-                    <label htmlFor="allergens">List of Potential Allergens: </label>
+                    <label htmlFor="allergens">Please list any allergens: </label>
                     <input 
                         type="text"
                         name='allergens'
                         id='allergens'
+                        placeholder='Peanuts, Dairy, Wheat'
                         value={inputs.allergens}
                         onChange={handleChange}
                         maxLength={100}
@@ -201,10 +205,9 @@ export default function PostRecipe(props) {
                         id='description'
                         value={inputs.description}
                         onChange={handleChange}
-                        placeholder='description'
+                        placeholder='Tell us about this recipe!'
                         rows={5}
-                        cols={50}
-                        maxLength={500}
+                        maxLength={2000}
                         className={styles.textArea}
                     ></textarea>
                 </div>
@@ -227,8 +230,10 @@ export default function PostRecipe(props) {
                                     maxLength={200}
                                     className={styles.step}
                                 ></textarea>
-                                <FontAwesomeIcon icon="fa-solid fa-plus" onClick={() => handleAddClick('instruction', index+1)}/>
-                                {index > 0 && (index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-minus" onClick={() => handleSubClick('instruction', index+1)}/>)}
+                                <div className={styles.buttons}>
+                                    {index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-plus" onClick={() => handleAddClick('instruction', index+1)}/>}
+                                    {index > 0 && (index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-minus" onClick={() => handleSubClick('instruction', index+1)}/>)}
+                                </div>
                             </div>
                         );
                     })}
@@ -253,15 +258,17 @@ export default function PostRecipe(props) {
                                     maxLength={200}
                                     className={styles.ingredient}
                                 ></textarea>
-                                <FontAwesomeIcon icon="fa-solid fa-plus" onClick={() => handleAddClick('ingredient', index+1)}/>
-                                {index > 0 && (index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-minus" onClick={() => handleSubClick('ingredient', index+1)}/>)}
+                                <div className={styles.buttons}>
+                                    {index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-plus" onClick={() => handleAddClick('ingredient', index+1)}/>}
+                                    {index > 0 && (index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-minus" onClick={() => handleSubClick('ingredient', index+1)}/>)}
+                                </div>
                             </div>
                         );
                     })}
 
                 </div>
             </form>
-            <button className={styles.sendButton} type="submit" title="Send" name="send" onClick={handleSubmit}>
+            <button className={styles.sendButton} type="submit" title="Post Recipe" name="send" onClick={handleSubmit}>
                 Post Recipe
             </button>
         </div>
