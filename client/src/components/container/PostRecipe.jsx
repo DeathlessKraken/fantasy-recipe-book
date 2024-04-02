@@ -20,7 +20,7 @@ export default function PostRecipe(props) {
             step1: '',
         },
         ingredients: {              //Initially render one blank ingredient to prompt entry.
-            new_ingredient: '',
+            ingredient1: '',
         },
         images: {},
         is_published: false,
@@ -63,30 +63,55 @@ export default function PostRecipe(props) {
         }
     }
 
-    function handleAddClick(stepIndex) {
+    function handleAddClick(type, stepIndex) {
         //stepIndex refers to the step that was clicked. example, add button clicked on step 3, stepIndex is 3.
         //Adds new blank step to instructions, to be rendered statefully through mapping 
         //input.instructions keys to inputs
 
-        setInputs(prevState => {
-            return ({
-                ...prevState,
-                instructions: {
-                    ...prevState.instructions,
-                    ['step'+(stepIndex+1)]: ''
-                }
+        if (type === 'instruction') {
+            setInputs(prevState => {
+                return ({
+                    ...prevState,
+                    instructions: {
+                        ...prevState.instructions,
+                        ['step'+(stepIndex+1)]: ''
+                    }
+                });
             });
-        });
+        } else if (type === 'ingredient') {
+            setInputs(prevState => {
+                return ({
+                    ...prevState,
+                    ingredients: {
+                        ...prevState.ingredients,
+                        ['ingredient'+(stepIndex+1)]: ''
+                    }
+                });
+            });
+        } else {
+            console.error("INVALID TYPE OF INPUT: ", type);
+        }
     }
 
-    function handleSubClick(stepIndex) {
+    function handleSubClick(type, stepIndex) {
         //Destructure post inputs, delete step from inner instruction object, replace and return.
-        setInputs(prevState => {
-            const { instructions, ...rest } = prevState;
-            delete instructions['step'+stepIndex];
-            rest.instructions = instructions;
-            return rest;
-        });
+        if (type === 'instruction') {
+            setInputs(prevState => {
+                const { instructions, ...rest } = prevState;
+                delete instructions['step'+stepIndex];
+                rest.instructions = instructions;
+                return rest;
+            });
+        } else if (type === 'ingredient') {
+            setInputs(prevState => {
+                const { ingredients, ...rest } = prevState;
+                delete ingredients['ingredient'+stepIndex];
+                rest.ingredients = ingredients;
+                return rest;
+            });
+        } else {
+            console.error("INVALID TYPE OF INPUT: ", type);
+        }
     }
 
     return (
@@ -186,7 +211,7 @@ export default function PostRecipe(props) {
 
                 <div className={styles.instructions}>
 
-                    {Object.keys(inputs.instructions).map((key, index) => {
+                    {Object.keys(inputs.instructions).map((key, index, array) => {
                         return (
                             <div key={'step'+(index+1)}>
                                 <label htmlFor={'step'+(index+1)}>Step {index+1} </label>
@@ -202,8 +227,34 @@ export default function PostRecipe(props) {
                                     maxLength={200}
                                     className={styles.step}
                                 ></textarea>
-                                <FontAwesomeIcon icon="fa-solid fa-plus" onClick={() => handleAddClick(index+1)}/>
-                                {index > 0 && <FontAwesomeIcon icon="fa-solid fa-minus" onClick={() => handleSubClick(index+1)}/>}
+                                <FontAwesomeIcon icon="fa-solid fa-plus" onClick={() => handleAddClick('instruction', index+1)}/>
+                                {index > 0 && (index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-minus" onClick={() => handleSubClick('instruction', index+1)}/>)}
+                            </div>
+                        );
+                    })}
+
+                </div>
+
+                <div className={styles.ingredients}>
+
+                    {Object.keys(inputs.ingredients).map((key, index, array) => {
+                        return (
+                            <div key={'ingredient'+(index+1)}>
+                                <label htmlFor={'ingredient'+(index+1)}>Ingredient {index+1} </label>
+                                <textarea
+                                    key={index}
+                                    name={'ingredient'+(index+1)}
+                                    id={'ingredient'+(index+1)}
+                                    value={inputs.ingredients['ingredient'+(index+1)]}
+                                    onChange={handleChange}
+                                    placeholder={'Ingredient '+(index+1)}
+                                    rows={2}
+                                    cols={50}
+                                    maxLength={200}
+                                    className={styles.ingredient}
+                                ></textarea>
+                                <FontAwesomeIcon icon="fa-solid fa-plus" onClick={() => handleAddClick('ingredient', index+1)}/>
+                                {index > 0 && (index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-minus" onClick={() => handleSubClick('ingredient', index+1)}/>)}
                             </div>
                         );
                     })}
