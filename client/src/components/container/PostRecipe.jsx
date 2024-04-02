@@ -12,28 +12,80 @@ export default function PostRecipe(props) {
     const [inputs, setInputs] = useState({
         title: '',                  //21 Char limit. Maybe update on account of card size.
         fandom: '',                 //50 Char limit. 
-        is_personal: '',
+        is_personal: false,
         original_post: '',
         allergens: '',
         description: '',
-        instructions: {},
-        ingredients: {},
+        instructions: {             //Initially render one blank instruction to prompt entry.
+            step1: '',
+        },
+        ingredients: {              //Initially render one blank ingredient to prompt entry.
+            new_ingredient: '',
+        },
         images: {},
         is_published: false,
     });
 
     function handleSubmit(event) {
+        //Remember to ONLY SUBMIT IF ALL REQUIRED FIELDS filled, 
+        //and at least 1 instruction and 1 ingredient.
         //Tell app to post data to api.
+        console.log(inputs);
 
         event.preventDefault(); //Refresh?? Probably not.
     }
 
     function handleChange(event) {
+        if (event.target.type === 'checkbox') {
+            setInputs(prevState => {
+                return ({
+                    ...prevState,
+                    [event.target.name]: event.target.checked
+                });
+            });
+        } else if ((event.target.name).includes('step')) {
+            setInputs(prevState => {
+                return ({
+                    ...prevState,
+                    instructions: {
+                        ...prevState.instructions,
+                        [event.target.name]: event.target.value
+                    }
+                });
+            });
+        } else {
+            setInputs(prevState => {
+                return ({
+                    ...prevState,
+                    [event.target.name]: event.target.value
+                });
+            });
+        }
+    }
+
+    function handleAddClick(stepIndex) {
+        //stepIndex refers to the step that was clicked. example, add button clicked on step 3, stepIndex is 3.
+        //Adds new blank step to instructions, to be rendered statefully through mapping 
+        //input.instructions keys to inputs
+
         setInputs(prevState => {
             return ({
                 ...prevState,
-                [event.target.name]: event.target.value
+                instructions: {
+                    ...prevState.instructions,
+                    ['step'+(stepIndex+1)]: ''
+                }
             });
+        });
+    }
+
+    function handleSubClick(stepIndex) {
+        //Destructure post inputs, delete step from inner instruction object, replace and return.
+        setInputs(prevState => {
+            const { instructions, ...rest } = prevState;
+            delete instructions['step'+stepIndex];
+            rest.instructions = instructions;
+            return rest;
         });
     }
 
@@ -41,7 +93,7 @@ export default function PostRecipe(props) {
         <div className={styles.postContainer}>
             <FontAwesomeIcon icon="fa-solid fa-arrow-left" onClick={onReturnClick}/>
             <p>Post a New Recipe</p>
-            <form name='recipe' method='POST' onSubmit={handleSubmit}>
+            <form name='recipe' method='POST' className={styles.post}>
                 <div className={styles.smallInput}>
                     <label htmlFor="title">Title: </label>
                     <input 
@@ -64,7 +116,6 @@ export default function PostRecipe(props) {
                         name='fandom' 
                         id='fandom' 
                         value={inputs.fandom}
-                        required 
                         onChange={handleChange}
                         className={styles.textArea}
                         autoComplete="off"
@@ -73,6 +124,49 @@ export default function PostRecipe(props) {
                         <option value='got'>Game of Thrones</option>
                         <option value='lotr'>Lord of the Rings</option>
                     </select>
+                </div>
+
+                <div className={styles.checkBoxInput}>
+                    <label htmlFor="is_personal">Is this a custom recipe? </label>
+                    <input 
+                        type="checkbox"
+                        name='is_personal'
+                        id='is_personal'
+                        value={inputs.is_personal}
+                        required
+                        onChange={handleChange}
+                        className={styles.checkBox}
+                    />
+                </div>
+
+                <div className={styles.smallInput}>
+                    <label htmlFor="original_post">Original Recipe Link: </label>
+                    <input 
+                        type="text"
+                        name='original_post'
+                        id='original_post'
+                        checked={inputs.is_personal}
+                        onChange={handleChange}
+                        maxLength={999}
+                        size={25}
+                        className={styles.textArea}
+                        autoComplete="off"
+                    />
+                </div>
+
+                <div className={styles.smallInput}>
+                    <label htmlFor="allergens">List of Potential Allergens: </label>
+                    <input 
+                        type="text"
+                        name='allergens'
+                        id='allergens'
+                        value={inputs.allergens}
+                        onChange={handleChange}
+                        maxLength={100}
+                        size={25}
+                        className={styles.textArea}
+                        autoComplete="off"
+                    />
                 </div>
 
                 <div className={styles.largeInput}>
@@ -89,8 +183,34 @@ export default function PostRecipe(props) {
                         className={styles.textArea}
                     ></textarea>
                 </div>
+
+                <div className={styles.instructions}>
+
+                    {Object.keys(inputs.instructions).map((key, index) => {
+                        return (
+                            <div key={'step'+(index+1)}>
+                                <label htmlFor={'step'+(index+1)}>Step {index+1} </label>
+                                <textarea
+                                    key={index}
+                                    name={'step'+(index+1)}
+                                    id={'step'+(index+1)}
+                                    value={inputs.instructions['step'+(index+1)]}
+                                    onChange={handleChange}
+                                    placeholder={'Step '+(index+1)}
+                                    rows={2}
+                                    cols={50}
+                                    maxLength={200}
+                                    className={styles.step}
+                                ></textarea>
+                                <FontAwesomeIcon icon="fa-solid fa-plus" onClick={() => handleAddClick(index+1)}/>
+                                {index > 0 && <FontAwesomeIcon icon="fa-solid fa-minus" onClick={() => handleSubClick(index+1)}/>}
+                            </div>
+                        );
+                    })}
+
+                </div>
             </form>
-            <button className={styles.sendButton} type="submit" title="Send" name="send">
+            <button className={styles.sendButton} type="submit" title="Send" name="send" onClick={handleSubmit}>
                 Post Recipe
             </button>
         </div>

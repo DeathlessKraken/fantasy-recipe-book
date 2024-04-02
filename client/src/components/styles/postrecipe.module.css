@@ -1,0 +1,35 @@
+.postContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5em;
+    gap: 2em;
+    width: 60vw;
+}
+
+.postContainer > i {
+    font-size: xx-large;
+    margin-top: 1em;
+    width: 1em;
+    height: 1em;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.postContainer > p {
+    font-size: xx-large;
+}
+
+
+.post {
+    background-color: rgb(138, 120, 87);
+    border-radius: 8px;
+    padding: 1em;
+}
+
+
+@media (hover: hover) {
+    .postContainer > i:hover {
+       color: rgb(75, 74, 74);
+    }
+}
