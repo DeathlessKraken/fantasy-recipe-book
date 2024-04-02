@@ -9,7 +9,7 @@ export default function DiscoverSkeleton() {
 
         for (let i = 0; i < numCards; i++) {
             cards.push(
-                <div className={styles.cardSkeleton}>
+                <div className={styles.cardSkeleton} key={i}>
                     <Loader />
                 </div>
             );

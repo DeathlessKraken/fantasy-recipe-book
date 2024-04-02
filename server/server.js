@@ -1,13 +1,23 @@
 import express from "express";
 import bodyParser from 'body-parser';
+import pg from 'pg';
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = 3000;
+const db = new pg.Client({
+    user: "postgres",
+    host: "localhost",
+    database: "thehighground",
+    password: "poopybutthole",
+    port: 5432,
+});
 
+//Middlewares
 app.use(bodyParser.urlencoded({extended: true}));
+
 
 const cards = [
     {
@@ -86,8 +96,16 @@ const cards = [
     }         
 ];
 
-app.get("/api", (req, res) => {
+//When api route requested, get data from db and respond with json data
+//Routes
+
+app.get("/api/", async (req, res) => {
     res.json(cards);
+});
+
+//Needs to be below nearly all other routes.
+app.get('*', (req, res) => {
+    res.send('404! This is an invalid URL.');
 });
 
 app.listen(port, () => {

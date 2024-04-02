@@ -14,7 +14,7 @@ export default function Search() {
                 <i className="fa-solid fa-magnifying-glass"></i>
                 <label htmlFor="search"></label>
             </div>
-            <div className={styles.smallInput}>
+            <div className={styles.searchInput}>
                 <input 
                     type="text" 
                     name='search'

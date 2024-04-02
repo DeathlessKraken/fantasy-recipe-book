@@ -1,6 +1,7 @@
 import Drawer from '../base/Drawer';
 
-export default function ActionDrawer() {
+export default function ActionDrawer(props) {
+    const { onActionClick } = props;
 
     const optionStyle = {
         backgroundColor: '#73392D',
@@ -19,19 +20,16 @@ export default function ActionDrawer() {
     const options = [
         {
             name: 'Home',
-            href: '#',
             ...selectorStyles,
             style: optionStyle,
         },
         {
             name: 'Post Recipe',
-            href: '#',
             ...selectorStyles,
             style: optionStyle,
         },
         {
             name: 'Random Recipe',
-            href: '#',
             ...selectorStyles,
             style: optionStyle,
         },
@@ -43,7 +41,8 @@ export default function ActionDrawer() {
         "fa-solid fa-dice"
     ];
 
-    function handleClose() {
+    function handleClose(event) {
+        onActionClick(event);
     }
 
     return (

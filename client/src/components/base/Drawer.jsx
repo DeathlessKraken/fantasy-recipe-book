@@ -44,8 +44,8 @@ export default function Drawer(props) {
         type: 'none'
     });
 
-    function handleClick() {
-        onClose();
+    function handleClick(event) {
+        onClose(event);
     }
 
     function handleButton(event) {
@@ -93,10 +93,9 @@ export default function Drawer(props) {
                 <div className={styles.drawerItems}>
                     {options && options.map((option, index) => {
                         return (
-                            <a 
+                            <button 
                                 key={index}
                                 name={option.name}
-                                href={option.href} 
                                 onClick={handleClick}
                                 onMouseDown={handleButton}
                                 onMouseUp={handleButton}
@@ -106,7 +105,7 @@ export default function Drawer(props) {
                             >
                                 {icons && <FontAwesomeIcon icon={icons[index]}/>}
                                 {option.name}
-                            </a>
+                            </button>
                         );
                     })}
                 </div>
