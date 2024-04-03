@@ -1,16 +1,11 @@
 # Notes
-- scroll to top when click on recipe card
 - webkit line clamp leaves a comma before ellipsis
-- no need for close button in drawer if you keep menu icon
-- when people post a recipe, if they don't link to source content,
-    they must check a box saying that they're posting a custom recipe with their own twist.
 - add tags/category sort for recipes
 - top rated discover sort
 - sort by type of media, eg books, tv, movie, etc
 - currently, if server backend is down, frontend loads blank page. update to error page.
 - should be able to sort by fandom as well.
 - drafts get deleted after 30 days.
-- //May need to revisit. Supposed to scroll to top on 'Home' button click.
 - It appears you can use regex on routes. Useful for mistyped urls?
 - random recipe button does NOT work when posting recipe
 - transition custom recipe checkbox original recipe link smoothly
@@ -83,7 +78,7 @@ CREATE TABLE users (
 CREATE TABLE posts (
 	id BIGSERIAL PRIMARY KEY,
 	author_ip INET NOT NULL, //grab from server
-	title VARCHAR(21) NOT NULL,
+	title VARCHAR(40) NOT NULL, //updated to 40
 	fandom VARCHAR(50),
 	is_personal BOOLEAN NOT NULL,
 	original_post TEXT,

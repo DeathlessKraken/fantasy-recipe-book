@@ -167,11 +167,6 @@ export default function App() {
         }
     }
 
-    function displayDetailRecipe(recipeId) {
-        console.log(getRecipe(recipeId))
-        return null;
-    }
-
     return (
         <div className={styles.app} onScroll={() => console.log("SCROLLED")}>
             <Header />
@@ -180,8 +175,6 @@ export default function App() {
                     <ActionDrawer onActionClick={handleActionClick}/>
                 </div>
                 <div className={styles.gridItemDiscover}>
-
-                    
 
                     {pageState.loading && <DiscoverSkeleton />}
                     {pageState.page === 'home' && <Discover apiData={pageState.apiData} onCardClick={handleCardClick}/>}

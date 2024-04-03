@@ -27,12 +27,7 @@ export default function Discover(props) {
                         return (
                             <Card 
                                 key={index} 
-                                id={recipe.self_id}
-                                imgSrc={recipe.images && recipe.images.image1 ? recipe.images.image1 : ""}
-                                title={recipe.title}
-                                content={recipe.fandom}
-                                likes={recipe.like_count}
-                                comments={recipe.comment_count}
+                                recipeData={recipe}
                                 onCardClick={handleClick}
                             />
                         );

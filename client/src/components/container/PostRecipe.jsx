@@ -210,8 +210,8 @@ export default function PostRecipe(props) {
                         value={inputs.title}
                         required
                         onChange={handleChange}
-                        maxLength={21}
-                        size={15}
+                        maxLength={40}
+                        size={30}
                         className={styles.textArea}
                         autoComplete="off"
                     />
@@ -257,7 +257,7 @@ export default function PostRecipe(props) {
                         id='original_post'
                         onChange={handleChange}
                         maxLength={999}
-                        size={25}
+                        size={30}
                         className={styles.textArea}
                         autoComplete="off"
                     />
@@ -273,7 +273,7 @@ export default function PostRecipe(props) {
                         value={inputs.allergens}
                         onChange={handleChange}
                         maxLength={100}
-                        size={25}
+                        size={30}
                         className={styles.textArea}
                         autoComplete="off"
                     />

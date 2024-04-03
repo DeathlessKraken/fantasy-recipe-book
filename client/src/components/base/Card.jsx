@@ -5,12 +5,8 @@ export default function Card(props) {
     const { 
         className,
         style,
-        id,
-        imgSrc,
-        imgAlt,
-        title,
-        content,
-        onCardClick
+        onCardClick,
+        recipeData
     } = props;
 
     return (
@@ -18,22 +14,28 @@ export default function Card(props) {
             className={className ? className + " " + styles.card : styles.card}
             style={{...style}}
         >
-            <div className={styles.cardClickArea} onClick={() => onCardClick(id)}>
+            <div className={styles.cardClickArea} onClick={() => onCardClick(recipeData.self_id)}>
                 <div className={styles.cardMedia}> 
-                    <img src={imgSrc} alt={imgAlt} />
+                    <img src={recipeData.images && (recipeData.images.image1 ? recipeData.images.image1 : "")} />
                 </div>
                 <div className={styles.cardBody}>
                     <div className={styles.cardTitle}>
-                        <p>{title}</p>
+                        <p>{recipeData.title}</p>
                     </div>
                     <div className={styles.cardContent}>
-                        <p>from {content}</p>
+                        <p>from {recipeData.fandom}</p>
                     </div>
                 </div>
             </div>
             <div className={styles.actionContainer}>
-                <FontAwesomeIcon icon="fa-regular fa-heart" />
-                <FontAwesomeIcon icon="fa-solid fa-comment" />
+                <div>
+                    <FontAwesomeIcon icon="fa-regular fa-heart" />
+                    {recipeData.like_count || 0}
+                </div>
+                <div>
+                    <FontAwesomeIcon icon="fa-solid fa-comment" />
+                    {recipeData.comment_count  || 0}
+                </div>
                 <FontAwesomeIcon icon="fa-solid fa-ellipsis-vertical" />
             </div>
         </div>
