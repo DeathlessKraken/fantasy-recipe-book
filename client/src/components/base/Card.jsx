@@ -20,14 +20,14 @@ export default function Card(props) {
         >
             <div className={styles.cardClickArea} onClick={() => onCardClick(id)}>
                 <div className={styles.cardMedia}> 
-                    <img src={imgSrc} alt={imgAlt} />
+                    <img src={imgSrc.card} alt={imgAlt} />
                 </div>
                 <div className={styles.cardBody}>
                     <div className={styles.cardTitle}>
                         <p>{title}</p>
                     </div>
                     <div className={styles.cardContent}>
-                        <p>{content}</p>
+                        <p>from {content}</p>
                     </div>
                 </div>
             </div>

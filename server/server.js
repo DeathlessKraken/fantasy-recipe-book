@@ -181,7 +181,14 @@ app.post('*', (req, res) => {
 });
 
 app.get("/api", async (req, res) => {
-    res.json(cards);
+    //Retrieve published, undeleted posts only. 
+    const result = await db.query(
+        "SELECT allergens, author_id, comment_count, date_edited, date_published, " 
+        + "description, fandom, images, ingredients, instructions, is_personal, like_count, "
+        + "original_post, self_id, title FROM posts WHERE is_published=true AND is_deleted=false LIMIT 20;" 
+    );
+
+    res.json(result.rows);
 });
 
 app.post("/api/", async (req, res) => {

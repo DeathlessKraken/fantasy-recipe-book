@@ -16,6 +16,7 @@ export default function App() {
     const [savedScrollPosition, setSavedScrollPosition] = useState(0); //Does this NEED to be a state?
     const [apiData, setApiData] = useState([{}]);
     const [recipeId, setRecipeId] = useState(-1);
+    const [loadedRecipe, setLoadedRecipe] = useState({});
     const [isPosting, setIsPosting] = useState(false);
     const [currentUserToken, setCurrentUserToken] = useState("sdfasfasdfadfa");
 
@@ -57,6 +58,7 @@ export default function App() {
     function handleCardClick(recipeId) {
         setSavedScrollPosition(scrollPosition);
         setRecipeId(recipeId);
+        setLoadedRecipe(...getRecipe(recipeId));
     }
 
     function handleActionClick(event) {
@@ -112,6 +114,14 @@ export default function App() {
         return errorMessage;
     }
 
+    function getRecipe(recipeId) {
+        if (typeof(recipeId) === 'number' && recipeId < 0) {
+            return undefined;
+        } else {
+            return apiData.filter(recipe => recipe.self_id === recipeId);
+        }
+    }
+
     return (
         <div className={styles.app} onScroll={() => console.log("SCROLLED")}>
             <Header />
@@ -126,7 +136,7 @@ export default function App() {
                     {isPosting && <PostRecipe onReturnClick={handleReturnClick} onPost={handlePost}/>}
 
                     {apiData && (!isPosting && (recipeId < 0 ? <Discover apiData={apiData} onCardClick={handleCardClick}/> : 
-                        <Recipe recipe={apiData[recipeId]} onRecipeClick={handleReturnClick}/>))
+                        <Recipe recipe={loadedRecipe} onRecipeClick={handleReturnClick}/>))
                     }
 
                 </div>

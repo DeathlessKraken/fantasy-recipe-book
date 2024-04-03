@@ -16,6 +16,8 @@
 - transition custom recipe checkbox original recipe link smoothly
 - check for PROFANITY
 - users cant post unless they make an account.
+- when users click on a card, change url to recipe/recipe_id. change back to normal url on back button click.
+	I'm worried that a full redirect is slow and painful, when I already have the data loaded in...
 
 .pattern(new RegExp('(?!_)\w{3,}[!?]*'))
 

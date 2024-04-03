@@ -16,17 +16,82 @@
     cursor: pointer;
 }
 
-.recipeContainer > p {
-    font-size: xx-large;
+.recipeHeader > p:first-child {
+    font-size: 2.5em;
 }
-
 
 .recipe {
     background-color: rgb(138, 120, 87);
     border-radius: 8px;
     padding: 1em;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-rows: min-content;
+    grid-template-areas: 
+        "description description info"
+        "instructions ingredients info";
+    gap: 1em;
 }
 
+.recipeInfo {
+    background-color: rgba(29, 29, 29, 0.199);
+    border-radius: 8px;
+    padding: 1em;
+    width: 100%;
+    grid-area: info;
+}
+
+.description {
+    grid-area: description;
+}
+
+.ingredients,
+.instructions,
+.description {
+    background-color: rgba(29, 29, 29, 0.199);
+    width: 100%;
+    border-radius: 8px;
+    padding: 1em;
+}
+
+.ingredients {
+    grid-area: ingredients;
+}
+
+.instructions {
+    grid-area: instructions;
+}
+
+.comments {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(52, 71, 66);
+    border-radius: 8px;
+    padding: 1em;
+    gap: 1em;
+}
+
+.socialButtons {
+    display: flex;
+    gap: 4em;
+}
+
+.socialButtons > p {
+    display: flex;
+    align-content: baseline;
+    gap: 0.5em;
+    font-size: 1.5em;
+}
+
+.socialButtons > p > i {
+    font-size: 1.5em;
+}
+
+.socialButtons > p:first-child > i {
+    color: rgb(219, 56, 56);
+}
 
 @media (hover: hover) {
     .recipeContainer > i:hover {

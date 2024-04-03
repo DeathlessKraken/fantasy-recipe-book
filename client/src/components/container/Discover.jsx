@@ -23,14 +23,16 @@ export default function Discover(props) {
             </div>
             <div className={styles.discoverItems}>
                 {
-                    apiData.map((card, index) => {
+                    apiData.map((recipe, index) => {
                         return (
                             <Card 
                                 key={index} 
-                                id={card.id}
-                                imgSrc={card.imgSrc}
-                                title={card.title}
-                                content={card.content}
+                                id={recipe.self_id}
+                                imgSrc={'./images/beer.jpg'}
+                                title={recipe.title}
+                                content={recipe.fandom}
+                                likes={recipe.like_count}
+                                comments={recipe.comment_count}
                                 onCardClick={handleClick}
                             />
                         );
