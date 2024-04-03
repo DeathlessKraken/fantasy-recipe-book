@@ -17,6 +17,8 @@
 - check for PROFANITY
 - users cant post unless they make an account.
 
+.pattern(new RegExp('(?!_)\w{3,}[!?]*'))
+
 SOLUTION TO VARIABLE HEIGHT CARDS:
 WHEN TITLE/DESCRIPTION OF CARDS OVERFLOW/WHITESPACE WRAP, 
 CHANGE HEIGHT OF THAT ENTIRE PARTICULAR GRID ROW TOO.
@@ -58,6 +60,7 @@ Original BG Color: #3a3a3a
 
 CREATE TABLE users (
 	id BIGSERIAL PRIMARY KEY,
+	author_id TEXT NOT NULL,
 	name VARCHAR(50) NOT NULL,
 	username VARCHAR(50) UNIQUE NOT NULL,
 	password VARCHAR(255) NOT NULL,
@@ -72,12 +75,12 @@ CREATE TABLE users (
 	date_registered TIMESTAMP,
 	last_edited TIMESTAMP
     is_deleted BOOLEAN
+	self_id TEXT NOT NULL,
 );
 
 CREATE TABLE posts (
 	id BIGSERIAL PRIMARY KEY,
-	author_id BIGINT NOT NULL,
-	author_ip INET NOT NULL,
+	author_ip INET NOT NULL, //grab from server
 	title VARCHAR(21) NOT NULL,
 	fandom VARCHAR(50),
 	is_personal BOOLEAN NOT NULL,
@@ -92,7 +95,9 @@ CREATE TABLE posts (
 	ingredients JSON NOT NULL,
 	images JSON,
 	is_published BOOLEAN,
-	is_deleted BOOLEAN
+	is_deleted BOOLEAN,
+	self_id TEXT NOT NULL,
+	author_id TEXT NOT NULL, //
 );
 
 CREATE TABLE comments (
@@ -107,6 +112,7 @@ CREATE TABLE comments (
 	date_created TIMESTAMP NOT NULL,
 	date_edited TIMESTAMP,
 	is_deleted BOOLEAN
+	self_id TEXT NOT NULL,
 );
 
 CREATE TABLE likes (
@@ -116,4 +122,5 @@ CREATE TABLE likes (
 	is_post_reply BOOLEAN NOT NULL,
 	date_created TIMESTAMP NOT NULL,
 	is_deleted BOOLEAN
+	self_id TEXT NOT NULL,
 );

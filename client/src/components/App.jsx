@@ -17,6 +17,7 @@ export default function App() {
     const [apiData, setApiData] = useState([{}]);
     const [recipeId, setRecipeId] = useState(-1);
     const [isPosting, setIsPosting] = useState(false);
+    const [currentUserToken, setCurrentUserToken] = useState("sdfasfasdfadfa");
 
     function updateScroll() {
         const position = window.scrollY;
@@ -78,8 +79,15 @@ export default function App() {
         return Math.floor(Math.random() * (apiData.length));
     }
 
+    async function getUserData(initialData) {
+        initialData.author_id = currentUserToken;
+
+        return initialData
+    }
+
     //Need to have visual post uploading procedure
     async function handlePost(postData) {
+        postData = await getUserData(postData);
         let errorMessage = "";
         
         await fetch("/api/", {

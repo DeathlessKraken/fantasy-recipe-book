@@ -13,7 +13,7 @@ export default function PostRecipe(props) {
 
     const [inputs, setInputs] = useState({
         title: '',                  //21 Char limit. Maybe update on account of card size.
-        fandom: '',                 //50 Char limit. 
+        fandom: 'none',                 //50 Char limit. 
         is_personal: false,
         original_post: '',
         allergens: '',
@@ -35,8 +35,9 @@ export default function PostRecipe(props) {
 
     function isGoodLink(link) {
         //funciton box
-        //testing for now, always true
-        return true;
+        //testing for now, as long as link EXISTS
+        //hmmm bad links are just posted raw on websites all the time... job for moderator
+        return link.length > 11;
     }
 
     async function handleSubmit(event) {
@@ -55,16 +56,21 @@ export default function PostRecipe(props) {
         } else if (inputs.ingredients.ingredient1.length < 3) {
             scrollTopSetError("You must have one ingredient with 3 characters.");
         } else {
+            //Since post button was clicked, post is published.
+            const postData = inputs;
+            postData.is_published = true;
+
             setShowPostModal(true);
-            const submitStatus = await onPost(inputs);
+            const result = await onPost(postData);
             setShowPostModal(false);
-            if(submitStatus) {
-                scrollTopSetError(submitStatus);
+
+            if(typeof(result) === 'string' && result.length > 0) {
+                scrollTopSetError(result);
             } else {
                 //Post good all around, load up new post for viewing.
+                onReturnClick(result)
                 console.log("Good Post. Loading...");
-            }
-            
+            }     
 
             event.preventDefault(); //Refresh?? Probably not.
         }
