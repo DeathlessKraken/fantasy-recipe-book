@@ -61,17 +61,17 @@ export default function PostRecipe(props) {
             //Since post button was clicked, post is published.
             const postData = inputs;
             postData.is_published = true;
-            console.log(postData);
-
+            
             setShowPostModal(true);
             const result = await onPost(postData);
             setShowPostModal(false);
-
+            
             if(typeof(result) === 'string' && result.length > 0) {
                 scrollTopSetError(result);
             } else {
+                //If not string, result is object.
                 //Post good all around, load up new post for viewing.
-                onReturnClick(result)
+                onReturnClick(result);
                 console.log("Good Post. Loading...");
             }     
 

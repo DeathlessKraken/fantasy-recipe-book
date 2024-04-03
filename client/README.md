@@ -18,7 +18,7 @@
 - users cant post unless they make an account.
 - when users click on a card, change url to recipe/recipe_id. change back to normal url on back button click.
 	I'm worried that a full redirect is slow and painful, when I already have the data loaded in...
-
+- update validation schema so original post is a uri
 .pattern(new RegExp('(?!_)\w{3,}[!?]*'))
 
 SOLUTION TO VARIABLE HEIGHT CARDS:
