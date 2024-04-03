@@ -63,7 +63,7 @@ export default function Recipe(props) {
                     })}
                 </div> 
 
-                <p>{recipe.original_post !== "" && recipe.original_post}</p>
+                {recipe.original_post !== "" && <a href={recipe.original_post}>Original Post</a>}
             </div>
             <div className={styles.comments}>
                 <div className={styles.socialButtons}>

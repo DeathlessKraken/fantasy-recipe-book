@@ -43,7 +43,7 @@ export default function App() {
         return () => {
             window.removeEventListener("scroll", updateScroll);
         }
-    }, []);
+    }, [isPosting]);
 
     function handleReturnClick(recipeId) { //function does recieve recipeId as argument, FYI
         setIsPosting(false);

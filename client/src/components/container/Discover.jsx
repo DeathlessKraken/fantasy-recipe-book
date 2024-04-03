@@ -28,7 +28,7 @@ export default function Discover(props) {
                             <Card 
                                 key={index} 
                                 id={recipe.self_id}
-                                imgSrc={'./images/beer.jpg'}
+                                imgSrc={recipe.images && recipe.images.image1 ? recipe.images.image1 : ""}
                                 title={recipe.title}
                                 content={recipe.fandom}
                                 likes={recipe.like_count}

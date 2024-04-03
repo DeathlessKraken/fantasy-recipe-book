@@ -32,7 +32,8 @@
 .smallInput,
 .largeInput,
 .instructions,
-.ingredients {
+.ingredients,
+.images {
     font-size: 1.4em;
     display: flex;
     flex-direction: column;
@@ -43,12 +44,14 @@
 }
 
 .instructions,
-.ingredients {
+.ingredients,
+.images {
     gap: 1em;
 }
 
 .instructions > div,
-.ingredients > div {
+.ingredients > div,
+.images > div {
     display: flex;
     flex-direction: column;
     gap: 0.2em;
@@ -62,7 +65,8 @@
 .textArea,
 .step,
 .ingredient,
-.select {
+.select,
+.image {
     width: fit-content;
     background-color: #dddddd;
     border-radius: 8px;

@@ -24,7 +24,9 @@ export default function PostRecipe(props) {
         ingredients: {              //Initially render one blank ingredient to prompt entry.
             ingredient1: '',
         },
-        images: {},
+        images: {
+            image1: '',
+        },
         is_published: false,
     });
 
@@ -59,6 +61,7 @@ export default function PostRecipe(props) {
             //Since post button was clicked, post is published.
             const postData = inputs;
             postData.is_published = true;
+            console.log(postData);
 
             setShowPostModal(true);
             const result = await onPost(postData);
@@ -104,6 +107,16 @@ export default function PostRecipe(props) {
                     }
                 });
             });
+        } else if ((event.target.name).includes('image')) {
+            setInputs(prevState => {
+                return ({
+                    ...prevState,
+                    images: {
+                        ...prevState.images,
+                        [event.target.name]: event.target.value
+                    }
+                });
+            });
         } else {
             setInputs(prevState => {
                 return ({
@@ -139,6 +152,16 @@ export default function PostRecipe(props) {
                     }
                 });
             });
+        } else if (type === 'image') {
+            setInputs(prevState => {
+                return ({
+                    ...prevState,
+                    images: {
+                        ...prevState.images,
+                        ['image'+(stepIndex+1)]: ''
+                    }
+                });
+            });
         } else {
             console.error("INVALID TYPE OF INPUT: ", type);
         }
@@ -158,6 +181,13 @@ export default function PostRecipe(props) {
                 const { ingredients, ...rest } = prevState;
                 delete ingredients['ingredient'+stepIndex];
                 rest.ingredients = ingredients;
+                return rest;
+            });
+        } else if (type === 'image') {
+            setInputs(prevState => {
+                const { images, ...rest } = prevState;
+                delete images['image'+stepIndex];
+                rest.images = images;
                 return rest;
             });
         } else {
@@ -225,7 +255,6 @@ export default function PostRecipe(props) {
                         type="text"
                         name='original_post'
                         id='original_post'
-                        checked={inputs.is_personal}
                         onChange={handleChange}
                         maxLength={999}
                         size={25}
@@ -313,6 +342,34 @@ export default function PostRecipe(props) {
                                 <div className={styles.buttons}>
                                     {index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-plus" onClick={() => handleAddClick('ingredient', index+1)}/>}
                                     {index > 0 && (index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-minus" onClick={() => handleSubClick('ingredient', index+1)}/>)}
+                                </div>
+                            </div>
+                        );
+                    })}
+
+                </div>
+
+                <div className={styles.images}>
+
+                    {Object.keys(inputs.images).map((key, index, array) => {
+                        return (
+                            <div key={'image'+(index+1)}>
+                                <label htmlFor={'image'+(index+1)}>Image {index+1} </label>
+                                <textarea
+                                    key={index}
+                                    name={'image'+(index+1)}
+                                    id={'image'+(index+1)}
+                                    value={inputs.images['image'+(index+1)]}
+                                    onChange={handleChange}
+                                    placeholder={'Image '+(index+1)}
+                                    rows={2}
+                                    cols={50}
+                                    maxLength={200}
+                                    className={styles.image}
+                                ></textarea>
+                                <div className={styles.buttons}>
+                                    {index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-plus" onClick={() => handleAddClick('image', index+1)}/>}
+                                    {index > 0 && (index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-minus" onClick={() => handleSubClick('image', index+1)}/>)}
                                 </div>
                             </div>
                         );

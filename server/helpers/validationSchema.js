@@ -11,7 +11,7 @@ const authSchema = Joi.object({
     description: Joi.string().trim(),
     instructions: Joi.object({}).pattern(Joi.string().trim().max(7), Joi.string().trim().min(3).max(501)).required(),
     ingredients: Joi.object({}).pattern(Joi.string().trim().max(13), Joi.string().trim().min(3).max(501)).required(),
-    images: Joi.object({}).pattern(Joi.string().trim().max(5), Joi.string().trim()),
+    images: Joi.object({}).pattern(Joi.string().trim().max(7), Joi.string().trim().min(3).max(1599).uri().required()),
     is_published: Joi.boolean()
 });
 
