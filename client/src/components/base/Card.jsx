@@ -33,7 +33,7 @@ export default function Card(props) {
             .then((json) => {
                 if(json.error) {
                     throw new Error(json.error.status + " " + json.error.message);
-                }
+                } else {console.log(json)}
             })
             .catch(e => {console.error("Error liking post: ", e)});
 
@@ -54,7 +54,7 @@ export default function Card(props) {
             .then((json) => {
                 if(json.error) {
                     throw new Error(json.error.status + " " + json.error.message);
-                }
+                } else {console.log(json)}
             })
             .catch(e => {console.error("Error unliking post: ", e)});
         }

@@ -206,6 +206,18 @@ async function getPrivateUserIdFromApiKey(ApiKey) {
     return result.rows[0];
 }
 
+async function getPrivatePostId(self_id) {
+    let result = '';
+    try {
+        result = await db.query("SELECT id FROM post WHERE self_id = $1", [self_id]);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({error: { status: 500, message: "Error querying DB for user data.; Bad user token."}});
+    }
+
+    return result.rows[0];
+}
+
 //When api route requested, get data from db and respond with json data
 
 
@@ -230,7 +242,7 @@ app.get("/api", async (req, res) => {
     try {
         const result = await db.query(
             "SELECT title, fandom, fandom_media_type, date_posted, date_edited, prep_time_mins, " 
-            + "cook_time_mins, servings, instructions, ingredients, is_personal, original_post_ref "
+            + "cook_time_mins, servings, instructions, ingredients, is_personal, original_post_ref, self_id "
             + "FROM post WHERE is_deleted=false;" 
         );
             
@@ -255,18 +267,72 @@ app.post("/api/", async (req, res) => {
     //For now, liking posts is public and accessible.
     if(req.body.action === 'like') {
         const data = await sanitizeLikeData(req.body);
-        const result = await db.query(
-            "INSERT INTO likes (post_id, date_created) VALUES ($1, $2) RETURNING post_id", [data.post_id, new Date().toISOString()]
-        );
-        res.status(201).json(result);
+
+        //DEV
+        //If like posted by client, use user_id 555.
+        //Otherwise, if I post with admin API key, use user_id 1.
+        if (!req.body.hasOwnProperty('ApiKey')) {
+            data.user_id = 2;
+        } else {
+            data.user_id = 1;
+        }
+
+        let _postId = (await getPrivatePostId(data.post_id));
+        if (!_postId.id) {
+            throw new Error("Cannot authenticate post ID; bad token from client.");
+        } else {
+            _postId = _postId.id;
+        }
+
+        let result = '';
+        try {
+            result = await db.query(
+                "INSERT INTO post_like (user_id, post_id, date_created) VALUES ($1, $2, $3) RETURNING post_id", 
+                    [data.user_id, _postId, new Date().toISOString()]
+            ) || 1;    
+        } catch (error) {
+            console.log(error.message);
+            res.status(409).json({error: { status: 409, message: "Post already liked by user."}});
+        }
+        if(result){
+            res.status(201).json({message: "Successfully liked post.", post_id: result});
+        }
 
     } else if (req.body.action === 'unlike') {
+        //Create catch for case where client provides an unlike that doesn't exist in db
+        //Actually, it returns successfull with DELETE 0. No error. That's nice.
+
         //set isdeleted to true in db
         const data = await sanitizeLikeData(req.body);
-        const result = await db.query(
-            "INSERT INTO likes (post_id, date_created, is_deleted) VALUES ($1, $2, $3) RETURNING is_deleted", [data.post_id, new Date().toISOString(), true]
-        );
-        res.status(201).json(result);
+
+        //DEV
+        //If like posted by client, use user_id 555.
+        //Otherwise, if I post with admin API key, use user_id 1.
+        if (!req.body.hasOwnProperty('ApiKey')) {
+            data.user_id = 2;
+        } else {
+            data.user_id = 1;
+        }
+
+        let _postId = (await getPrivatePostId(data.post_id));
+        if (!_postId.id) {
+            throw new Error("Cannot authenticate post ID; bad token from client.");
+        } else {
+            _postId = _postId.id;
+        }
+        
+        let result = '';
+        try {
+            result = await db.query(
+                "DELETE FROM post_like WHERE user_id=$1 AND post_id=$2 RETURNING post_id", 
+                [data.user_id, _postId]
+            );   
+        } catch (error) {
+            console.log(error.message);
+            res.status(409).json({error: { status: 409, message: "Post already unliked by user."}});
+        }
+        if(!result)
+        res.status(201).json({message: "Successfully unliked post.", post_id: result});
 
     } else if (req.body.action === 'post') {
         //This code for posting actions...
