@@ -20,7 +20,7 @@ export default function Card(props) {
         if(event.target.className.includes("fa-regular")) {
             event.target.className = "fa-solid fa-heart";
             setLikes(prevState => prevState + 1);
-
+            
             //Post like to server
             fetch("/api/", {
                 method: 'POST',
@@ -35,13 +35,17 @@ export default function Card(props) {
                     throw new Error(json.error.status + " " + json.error.message);
                 } else {console.log(json)}
             })
-            .catch(e => {console.error("Error liking post: ", e)});
+            .catch(e => {
+                console.error("Error liking post: ", e);
+                setLikes(prevState => prevState - 1);
+                event.target.className = "fa-regular fa-heart";
+            });
 
 
         } else {
             event.target.className = "fa-regular fa-heart";
+            
             setLikes(prevState => prevState - 1);
-
             //Post unlike to server
             fetch("/api/", {
                 method: 'POST',
@@ -56,7 +60,11 @@ export default function Card(props) {
                     throw new Error(json.error.status + " " + json.error.message);
                 } else {console.log(json)}
             })
-            .catch(e => {console.error("Error unliking post: ", e)});
+            .catch(e => {
+                console.error("Error unliking post: ", e);
+                setLikes(prevState => prevState + 1);
+                event.target.className = "fa-solid fa-heart";
+            });
         }
     }
 
@@ -71,7 +79,7 @@ export default function Card(props) {
         >
             <div className={styles.cardClickArea} onClick={() => onCardClick(recipeData.self_id)}>
                 <div className={styles.cardMedia}> 
-                    <img src={recipeData.images && (recipeData.images.image1 ? recipeData.images.image1 : "")} />
+                    <img src={recipeData.media && (recipeData.media[0] ? recipeData.media[0].media_ref : "")} />
                 </div>
                 <div className={styles.cardBody}>
                     <div className={styles.cardTitle}>

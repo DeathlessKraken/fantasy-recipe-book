@@ -218,6 +218,23 @@ async function getPrivatePostId(self_id) {
     return result.rows[0];
 }
 
+async function getLikes(self_id) {
+    let result = '';
+    try {
+        let _postId = await getPrivatePostId(self_id);
+        if (!_postId.id) {
+            console.log("INTERNAL ERROR: Cannot get internal post primary key from self_id.");
+        } else {
+            _postId = _postId.id;
+        }
+        result = await db.query("SELECT COUNT(id) FROM post_like WHERE post_id=$1",
+            [_postId]);
+    } catch (error) {
+        console.log("Error retrieving likes from DB: ", error.message);
+    }
+    return result.rows[0];
+}
+
 async function getImages(self_id) {
     let result = '';
     try {
@@ -266,7 +283,10 @@ app.get("/api", async (req, res) => {
         //also send images pertaining to each self_id.
         await Promise.all(result.rows.map(async (post, index, array) => {
             array[index].media = (await getImages(post.self_id)).filter(obj => obj);
+            array[index].like_count = Number((await getLikes(post.self_id)).count);
         }));
+
+        //Grab likes for each image and send over with api data.
         
         res.json(result.rows);
     } catch (error) {
@@ -284,6 +304,7 @@ app.post("/api/", async (req, res) => {
                 message: "No action assoctiated with request. Hint: {action: {} content: {}} Valid actions: 'like', 'unlike', 'post' 'delete'"
             }
         });
+        return;
     }
 
     //For now, liking posts is public and accessible.
@@ -302,7 +323,7 @@ app.post("/api/", async (req, res) => {
         }
 
         let _postId = (await getPrivatePostId(data.post_id));
-        if (!_postId.id) {
+        if (!_postId && !_postId.id) {
             throw new Error("Cannot authenticate post ID; bad token from client.");
         } else {
             _postId = _postId.id;
@@ -364,7 +385,12 @@ app.post("/api/", async (req, res) => {
         //Sanitize data, and query db
         //If there is no author_id from client browser, and no api-key in request body,
         //post will not be made.
-        
+
+        if(!req.body.content) { 
+            res.status(400).json({error: { status: 400, message: "Missing content field from request."}});
+            return;
+        }
+
         if(!req.body.content['ApiKey'] && !req.body.content.user_id) {
             res.status(406).json({error: { 
                 status: 406,
@@ -384,17 +410,31 @@ app.post("/api/", async (req, res) => {
                 //grab user id from user_profile table, insert new post with user_id.
                 let result = '';
                 try {
+                    //Insert post data and grab private post_id
                     result = await db.query(
                         "INSERT INTO post (user_id, post_ip, title, fandom, fandom_media_type, date_posted, prep_time_mins,"
                         + "cook_time_mins, servings, instructions, ingredients, is_personal, original_post_ref, self_id, is_deleted)"
                         + "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, "
-                        + "$11, $12, $13, $14, $15) RETURNING self_id;",
+                        + "$11, $12, $13, $14, $15) RETURNING id;",
                     [data.user_id, data.post_ip, data.title, data.fandom, data.fandom_media_type, data.date_posted,
                     data.prep_time_mins, data.cook_time_mins, data.servings, data.instructions, data.ingredients,
                     data.is_personal, data.original_post_ref, data.self_id, false]
                     );
+
+                    //Use private post_id to insert media(s) if exist
+                    if(data.media) {
+                        try {
+                            await Promise.all(data.media.map(async (obj, index) => {
+                                result = await db.query("INSERT INTO post_media (media_type, media_ref, media_position, post_id)"
+                                    + " VALUES ($1,$2,$3,$4)", [obj.media_type, obj.media_ref, obj.media_position, result.rows[0].id]);
+                            }))    
+                        } catch (error) {
+                            console.log(error.message);
+                        }
+                    }
+
                     //Once query is successful, return new recipeid instead of all data.
-                    res.status(201).json({recipeId: result.rows[0].self_id});
+                    res.status(201).json({recipeId: data.self_id});
                 } catch (error) {
                     console.log(error.message);
                     res.status(500).json({error: { status: 500, message: "Error submitting posts to DB."}});

@@ -13,7 +13,12 @@ const authSchema = Joi.object({
     instructions: Joi.string().trim().max(9000).required(),
     ingredients: Joi.object({}).pattern(Joi.string().trim().max(13), Joi.string().trim().min(3).max(501)).required(),
     original_post_ref: Joi.string().trim().min(3).max(1599).uri().allow(''),
-}).with('fandom', 'fandom_media_type').without('ApiKey', 'user_id');
+    media: Joi.array().items(Joi.object({
+        media_type: Joi.string().trim().max(20).required(),
+        media_ref: Joi.string().trim().uri().required(),
+        media_position: Joi.number().integer().max(7).required()
+    }))
+}).with('fandom', 'fandom_media_type').required();
 
 //Cannot provide both apikey and userid. 
 //API users who provide key will have key listed in their user_profile.
@@ -22,6 +27,6 @@ const authSchema = Joi.object({
 export const likeSchema = Joi.object({
     action: Joi.string().trim().min(4).max(24).required(),
     post_id: Joi.string().trim().max(24).required()
-}).with('action', 'post_id');
+}).with('action', 'post_id').required();
 
 export default authSchema;

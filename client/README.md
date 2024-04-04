@@ -18,6 +18,7 @@
 - put apidata GET operation inside of discover component, so skeleton will load before apidata.
 - limit image upload object to length 4 both client and server side before storage.
 - if user edits post, use patch route. server needs post_id and changes. 
+- interesting behaviour when liking and unliking posts visually.
 
 3c37011ae543ee66562a
 
@@ -126,6 +127,11 @@ CREATE TABLE post_media (
 	FOREIGN KEY (media_id)
 	REFERENCES media (id)
 );
+
+select po.id
+from post po
+	left join post_media me on po.id = me.post_id
+where me.post_id is null;
 
 
 Interfacing with the API:
