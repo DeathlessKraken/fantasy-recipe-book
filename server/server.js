@@ -212,10 +212,27 @@ async function getPrivatePostId(self_id) {
         result = await db.query("SELECT id FROM post WHERE self_id = $1", [self_id]);
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({error: { status: 500, message: "Error querying DB for user data.; Bad user token."}});
+        res.status(500).json({error: { status: 500, message: "Error querying DB for user data; Bad user token."}});
     }
 
     return result.rows[0];
+}
+
+async function getImages(self_id) {
+    let result = '';
+    try {
+        let _postId = await getPrivatePostId(self_id);
+        if (!_postId.id) {
+            console.log("INTERNAL ERROR: Cannot get internal post primary key from self_id.");
+        } else {
+            _postId = _postId.id;
+        }
+        result = await db.query("SELECT media_type, media_ref, media_position FROM post_media WHERE post_id=$1 AND media_ref IS NOT NULL",
+            [_postId]);
+    } catch (error) {
+        console.log("Error retrieving media from DB: ", error.message);
+    }
+    return result.rows;
 }
 
 //When api route requested, get data from db and respond with json data
@@ -246,6 +263,11 @@ app.get("/api", async (req, res) => {
             + "FROM post WHERE is_deleted=false;" 
         );
             
+        //also send images pertaining to each self_id.
+        await Promise.all(result.rows.map(async (post, index, array) => {
+            array[index].media = (await getImages(post.self_id)).filter(obj => obj);
+        }));
+        
         res.json(result.rows);
     } catch (error) {
         console.log(error.message);

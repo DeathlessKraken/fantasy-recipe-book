@@ -1,4 +1,5 @@
 # Notes
+- need to pull likes from db. getting close to need cookies. remember. launch first. maybe doing inets instead.
 - webkit line clamp leaves a comma before ellipsis
 - add tags/category sort for recipes
 - top rated discover sort
@@ -18,6 +19,7 @@
 - limit image upload object to length 4 both client and server side before storage.
 - if user edits post, use patch route. server needs post_id and changes. 
 
+3c37011ae543ee66562a
 
 .pattern(new RegExp('(?!_)\w{3,}[!?]*'))
 
