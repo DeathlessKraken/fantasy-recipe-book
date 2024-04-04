@@ -150,7 +150,7 @@ async function getClientData(req, data) {
     if (newData.is_personal === true) {
         newData.original_post_ref = "";
     } else if(!newData.original_post_ref && newData.is_personal === false) {
-        throw new Error('If this is not a personal recipe, you need to provide a link to the original content. (Key: "original_post_ref"');
+        throw new Error('If this is not a personal recipe, you need to provide a link to the original content. (Key: "original_post_ref")');
     }
 
     //Client will need to provide token from signed in user to post.
@@ -259,7 +259,7 @@ app.post("/api/", async (req, res) => {
         res.status(400).json({
             error: { 
                 status: 400, 
-                message: "No action assoctiated with request. Hint: {action: {} content: {}} Valid actions: 'like', 'unlike', 'post', 'editpost'"
+                message: "No action assoctiated with request. Hint: {action: {} content: {}} Valid actions: 'like', 'unlike', 'post' 'delete'"
             }
         });
     }
@@ -271,6 +271,8 @@ app.post("/api/", async (req, res) => {
         //DEV
         //If like posted by client, use user_id 555.
         //Otherwise, if I post with admin API key, use user_id 1.
+        //Also kinda weird when API action is treated like general client. non issue though,
+        //I will implement permanent cookies later, so that cookie user will always have liked posts.
         if (!req.body.hasOwnProperty('ApiKey')) {
             data.user_id = 2;
         } else {
@@ -287,15 +289,15 @@ app.post("/api/", async (req, res) => {
         let result = '';
         try {
             result = await db.query(
-                "INSERT INTO post_like (user_id, post_id, date_created) VALUES ($1, $2, $3) RETURNING post_id", 
+                "INSERT INTO post_like (user_id, post_id, date_created) VALUES ($1, $2, $3) RETURNING date_created", 
                     [data.user_id, _postId, new Date().toISOString()]
-            ) || 1;    
+            );    
         } catch (error) {
             console.log(error.message);
             res.status(409).json({error: { status: 409, message: "Post already liked by user."}});
         }
         if(result){
-            res.status(201).json({message: "Successfully liked post.", post_id: result});
+            res.status(201).json({message: "Successfully liked post."});
         }
 
     } else if (req.body.action === 'unlike') {
@@ -324,15 +326,16 @@ app.post("/api/", async (req, res) => {
         let result = '';
         try {
             result = await db.query(
-                "DELETE FROM post_like WHERE user_id=$1 AND post_id=$2 RETURNING post_id", 
+                "DELETE FROM post_like WHERE user_id=$1 AND post_id=$2", 
                 [data.user_id, _postId]
             );   
         } catch (error) {
             console.log(error.message);
             res.status(409).json({error: { status: 409, message: "Post already unliked by user."}});
         }
-        if(!result)
-        res.status(201).json({message: "Successfully unliked post.", post_id: result});
+        if(result) {
+            res.status(201).json({message: "Successfully unliked post."});
+        }
 
     } else if (req.body.action === 'post') {
         //This code for posting actions...
@@ -378,6 +381,8 @@ app.post("/api/", async (req, res) => {
                 res.status(422).json({error: { status: 422, message: `Cannot understand request body. ${data}`}});
             }
         }
+    } else {   
+        res.status(400).json({error: { status: 400, message: "Cannot understand intent. Hint: {action: {} content: {} || post_id: ''} Valid actions: 'like', 'unlike', 'post' 'delete'"}});
     }
 });
 
