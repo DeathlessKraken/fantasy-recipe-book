@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from 'body-parser';
 import pg from 'pg';
 import morgan from "morgan";
-import authSchema from "./helpers/validationSchema.js";
+import authSchema, { likeSchema } from "./helpers/validationSchema.js";
 import { v4 as uuidv4 } from 'uuid';
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -120,12 +120,25 @@ async function sanitizePostData(data) {
     return result;
 }
 
+async function sanitizeLikeData(data) {
+    let result = '';
+    try {
+        result = await likeSchema.validateAsync(data);
+    } catch (e) {
+        result = e.message;
+        console.log(e);
+    }
+    
+    return result;
+}
+
 async function getClientData(req, data) {
     //If we receive string, don't operate just pass on the error.
     if (typeof(data) === 'string') { return data; }
+
     const newData = data;
     //Need to log client IP for spam. Will prob use middleware for this.
-    newData.author_ip = req.headers['cf-connecting-ip'] ||  
+    newData.post_ip = req.headers['cf-connecting-ip'] ||  
         req.headers['x-real-ip'] ||
         req.headers['x-forwarded-for'] ||
         req.socket.remoteAddress || '';
@@ -133,33 +146,65 @@ async function getClientData(req, data) {
     //if they provide a custom recipe, DELETE link to original post.
     //Only doing this for consistency. IF in future I want to users to 
     //link to their OWN recipe posted elsewhere, this will need to change.
-    if (newData.is_personal) {
-        newData.original_post = "";
+    //If it's not personal, they need to provide original link
+    if (newData.is_personal === true) {
+        newData.original_post_ref = "";
+    } else if(!newData.original_post_ref && newData.is_personal === false) {
+        throw new Error('If this is not a personal recipe, you need to provide a link to the original content. (Key: "original_post_ref"');
     }
 
-    //If data was posted with someones apikey...
-    //It always publishes, no drafting with apis...
-    if(newData.hasOwnProperty('ApiKey')) {
-        console.log("User posted with api key");
-        newData.is_published = true;
-    }
-    
-    //Otherwise, request made from browser.
     //Client will need to provide token from signed in user to post.
-    //for DEV DB TESTING :
-    newData.author_id = generateUID();
-
-    //If its not a draft...
-    if(newData.is_published) {
-        newData.date_published = new Date().toISOString();
+    //Currently filled out by default from client.
+    //If apikey is used, retrieve user_id from apikey table.
+    // API KEY -> USER_ID RETRIEVAL
+    if (newData.hasOwnProperty('ApiKey')) {
+        newData.user_id = (await getPrivateUserIdFromApiKey(newData.ApiKey));
+        if (!newData.user_id) {
+            throw new Error("Cannot authenticate user; bad API Key.");
+        } else {
+            newData.user_id = newData.user_id['user_id'];
+        }
+    } else {
+        newData.user_id = (await getPrivateUserId(newData.user_id));
+        if (!newData.user_id) {
+            throw new Error("Cannot authenticate user; bad token from client.");
+        } else {
+            newData.user_id = newData.user_id['id'];
+        }
     }
 
-    //Last edited right now
-    newData.date_edited = new Date().toISOString();
+    
+
+    newData.date_posted = new Date().toISOString();
+
+    newData.self_id = generateUID();
 
     return newData;
 }
 
+async function getPrivateUserId(username) {
+    let result = '';
+    try {
+        result = await db.query("SELECT id FROM user_profile WHERE username = $1", [username]);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({error: { status: 500, message: "Error querying DB for user data.; Bad user token."}});
+    }
+
+    return result.rows[0];
+}
+
+async function getPrivateUserIdFromApiKey(ApiKey) {
+    let result = '';
+    try {
+        result = await db.query("SELECT user_id FROM api_key WHERE api_key_value = $1", [ApiKey]);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({error: { status: 500, message: "Error querying DB for user data; Bad API key."}});
+    }
+
+    return result.rows[0];
+}
 
 //When api route requested, get data from db and respond with json data
 
@@ -182,46 +227,90 @@ app.post('*', (req, res) => {
 
 app.get("/api", async (req, res) => {
     //Retrieve published, undeleted posts only. 
-    const result = await db.query(
-        "SELECT allergens, author_id, comment_count, date_edited, date_published, " 
-        + "description, fandom, images, ingredients, instructions, is_personal, like_count, "
-        + "original_post, self_id, title FROM posts WHERE is_published=true AND is_deleted=false LIMIT 20;" 
-    );
-
-    res.json(result.rows);
+    try {
+        const result = await db.query(
+            "SELECT title, fandom, fandom_media_type, date_posted, date_edited, prep_time_mins, " 
+            + "cook_time_mins, servings, instructions, ingredients, is_personal, original_post_ref "
+            + "FROM post WHERE is_deleted=false;" 
+        );
+            
+        res.json(result.rows);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({error: { status: 500, message: "Error retrieving posts from DB."}});
+    }
 });
 
 app.post("/api/", async (req, res) => {
-    //Sanitize data, and query db
-    
-    //If there is no author_id from client browser, and no api-key in request body,
-    //post will not be made.
-    
-    if(!req.body['ApiKey'] && !req.body.author_id) {
-        res.status(406).json({error: { 
-            status: 406,
-            message: 'No field "ApiKey" in body, or user not signed in.'
-        }})
-    } else {
-    
-        //At this point, I'm expecting clean, full data to store.
-        const data = await getClientData(req, await sanitizePostData(req.body));
-        if (typeof(data) !== 'string') {
-            const result = await db.query(
-                "INSERT INTO posts (author_ip, title, fandom, is_personal, original_post, like_count, comment_count, "
-                + "date_published, date_edited, allergens, description, instructions, ingredients, images, is_published, "
-                + "is_deleted, self_id, author_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, "
-                + "$11, $12, $13, $14, $15, $16, $17, $18) RETURNING self_id;",
-            [data.author_ip, data.title, data.fandom, data.is_personal, data.original_post,
-                0, 0, data.date_published, data.date_edited, data.allergens, data.description, 
-                data.instructions, data.ingredients, data.images, data.is_published, false, 
-                generateUID(), data.author_id]
-            );
-            //Once query is successful, return new recipeid instead of all data.
+
+    if(!req.body.action) {
+        res.status(400).json({
+            error: { 
+                status: 400, 
+                message: "No action assoctiated with request. Hint: {action: {} content: {}} Valid actions: 'like', 'unlike', 'post', 'editpost'"
+            }
+        });
+    }
+
+    //For now, liking posts is public and accessible.
+    if(req.body.action === 'like') {
+        const data = await sanitizeLikeData(req.body);
+        const result = await db.query(
+            "INSERT INTO likes (post_id, date_created) VALUES ($1, $2) RETURNING post_id", [data.post_id, new Date().toISOString()]
+        );
+        res.status(201).json(result);
+
+    } else if (req.body.action === 'unlike') {
+        //set isdeleted to true in db
+        const data = await sanitizeLikeData(req.body);
+        const result = await db.query(
+            "INSERT INTO likes (post_id, date_created, is_deleted) VALUES ($1, $2, $3) RETURNING is_deleted", [data.post_id, new Date().toISOString(), true]
+        );
+        res.status(201).json(result);
+
+    } else if (req.body.action === 'post') {
+        //This code for posting actions...
+        //Sanitize data, and query db
+        //If there is no author_id from client browser, and no api-key in request body,
+        //post will not be made.
+        
+        if(!req.body.content['ApiKey'] && !req.body.content.user_id) {
+            res.status(406).json({error: { 
+                status: 406,
+                message: 'No field "ApiKey" in body, or user not signed in.'
+            }})
+        } else {
+            let data = '';
+            try {
+                data = await getClientData(req, await sanitizePostData(req.body.content));
+            } catch (error) {
+                //If error, this data sent back as response down below.
+                data = error.message;
+            }
+            //At this point, I'm expecting clean, full data to store.
             
-            res.status(201).json(result.rows[0]);
-        } else {   
-            res.status(422).json({error: { status: 422, message: `Cannot understand request body. ${data}`}});
+            if (typeof(data) !== 'string') {
+                //grab user id from user_profile table, insert new post with user_id.
+                let result = '';
+                try {
+                    result = await db.query(
+                        "INSERT INTO post (user_id, post_ip, title, fandom, fandom_media_type, date_posted, prep_time_mins,"
+                        + "cook_time_mins, servings, instructions, ingredients, is_personal, original_post_ref, self_id, is_deleted)"
+                        + "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, "
+                        + "$11, $12, $13, $14, $15) RETURNING self_id;",
+                    [data.user_id, data.post_ip, data.title, data.fandom, data.fandom_media_type, data.date_posted,
+                    data.prep_time_mins, data.cook_time_mins, data.servings, data.instructions, data.ingredients,
+                    data.is_personal, data.original_post_ref, data.self_id, false]
+                    );
+                    //Once query is successful, return new recipeid instead of all data.
+                    res.status(201).json({recipeId: result.rows[0].self_id});
+                } catch (error) {
+                    console.log(error.message);
+                    res.status(500).json({error: { status: 500, message: "Error submitting posts to DB."}});
+                }
+            } else {   
+                res.status(422).json({error: { status: 422, message: `Cannot understand request body. ${data}`}});
+            }
         }
     }
 });

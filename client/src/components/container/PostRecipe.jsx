@@ -14,20 +14,16 @@ export default function PostRecipe(props) {
     const [inputs, setInputs] = useState({
         title: '',                  //21 Char limit. Maybe update on account of card size.
         fandom: 'none',                 //50 Char limit. 
+        fandom_media_type: 'none',
         is_personal: false,
-        original_post: '',
-        allergens: '',
-        description: '',
-        instructions: {             //Initially render one blank instruction to prompt entry.
-            step1: '',
-        },
+        original_post_ref: '',
+        prep_time_mins: 0,
+        cook_time_mins: 0,
+        servings: 0,
+        instructions: '',
         ingredients: {              //Initially render one blank ingredient to prompt entry.
             ingredient1: '',
         },
-        images: {
-            image1: '',
-        },
-        is_published: false,
     });
 
     function scrollTopSetError(message) {
@@ -51,22 +47,35 @@ export default function PostRecipe(props) {
         //Title length must be at least 3 characters
         if(inputs.title.length < 3) {
             scrollTopSetError("Title must be 3 characters or longer.");
-        } else if (!inputs.is_personal && !isGoodLink(inputs.original_post)) {
+        } else if (inputs.fandom_media_type === 'none' && inputs.fandom !== 'none') {
+            scrollTopSetError("You must select a media type if you enter a fandom.");
+        } else if (!inputs.is_personal && !isGoodLink(inputs.original_post_ref)) {
             scrollTopSetError("You must have a working link if this is not your own recipe.");
-        } else if (inputs.instructions.step1.length < 10) {
-            scrollTopSetError("You must have one instruction step with at least 10 characters.");
+        } else if (inputs.instructions.length < 3) {
+            scrollTopSetError("You must have instructions with at least 3 characters.");
+        } else if (inputs.prep_time_mins < 1) {
+            scrollTopSetError("You must enter a preparation time.");
+        } else if (inputs.cook_time_mins < 1) {
+            scrollTopSetError("You must enter a cooking time.");
+        } else if (inputs.servings < 1) {
+            scrollTopSetError("You must enter a serving amount.");
         } else if (inputs.ingredients.ingredient1.length < 3) {
             scrollTopSetError("You must have one ingredient with 3 characters.");
         } else {
             //Since post button was clicked, post is published.
             const postData = inputs;
-            postData.is_published = true;
-            
+
             setShowPostModal(true);
-            const result = await onPost(postData);
+            let result = '';
+            try {
+                result = await onPost(postData);
+            } catch (error) {
+                console.error(error.message);
+                result = error.message;
+            }
             setShowPostModal(false);
             
-            if(typeof(result) === 'string' && result.length > 0) {
+            if(typeof(result) === 'string') {
                 scrollTopSetError(result);
             } else {
                 //If not string, result is object.
@@ -85,16 +94,6 @@ export default function PostRecipe(props) {
                 return ({
                     ...prevState,
                     [event.target.name]: event.target.checked
-                });
-            });
-        } else if ((event.target.name).includes('step')) {
-            setInputs(prevState => {
-                return ({
-                    ...prevState,
-                    instructions: {
-                        ...prevState.instructions,
-                        [event.target.name]: event.target.value
-                    }
                 });
             });
         } else if ((event.target.name).includes('ingredient')) {
@@ -234,6 +233,23 @@ export default function PostRecipe(props) {
                     </select>
                 </div>
 
+                <div className={styles.smallInput}>
+                    <label htmlFor="fandom_media_type">Fandom Type: </label>
+                    <select 
+                        name='fandom_media_type' 
+                        id='fandom_media_type' 
+                        value={inputs.fandom_media_type}
+                        onChange={handleChange}
+                        className={styles.select}
+                        autoComplete="off"
+                    >
+                        <option value='none'>None</option>
+                        <option value='book'>Book</option>
+                        <option value='movie'>Movie</option>
+                        <option value='tv'>TV Show</option>
+                    </select>
+                </div>
+
                 <div className={styles.checkBoxInput}>
                     <label htmlFor="is_personal">Is this a custom recipe? </label>
                     <input 
@@ -250,11 +266,11 @@ export default function PostRecipe(props) {
                 
                 {!inputs.is_personal && 
                 <div className={styles.smallInput}>
-                    <label htmlFor="original_post">Original Recipe Link: </label>
+                    <label htmlFor="original_post_ref">Original Recipe Link: </label>
                     <input 
                         type="text"
-                        name='original_post'
-                        id='original_post'
+                        name='original_post_ref'
+                        id='original_post_ref'
                         onChange={handleChange}
                         maxLength={999}
                         size={30}
@@ -264,62 +280,65 @@ export default function PostRecipe(props) {
                 </div>}
 
                 <div className={styles.smallInput}>
-                    <label htmlFor="allergens">Please list any allergens: </label>
+                    <label htmlFor="prep_time_mins">Prep Time in Minutes: </label>
                     <input 
-                        type="text"
-                        name='allergens'
-                        id='allergens'
-                        placeholder='Peanuts, Dairy, Wheat'
-                        value={inputs.allergens}
+                        type="number"
+                        name='prep_time_mins'
+                        id='prep_time_mins'
+                        value={inputs.prep_time_mins}
+                        max={999}
+                        min={1}
                         onChange={handleChange}
-                        maxLength={100}
-                        size={30}
-                        className={styles.textArea}
+                        className={styles.select}
+                        autoComplete="off"
+                    />
+                </div>
+
+                <div className={styles.smallInput}>
+                    <label htmlFor="cook_time_mins">Cook Time in Minutes: </label>
+                    <input 
+                        type="number"
+                        name='cook_time_mins'
+                        id='cook_time_mins'
+                        value={inputs.cook_time_mins}
+                        max={999}
+                        min={1}
+                        onChange={handleChange}
+                        className={styles.select}
+                        autoComplete="off"
+                    />
+                </div>
+
+                <div className={styles.smallInput}>
+                    <label htmlFor="servings">Servings: </label>
+                    <input 
+                        type="number"
+                        name='servings'
+                        id='servings'
+                        value={inputs.servings}
+                        max={999}
+                        min={1}
+                        onChange={handleChange}
+                        className={styles.select}
                         autoComplete="off"
                     />
                 </div>
 
                 <div className={styles.largeInput}>
-                    <label htmlFor="description">Description: </label>
+                    <label htmlFor="instructions">Instructions: </label>
                     <textarea
-                        name='description'
-                        id='description'
-                        value={inputs.description}
+                        name='instructions'
+                        id='instructions'
+                        value={inputs.instructions}
                         onChange={handleChange}
-                        placeholder='Tell us about this recipe!'
+                        placeholder='How do you prepare this fine recipe?'
                         rows={5}
-                        maxLength={2000}
+                        maxLength={5000}
                         className={styles.textArea}
                     ></textarea>
                 </div>
 
-                <div className={styles.instructions}>
-
-                    {Object.keys(inputs.instructions).map((key, index, array) => {
-                        return (
-                            <div key={'step'+(index+1)}>
-                                <label htmlFor={'step'+(index+1)}>Step {index+1} </label>
-                                <textarea
-                                    key={index}
-                                    name={'step'+(index+1)}
-                                    id={'step'+(index+1)}
-                                    value={inputs.instructions['step'+(index+1)]}
-                                    onChange={handleChange}
-                                    placeholder={'Step '+(index+1)}
-                                    rows={2}
-                                    cols={50}
-                                    maxLength={200}
-                                    className={styles.step}
-                                ></textarea>
-                                <div className={styles.buttons}>
-                                    {index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-plus" onClick={() => handleAddClick('instruction', index+1)}/>}
-                                    {index > 0 && (index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-minus" onClick={() => handleSubClick('instruction', index+1)}/>)}
-                                </div>
-                            </div>
-                        );
-                    })}
-
-                </div>
+                
 
                 <div className={styles.ingredients}>
 
@@ -333,7 +352,7 @@ export default function PostRecipe(props) {
                                     id={'ingredient'+(index+1)}
                                     value={inputs.ingredients['ingredient'+(index+1)]}
                                     onChange={handleChange}
-                                    placeholder={'Ingredient '+(index+1)}
+                                    placeholder={(index % 4)===0 ? "Don't forget the quantity!" : undefined}
                                     rows={2}
                                     cols={50}
                                     maxLength={200}
@@ -348,9 +367,18 @@ export default function PostRecipe(props) {
                     })}
 
                 </div>
+            </form>
+            <button className={styles.sendButton} type="submit" title="Post Recipe" name="send" onClick={handleSubmit}>
+                Post Recipe
+            </button>
+        </div>
+    );
+}
 
-                <div className={styles.images}>
+/*
 
+<div className={styles.images}>
+                    <p>Images limited to 4 per post.</p>
                     {Object.keys(inputs.images).map((key, index, array) => {
                         return (
                             <div key={'image'+(index+1)}>
@@ -368,7 +396,7 @@ export default function PostRecipe(props) {
                                     className={styles.image}
                                 ></textarea>
                                 <div className={styles.buttons}>
-                                    {index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-plus" onClick={() => handleAddClick('image', index+1)}/>}
+                                    {index < 3 && (index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-plus" onClick={() => handleAddClick('image', index+1)}/>)}
                                     {index > 0 && (index === array.length-1 && <FontAwesomeIcon icon="fa-solid fa-minus" onClick={() => handleSubClick('image', index+1)}/>)}
                                 </div>
                             </div>
@@ -376,10 +404,4 @@ export default function PostRecipe(props) {
                     })}
 
                 </div>
-            </form>
-            <button className={styles.sendButton} type="submit" title="Post Recipe" name="send" onClick={handleSubmit}>
-                Post Recipe
-            </button>
-        </div>
-    );
-}
+*/

@@ -17,7 +17,7 @@ export default function App() {
         savedScrollPosition: 0,
         apiData: [],
         loading: true,
-        currentUserToken: 'TestUser4',
+        currentUserToken: 'ThreeSheets',
         loadedRecipe: {}
     });
 
@@ -127,19 +127,28 @@ export default function App() {
     }
 
     async function getUserData(initialData) {
-        initialData.author_id = pageState.currentUserToken;
-
-        return initialData;
+        if(pageState.currentUserToken === '') {
+            throw new Error("User not signed in; cannot post recipe to server.");
+        } else {
+            initialData.user_id = pageState.currentUserToken;
+            return initialData;
+        }
     }
 
     //Need to have visual post uploading procedure
     async function handlePost(postData) {
-        postData = await getUserData(postData);
+        try {
+            postData = await getUserData(postData);
+        } catch (error) {
+            console.error(error.message);
+            throw new Error(error.message);
+        }
+
         let result = "";
         
         await fetch("/api/", {
             method: 'POST',
-            body: JSON.stringify(postData),
+            body: JSON.stringify({action: 'post', content: postData}),
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }

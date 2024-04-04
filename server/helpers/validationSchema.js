@@ -1,18 +1,27 @@
 import Joi from "joi";
 
 const authSchema = Joi.object({
-    ApiKey: Joi.string().trim().min(20),
-    author_id: Joi.string().trim().min(6),
-    title: Joi.string().trim().min(3).max(21).required(),
+    ApiKey: Joi.string().trim().min(6),
+    user_id: Joi.string().trim().min(6).allow(''),
+    title: Joi.string().trim().min(3).max(40).required(),
     fandom: Joi.string().trim().max(50),
+    fandom_media_type: Joi.string().trim().max(20),
     is_personal: Joi.boolean().required(),
-    original_post: Joi.string().allow(''),
-    allergens: Joi.string().trim(),
-    description: Joi.string().trim(),
-    instructions: Joi.object({}).pattern(Joi.string().trim().max(7), Joi.string().trim().min(3).max(501)).required(),
+    prep_time_mins: Joi.number().integer().min(1).required(),
+    cook_time_mins: Joi.number().integer().min(1).required(),
+    servings: Joi.number().integer().min(1).required(),
+    instructions: Joi.string().trim().max(9000).required(),
     ingredients: Joi.object({}).pattern(Joi.string().trim().max(13), Joi.string().trim().min(3).max(501)).required(),
-    images: Joi.object({}).pattern(Joi.string().trim().max(7), Joi.string().trim().min(3).max(1599).uri().required()),
-    is_published: Joi.boolean()
-});
+    original_post_ref: Joi.string().trim().min(3).max(1599).uri().allow(''),
+}).with('fandom', 'fandom_media_type').without('ApiKey', 'user_id');
+
+//Cannot provide both apikey and userid. 
+//API users who provide key will have key listed in their user_profile.
+//Maybe use table of apikeys referencing user_profile ids.
+
+export const likeSchema = Joi.object({
+    action: Joi.string().trim().min(4).max(24).required(),
+    post_id: Joi.string().trim().max(24).required()
+}).with('action', 'post_id');
 
 export default authSchema;
