@@ -1,5 +1,7 @@
 # THIS IS A COPY OF (https://github.com/github/gitignore/blob/main/Node.gitignore)
 
+old
+
 assets
 notes.md
 _index.html

@@ -1,0 +1,16 @@
+.author {
+    display: flex;
+    gap: 1em;
+    margin-top: 0.5em;
+}
+
+.avatar {
+    width: 2.5em;
+    aspect-ratio: 1/1;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.avatar img {
+    height: 100%;
+}

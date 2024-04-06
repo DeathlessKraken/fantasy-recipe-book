@@ -1,0 +1,14 @@
+.footer {
+    background-color: rgb(39, 43, 44);
+    padding: 2em 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;   
+    margin-top: 5em;
+    width: 100%;
+    color: azure;
+}
+
+.footer > a {
+    color: rgb(214, 214, 214);
+}
