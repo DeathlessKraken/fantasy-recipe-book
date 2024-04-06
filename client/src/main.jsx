@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       {path: "posts/users/:id", element: <AuthorPosts />},
       {path: "myposts/:id", element: <Dashboard />},
       {path: "posts/categories/:category", element: <FandomPosts />},
-      {path: "profile/:id", element: <UserProfile />},
+      {path: "user/:id", element: <UserProfile />},
       {path: "posts/:id", element: <PostDetail />},
       {path: "register", element: <Register />},
       {path: "login", element: <Login />},

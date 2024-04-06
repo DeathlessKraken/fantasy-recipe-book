@@ -10,7 +10,7 @@ export default function Header () {
                     <img src={Logo} alt="The high ground logo" />
                 </Link>
                 <ul>
-                    <li><Link to={'/profile'}>Three Sheets</Link></li>
+                    <li><Link to={'/user/ThreeSheets'}>Three Sheets</Link></li>
                     <li><Link to={'/create'}>Create Post</Link></li>
                     <li><Link to={'/authors'}>Authors</Link></li>
                     <li><Link to={'/logout'}>Logout</Link></li>
