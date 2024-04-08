@@ -1,8 +1,25 @@
+import { Link } from 'react-router-dom';
+import styles from '../styles/userprofile.module.css';
 
-function UserProfile() {
+import Avatar from '../images/Avatar0.jpg';
+
+export default function UserProfile() {
+
   return (
-    <div>UserProfile</div>
-  )
-}
+    <section>
+      <div className={styles.userprofile}>
+        <Link to={`/myposts/Testuser`}>My Posts</Link>
 
-export default UserProfile
+        <div className={styles.userprofile_details}>
+          <div className={styles.avatar}>
+            <img src={Avatar} alt="" />
+          </div>
+          <form className={styles.avatar_form}>
+            <label htmlFor="avatar"><i className="fa-solid fa-pen-to-square"></i></label>
+            <input type="file" name='avatar' id='avatar' />
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+}

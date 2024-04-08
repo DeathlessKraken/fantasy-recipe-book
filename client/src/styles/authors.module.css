@@ -1,0 +1,40 @@
+.author_section {
+    margin-top: 5em;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3em;
+}
+
+.author {
+    background-color: azure;
+    border-radius: 8px;
+    display: flex;
+    padding: 1em;
+    gap: 1em;
+}
+
+.author_avatar {
+    width: 5em;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--bg-color);
+    object-fit: cover;
+}
+
+.author_avatar img {
+    height: 100%;
+}
+
+.author_info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+
+@media (hover: hover) {
+    .author:hover {
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    }
+}
