@@ -1,0 +1,42 @@
+.userprofile {
+    margin-top: 5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+
+.userprofile_details {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.avatar_form {
+    position: absolute;
+    display: flex;
+    font-size: 2em;
+    bottom: 0;
+    right: 0;
+}
+
+.avatar_form > input {
+    width: 0;
+    height: 0;
+}
+
+.userprofile > a {
+    width: fit-content;
+    background-color: azure;
+    padding: 0.6em 1em;
+    border-radius: 8px;
+}
+
+.avatar {
+    width: 14em;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 6px solid var(--bg-color-2);
+}
