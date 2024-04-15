@@ -32,9 +32,9 @@ function Register() {
           <p className={styles.error}>This is an error message</p>
           <input type="text" name="firstname" placeholder='First Name' value={inputs.firstname} onChange={handleChange} autoFocus/>
           <input type="text" name="lastname" placeholder='Last Name' value={inputs.lastname} onChange={handleChange} />
-          <input type="text" name="email" placeholder='Email' value={inputs.email} onChange={handleChange} />
-          <input type="text" name="password" placeholder='Password' value={inputs.password} onChange={handleChange} />
-          <input type="text" name="confirmPassword" placeholder='Confirm Password' value={inputs.confirmPassword} onChange={handleChange} />
+          <input type="email" name="email" placeholder='Email' value={inputs.email} onChange={handleChange} />
+          <input type="password" name="password" placeholder='Password' value={inputs.password} onChange={handleChange} />
+          <input type="password" name="confirmPassword" placeholder='Confirm Password' value={inputs.confirmPassword} onChange={handleChange} />
           <button type='submit' onClick={handleSubmit} className={styles.register_button}>Register</button>
         </form>
       <small>Signed up already? <Link to="/login">Log in here</Link></small>

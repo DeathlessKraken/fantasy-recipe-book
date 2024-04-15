@@ -3,14 +3,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1em;
+    gap: 2em;
 }
 
 .userprofile_details {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 1em;
 }
 
 .avatar_form {
