@@ -1,9 +1,9 @@
-.create_post {
+.edit_post {
     margin-top: 5em;
     width: 100%;
 }
 
-.create_form {
+.edit_form {
     display: flex;
     flex-direction: column;
     gap: 0.5em;

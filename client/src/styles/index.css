@@ -75,3 +75,8 @@ img {
 .author_delete {
   background-color: rgb(245, 80, 80);
 }
+
+.ql-editor {
+  background-color: azure;
+  height: 15em !important;
+}

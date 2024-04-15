@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 
+import 'react-quill/dist/quill.snow.css';
 import styles from '../styles/createpost.module.css';
 
 export default function CreatePost() {
@@ -55,7 +55,9 @@ export default function CreatePost() {
         <form className={styles.create_form}>
           <input type="text" name='title' placeholder='Title' value={inputs.title} onChange={handleChange} autoFocus />
           <input type="text" name='category' placeholder='Category' value={inputs.category} onChange={handleChange} />
-          <ReactQuill modules={modules} formats={formats} value={body} onChange={setBody}/>
+
+            <ReactQuill modules={modules} formats={formats} value={body} onChange={setBody}/>
+
           <p>Prep Time &#40;mins&#41;</p>
           <input type="number" name='prep_time_mins' value={inputs.prep_time_mins} onChange={handleChange} />
           <p>Cook Time &#40;mins&#41;</p>
