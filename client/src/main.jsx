@@ -12,6 +12,7 @@ import UserProfile from './pages/UserProfile';
 import EditPost from './pages/EditPost';
 import Authors from './pages/Authors';
 import CreatePost from './pages/CreatePost';
+import DeletePost from './pages/DeletePost';
 import FandomPosts from './pages/FandomPosts';
 import AuthorPosts from './pages/AuthorPosts';
 import Dashboard from './pages/Dashboard';
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
       {path: "login", element: <Login />},
       {path: "authors", element: <Authors />},
       {path: "create", element: <CreatePost />},
+      {path: "posts/:id/delete", element: <DeletePost />},
       {path: "logout", element: <Logout />},
     ]
   }
