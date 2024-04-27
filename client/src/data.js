@@ -1,8 +1,8 @@
-import Avatar0 from './images/Avatar0.jpg';
-import Avatar1 from './images/Avatar1.jpg';
-import Avatar2 from './images/Avatar2.jpg';
-import Avatar3 from './images/Avatar3.png';
-import Avatar4 from './images/Avatar4.jpg';
+import Avatar0 from './assets/Avatar0.jpg';
+import Avatar1 from './assets/Avatar1.jpg';
+import Avatar2 from './assets/Avatar2.jpg';
+import Avatar3 from './assets/Avatar3.png';
+import Avatar4 from './assets/Avatar4.jpg';
 
 export const data = [
     {

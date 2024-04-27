@@ -5,7 +5,7 @@ import FFLogo from "../assets/FF_Logo.svg";
 
 export default function Header () {
     return (
-        <div className="drawer">
+        <div className="drawer z-10">
           <input id="my-drawer-3" type="checkbox" className="drawer-toggle" /> 
         <div className="drawer-content flex flex-col">
           {/* Navbar */}
@@ -18,7 +18,7 @@ export default function Header () {
             <div className="flex-1 px-2 mx-2 justify-end lg:hidden">
                 <Avatar />
             </div>
-            <div className="flex-none hidden lg:block w-full">
+            <div className="flex-none hidden lg:flex w-full">
               <ul className="menu menu-horizontal p-0 m-0 w-full items-center justify-between">
                 {/* Navbar menu content here */}
                 <li className="p-0 justify-center"><img src={FFLogo} alt="Logo of fantasy foods" className="w-24"/></li>
