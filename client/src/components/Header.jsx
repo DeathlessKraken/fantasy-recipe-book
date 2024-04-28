@@ -6,14 +6,18 @@ import FFLogo from "../assets/FF_Logo.svg";
 import { useState } from "react";
 
 export default function Header () {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); //Dummy tester state
+  const [isLoggedIn, setIsLoggedIn] = useState(false); //Dummy tester state
 
   return (
       <div className="drawer z-10">
         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" /> 
+
+      {/* Fake header under fixed header for spacing purposes */}
+      <div className="w-full h-[4rem] lg:h-[6rem]"></div> 
+      
       <div className="drawer-content flex flex-col">
         {/* Navbar */}
-        <div className="w-full navbar bg-orange-100">
+        <div className="w-full navbar bg-orange-100 fixed">
 
           {/* Mobile Navbar */}
           <div className="flex-none lg:hidden">
@@ -30,7 +34,7 @@ export default function Header () {
           <div className="flex-none hidden lg:flex w-full">
             <ul className="menu menu-horizontal p-0 m-0 w-full items-center grid grid-cols-3">
               {/* Navbar menu content here */}
-              <li className="p-0 justify-center"><img src={FFLogo} alt="Logo of fantasy foods" className="w-24"/></li>
+              <li className="p-0 justify-center"><Link to="/" className="w-24"><img src={FFLogo} alt="Logo of fantasy foods"/></Link></li>
 
               <li className="justify-center"><Search /></li>
 
