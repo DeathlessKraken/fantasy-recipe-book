@@ -8,6 +8,10 @@ import { useState } from "react";
 export default function Header () {
   const [isLoggedIn, setIsLoggedIn] = useState(false); //Dummy tester state
 
+  function handleToggle() {
+    document.getElementById('my-drawer-3').click();
+  }
+
   return (
       <div className="drawer z-10">
         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" /> 
@@ -57,14 +61,14 @@ export default function Header () {
         <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label> 
         <ul className="menu p-4 w-80 min-h-full bg-[#fffef6] text-default">
           {/* Sidebar content here */}
-          <Link to="/"><img src={FFLogo} alt="Logo of fantasy foods" className="h-24 w-24 mb-4"/></Link>
-          <Link to="/"><li className="my-2 text-lg">Home</li></Link>
-          <Link to={isLoggedIn ? "create/" : "login/"}><li className="my-2 text-lg">Post Recipe</li></Link>
+          <Link to="/" onClick={() => handleToggle()}><img src={FFLogo} alt="Logo of fantasy foods" className="h-24 w-24 mb-4"/></Link>
+          <Link to="/" onClick={() => handleToggle()}><li className="my-2 text-lg">Home</li></Link>
+          <Link to={isLoggedIn ? "create/" : "login/"} onClick={() => handleToggle()}><li className="my-2 text-lg">Post Recipe</li></Link>
 
-          {isLoggedIn ? <Link to="logout/"><li className="my-2 text-lg">Log Out</li></Link> :
+          {isLoggedIn ? <Link to="logout/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log Out</li></Link> :
             <>
-              <Link to="/"><li className="my-2 text-lg">Log In</li></Link>
-              <Link to="register/"><li className="my-2 text-lg">Sign Up</li></Link>
+              <Link to="/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log In</li></Link>
+              <Link to="register/" onClick={() => handleToggle()}><li className="my-2 text-lg">Sign Up</li></Link>
             </>
           }
 

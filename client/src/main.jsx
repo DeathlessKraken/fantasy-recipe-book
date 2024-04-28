@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Recipe from "./pages/Recipe";
 import Register, { registerAction } from "./pages/Register";
 import Login, { loginAction } from "./pages/Login";
+import User from "./pages/User";
 
 /*
 Home page - browse recipes
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
         children: [
             { index: true, element: <Home /> },
             { path: "recipe/:id", element: <Recipe /> },
-            //{ path: "user/:id", element: <User /> },
+            { path: "user/:id", element: <User /> },
             //{ path: "user/:id/recipes", element: <UserPosts /> },
             //{ path: "search/:query", element: <SearchContent /> },
             //{ path: "create", element: <CreateRecipe /> },
