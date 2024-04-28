@@ -1,4 +1,4 @@
-import { Form, redirect } from "react-router-dom";
+import { Form, Link, redirect } from "react-router-dom";
 
 export default function Register () {
     //const data = useActionData()
@@ -6,7 +6,7 @@ export default function Register () {
 
     return (
         <section className="w-full">
-            <h1 className="text-3xl text-default mx-auto w-fit my-4">Sign Up</h1>
+            <h1 className="text-3xl text-default mx-auto w-fit my-4 lg:pt-4">Sign Up</h1>
             <Form method="POST" action="/register" className="flex flex-col p-4 gap-4 w-96 mx-auto">
                 <label className="input input-bordered flex items-center gap-2">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" /><path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" /></svg>
@@ -34,12 +34,14 @@ export default function Register () {
                     </label>
                 </div>
 
-                <button className="btn btn-neutral" type="submit">Sign Up</button>
+                <button className="btn btn-info" type="submit">Sign Up</button>
             </Form>
+            <h2 className="mx-auto w-fit py-4 text-default">Already signed up? <Link to="/login" className="link link-primary">Log in here</Link></h2>
         </section>
     );
 }
 
+//Export this function to utils or other fitting directory
 export async function registerAction ({request}) {
     const data = await request.formData();
 
