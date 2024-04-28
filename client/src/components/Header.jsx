@@ -39,7 +39,7 @@ export default function Header () {
               <li className="justify-center"><Search /></li>
 
               <div className="flex justify-self-end"> 
-                <li className="justify-center"><Link to="create/" className="link link-hover text-slate-800 text-lg">Post Recipe</Link></li>
+                <li className="justify-center"><Link to={isLoggedIn ? "create/" : "login/"} className="link link-hover text-slate-800 text-lg">Post Recipe</Link></li>
                 {/* If logged in, create post link and show avatar. If not logged in, show create, log in, sign up */}
                 {isLoggedIn ? <li className="mr-4"><Avatar /></li> :
                     <>
@@ -58,10 +58,16 @@ export default function Header () {
         <ul className="menu p-4 w-80 min-h-full bg-[#fffef6] text-default">
           {/* Sidebar content here */}
           <Link to="/"><img src={FFLogo} alt="Logo of fantasy foods" className="h-24 w-24 mb-4"/></Link>
-          <Link to="/"><li className="my-2">Home</li></Link>
-          <Link to="/"><li className="my-2">Random Recipe</li></Link>
-          <Link to="/"><li className="my-2">Log In</li></Link>
-          <Link to="register/"><li className="my-2">Sign Up</li></Link>
+          <Link to="/"><li className="my-2 text-lg">Home</li></Link>
+          <Link to={isLoggedIn ? "create/" : "login/"}><li className="my-2 text-lg">Post Recipe</li></Link>
+
+          {isLoggedIn ? <Link to="logout/"><li className="my-2 text-lg">Log Out</li></Link> :
+            <>
+              <Link to="/"><li className="my-2 text-lg">Log In</li></Link>
+              <Link to="register/"><li className="my-2 text-lg">Sign Up</li></Link>
+            </>
+          }
+
         </ul>
       </div>
     </div>
