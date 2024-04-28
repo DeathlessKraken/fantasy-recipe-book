@@ -6,6 +6,7 @@ import "./style.css";
 import Root from "./components/Root";
 import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/Home";
+import Recipe from "./pages/Recipe";
 
 /*
 Home page - browse recipes
@@ -28,7 +29,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             { index: true, element: <Home /> },
-            //{ path: "recipe/:id", element: <Recipe /> },
+            { path: "recipe/:id", element: <Recipe /> },
             //{ path: "user/:id", element: <User /> },
             //{ path: "user/:id/recipes", element: <UserPosts /> },
             //{ path: "search/:query", element: <Search /> },
