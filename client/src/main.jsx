@@ -2,11 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
+//Pages
 import "./style.css";
 import Root from "./components/Root";
 import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/Home";
 import Recipe from "./pages/Recipe";
+import Register, { registerAction } from "./pages/Register";
 
 /*
 Home page - browse recipes
@@ -36,7 +38,7 @@ const router = createBrowserRouter([
             //{ path: "create", element: <CreateRecipe /> },
             //{ path: "recipe/:id/edit", element: <EditRecipe /> },
             //{ path: "recipe/:id/delete", element: <DeleteRecipe /> },
-            //{ path: "register", element: <Register /> },
+            { path: "register", element: <Register />, action: registerAction },
             //{ path: "login", element: <Login /> },
             //{ path: "logout", element: <Logout /> },
         ]
