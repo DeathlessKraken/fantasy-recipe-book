@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Search from "./Search";
 import Avatar from "./Avatar";
 
@@ -28,13 +29,16 @@ export default function Header () {
             </div>
           </div>
         </div> 
+
         <div className="drawer-side">
           <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label> 
           <ul className="menu p-4 w-80 min-h-full bg-[#fffef6] text-default">
             {/* Sidebar content here */}
-            <img src={FFLogo} alt="Logo of fantasy foods" className="h-24 w-24 mb-4"/>
-            <li className="my-2"><a>Sidebar Item 1</a></li>
-            <li className="my-2"><a>Sidebar Item 2</a></li>
+            <Link to="/"><img src={FFLogo} alt="Logo of fantasy foods" className="h-24 w-24 mb-4"/></Link>
+            <Link to="/"><li className="my-2">Home</li></Link>
+            <Link to="/"><li className="my-2">Random Recipe</li></Link>
+            <Link to="/"><li className="my-2">Log In</li></Link>
+            <Link to="register/"><li className="my-2">Sign Up</li></Link>
           </ul>
         </div>
       </div>
