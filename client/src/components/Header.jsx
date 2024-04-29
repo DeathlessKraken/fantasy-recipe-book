@@ -44,12 +44,12 @@ export default function Header () {
                 <li className="justify-center"><Search /></li>
 
                 <div className="flex justify-self-end"> 
-                  <li className="justify-center"><Link to={isLoggedIn ? "create/" : "login/"} className="link link-hover text-slate-800 text-lg">Post Recipe</Link></li>
+                  <li className="justify-center"><Link to={isLoggedIn ? "/create/" : "/login/"} className="link link-hover text-slate-800 text-lg">Post Recipe</Link></li>
                   {/* If logged in, create post link and show avatar. If not logged in, show create, log in, sign up */}
                   {isLoggedIn ? <li className="mr-4"><Avatar /></li> :
                       <>
-                        <li><Link to="login/" className="link link-hover text-slate-800 text-lg">Log In</Link></li>
-                        <li><Link to="register/" className="link link-hover text-slate-800 text-lg">Sign Up</Link></li>
+                        <li><Link to="/login/" className="link link-hover text-slate-800 text-lg">Log In</Link></li>
+                        <li><Link to="/register/" className="link link-hover text-slate-800 text-lg">Sign Up</Link></li>
                       </>
                   }
                 </div>
@@ -65,12 +65,12 @@ export default function Header () {
             <Link to="/" onClick={() => handleToggle()}><img src={FFLogo} alt="Logo of fantasy foods" className="h-24 w-24 mb-4"/></Link>
             <Link to="/" onClick={() => handleToggle()}><li className="my-2 text-lg">Home</li></Link>
             <Link to="/" onClick={() => handleToggle()}><li className="my-2 text-lg">Browse Recipes</li></Link>
-            <Link to={isLoggedIn ? "create/" : "login/"} onClick={() => handleToggle()}><li className="my-2 text-lg">Post a Recipe</li></Link>
+            <Link to={isLoggedIn ? "/create/" : "/login/"} onClick={() => handleToggle()}><li className="my-2 text-lg">Post a Recipe</li></Link>
 
-            {isLoggedIn ? <Link to="logout/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log Out</li></Link> :
+            {isLoggedIn ? <Link to="/logout/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log Out</li></Link> :
               <>
-                <Link to="login/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log In</li></Link>
-                <Link to="register/" onClick={() => handleToggle()}><li className="my-2 text-lg">Sign Up</li></Link>
+                <Link to="/login/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log In</li></Link>
+                <Link to="/register/" onClick={() => handleToggle()}><li className="my-2 text-lg">Sign Up</li></Link>
               </>
             }
 
