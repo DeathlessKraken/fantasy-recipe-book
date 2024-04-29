@@ -21,7 +21,7 @@ export default function Recipe () {
 
     return (
         <article className="w-full h-full">
-            <div className="lg:bg-orange-200 p-4 w-full lg:w-5/6 mx-auto lg:my-8 lg:rounded-lg">
+            <div className="lg:bg-orange-100 p-4 w-full max-w-2xl mx-auto lg:my-8 lg:rounded-lg">
                 
                 <div className="flex justify-between">
                     <button className="btn btn-ghost p-0" onClick={() => navigate(-1)}>
@@ -42,7 +42,7 @@ export default function Recipe () {
                     <div className="flex flex-col">
                         <h2 className="text-default text-sm">Posted by: <Link to={`/user/${post.author}`} 
                             className="link link-info link-hover">{post.author}</Link> on {new Date(post.date_posted).toLocaleDateString()}</h2>
-                    <p className="text-slate-600 text-sm">{"Found in: " + post.category}</p>
+                    <p className="text-default text-sm">{"Found in: " + post.category}</p>
 
                     {/* If this is not an origial recipe, this link will appear. */}
                     <a href="https://blog.fatfreevegan.com/2013/06/kale-and-quinoa-salad-with-black-beans.html"><p className="link link-info link-hover">Original Post</p></a>
@@ -66,31 +66,33 @@ export default function Recipe () {
 
                 <div id="recipe" className="flex flex-col gap-4 my-4">
 
-                    <div className="stats stats-vertical sm:stats-horizontal my-4 self-center bg-slate-200 text-slate-700 text-xs">
-  
-                      <div className="stat">
-                        <div className="stat-title text-slate-700 font-semibold">Prep Time</div>
-                        <div className="stat-value">{post.prep_time_mins}</div>
-                        <div className="stat-desc text-slate-700 font-medium">Minutes</div>
-                      </div>
+                    <div className="flex flex-col sm:flex-row gap-4 sm:justify-center">
+                        <div className="stats stats-horizontal mt-4 sm:mt-0 self-center bg-slate-200 text-slate-700 text-xs w-64 sm:w-fit">
+                          <div className="stat">
+                            <div className="stat-title text-slate-700 font-semibold">Prep Time</div>
+                            <div className="stat-value">{post.prep_time_mins}</div>
+                            <div className="stat-desc text-slate-700 font-medium">Minutes</div>
+                          </div>
 
-                      <div className="stat">
-                        <div className="stat-title text-slate-700 font-semibold">Cook Time</div>
-                        <div className="stat-value">{post.cook_time_mins}</div>
-                        <div className="stat-desc text-slate-700 font-medium">Minutes</div>
-                      </div>
+                          <div className="stat">
+                            <div className="stat-title text-slate-700 font-semibold">Cook Time</div>
+                            <div className="stat-value">{post.cook_time_mins}</div>
+                            <div className="stat-desc text-slate-700 font-medium">Minutes</div>
+                          </div>
+                        </div>
 
-                      <div className="stat">
-                        <div className="stat-title text-slate-700 font-semibold">Total Time</div>
-                        <div className="stat-value">{post.cook_time_mins + post.prep_time_mins}</div>
-                        <div className="stat-desc text-slate-700 font-medium">Minutes</div>
-                      </div>
+                        <div className="stats stats-horizontal mb-4 sm:mb-0 self-center bg-slate-200 text-slate-700 text-xs w-64 sm:w-fit">
+                            <div className="stat">
+                              <div className="stat-title text-slate-700 font-semibold">Total Time</div>
+                              <div className="stat-value">{post.cook_time_mins + post.prep_time_mins}</div>
+                              <div className="stat-desc text-slate-700 font-medium">Minutes</div>
+                            </div>
 
-                      <div className="stat">
-                        <div className="stat-title text-slate-700 font-semibold">Servings</div>
-                        <div className="stat-value">{post.servings}</div>
-                      </div>
-
+                            <div className="stat">
+                              <div className="stat-title text-slate-700 font-semibold">Servings</div>
+                              <div className="stat-value">{post.servings}</div>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="flex flex-col gap-2 text-default">
