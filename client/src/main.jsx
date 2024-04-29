@@ -18,6 +18,7 @@ See specific recipe
 See specific user
 See specific users recipe posts
 Search all recipe posts and users
+Browse all recipes, by category (appetizer, dessert, etc...) and tag
 Create recipe post
 Edit recipe post
 Delete recipe post
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
             { path: "user/:id", element: <User /> },
             //{ path: "user/:id/recipes", element: <UserPosts /> },
             //{ path: "search/:query", element: <SearchContent /> },
+            //{ path: "browse", element: <Browse /> },
             //{ path: "create", element: <CreateRecipe /> },
             //{ path: "recipe/:id/edit", element: <EditRecipe /> },
             //{ path: "recipe/:id/delete", element: <DeleteRecipe /> },
