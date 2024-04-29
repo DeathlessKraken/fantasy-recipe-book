@@ -1,8 +1,9 @@
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
+    //Height of absolute footer should be consistent with root bottom padding.
     return (
-      <footer className="footer footer-center p-4 bg-orange-300 text-default gap-4 absolute bottom-0">
+      <footer className="footer footer-center h-[6rem] p-4 bg-orange-300 text-default gap-4 absolute bottom-0">
         <nav className="">
           <div className="grid grid-flow-col gap-4">
             <a href="https://github.com/SBSoftwareDev">

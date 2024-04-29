@@ -9,7 +9,17 @@ export default function Posts () {
     const descriptionLength = 150;
     
     return (
-      <section className="lg:grid lg:grid-cols-3 lg:gap-16 lg:px-16 lg:pb-16">
+      <section 
+        className="
+          grid 
+          grid-cols-1 
+          md:grid-cols-2 
+          lg:px-8 
+          lg:pb-16
+          xl:grid-cols-3
+          xl:gap-16 
+          xl:px-16 
+        ">
         {posts.length > 0 ? posts.map((post) => {
             return (
                 <div key={post.id} className="card bg-slate-200 shadow-xl m-4">

@@ -67,7 +67,7 @@ export default function Header () {
 
           {isLoggedIn ? <Link to="logout/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log Out</li></Link> :
             <>
-              <Link to="/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log In</li></Link>
+              <Link to="login/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log In</li></Link>
               <Link to="register/" onClick={() => handleToggle()}><li className="my-2 text-lg">Sign Up</li></Link>
             </>
           }
