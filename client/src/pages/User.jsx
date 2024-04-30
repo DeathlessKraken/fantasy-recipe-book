@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import AvatarPFP from "../assets/Avatar0.jpg";
 import data, { authorDummyData } from "../data";
 import paginatePosts from "../utils/paginatePosts";
+import MiniPost from "../components/MiniPost";
 
 export default function User() {
     const [dummyData, setDummyData] = useState(data);
@@ -25,10 +26,10 @@ export default function User() {
     }
 
     return (
-        <section className="max-w-6xl mx-auto h-[43rem]">
-            <div className="flex flex-col lg:flex-row justify-between h-full">
+        <section className="max-w-6xl mx-auto">
+            <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between h-full">
                 {/* User info in first column */}
-                <div className="flex flex-col items-center p-12 bg-orange-200 h-fit my-8 rounded-lg min-w-96">
+                <div className="flex flex-col items-center p-12 bg-orange-200 w-fit mx-4 h-fit lg:my-8 rounded-lg lg:min-w-96">
 
                     {/* TODO: Update image alt to username */}
                     <img className="w-48 rounded-full border-4 border-sky-400" src={AvatarPFP} alt={"profile picture of user " + "USERNAME"} />
@@ -46,43 +47,17 @@ export default function User() {
                 </div>
 
                 {/* User posts populate columns 2 and 3*/}
-                <div className={"p-8 my-8 mx-4 bg-gray-100 rounded-lg flex flex-col gap-4 items-center justify-between w-full " + (isArray ? "h-full" : "h-fit")}>
+                <div className={"px-4 lg:p-8 my-4 lg:my-8 mx-4 lg:bg-gray-100 rounded-lg flex flex-col-reverse lg:flex-col-reverse gap-4 items-center justify-between max-w-[40em] lg:max-w-none w-full " + (isArray ? "h-full" : "h-fit")}>
                     <div className="flex flex-col w-full gap-4">
                         {
                             isArray === true ?
                             pages[currentPage].map((post) => {
                                 return (
-                                    <div key={post.id} className="flex h-14 w-full justify-between bg-gray-300 rounded-xl text-md">
-                                        <div className="flex">
-                                            <img className="object-cover h-3/4 aspect-square rounded-lg self-center mx-2" src={post.media} alt={post.title} />
-                                            <p className="text-default self-center">
-                                                {post.title.length > 20 ? post.title.slice(0, 20) + "..." : post.title }
-                                            </p>
-                                        </div>
-
-                                        <div className="flex gap-4 items-center px-4">
-                                            <button className="btn btn-sm btn-info">View</button>
-                                            <button className="btn btn-sm btn-accent">Edit</button>
-                                            <button className="btn btn-sm btn-error">Delete</button>
-                                        </div>
-                                    </div>
+                                    <MiniPost key={post.id} post={post}/>
                                 );
                             }) : pages.map((post) => {
                                 return (
-                                    <div key={post.id} className="flex h-14 w-full justify-between bg-gray-300 rounded-xl text-md">
-                                        <div className="flex">
-                                            <img className="object-cover h-3/4 aspect-square rounded-lg self-center mx-2" src={post.media} alt={post.title} />
-                                            <p className="text-default self-center">
-                                                {post.title.length > 20 ? post.title.slice(0, 20) + "..." : post.title }
-                                            </p>
-                                        </div>
-
-                                        <div className="flex gap-4 items-center px-4">
-                                            <button className="btn btn-sm btn-info">View</button>
-                                            <button className="btn btn-sm btn-accent">Edit</button>
-                                            <button className="btn btn-sm btn-error">Delete</button>
-                                        </div>
-                                    </div>
+                                    <MiniPost key={post.id} post={post}/>
                                 );
                             }) 
                         }
