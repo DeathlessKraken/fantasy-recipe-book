@@ -1,4 +1,4 @@
-import { Form, Link, redirect } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
 
 export default function Login () {
     //const data = useActionData()
@@ -26,27 +26,4 @@ export default function Login () {
             <h2 className="mx-auto w-fit p-4 text-default">Don&apos;t have an account? <Link to="/register" className="link link-primary">Sign up here</Link></h2>
         </section>
     );
-}
-
-//Export this function to utils or other fitting directory
-export async function loginAction ({request}) {
-    const data = await request.formData();
-
-    const submission = {
-        username: data.get('username'),
-        password: data.get('password'),
-    }
-
-    console.log(submission);
-
-    //Client-side check
-    //if ANY field is empty
-    //if email is invalid format
-    //if password is LESS THAN 8 chars (password strength display?)
-    //if password and confirmpassword do not match
-
-    //Send data to API
-    //see if email or username is already used
-
-    return redirect('/');
 }

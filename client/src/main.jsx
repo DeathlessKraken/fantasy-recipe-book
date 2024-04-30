@@ -8,15 +8,20 @@ import Root from "./components/Root";
 import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/Home";
 import Recipe from "./pages/Recipe";
-import Register, { registerAction } from "./pages/Register";
-import Login, { loginAction } from "./pages/Login";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 import User from "./pages/User";
+import SearchContent from "./pages/SearchContent";
+
+//Actions
+import { registerAction } from "./utils/registerAction";
+import { loginAction } from "./utils/loginAction";
 
 /*
 Home page - browse recipes
 See specific recipe
 See specific user
-See specific users recipe posts
+See specific users recipe posts - see user profile page.
 Search all recipe posts and users
 Browse all recipes, by category (appetizer, dessert, etc...) and tag
 Create recipe post
@@ -37,8 +42,7 @@ const router = createBrowserRouter([
             { index: true, element: <Home /> },
             { path: "recipe/:id", element: <Recipe /> },
             { path: "user/:id", element: <User /> },
-            //{ path: "user/:id/recipes", element: <UserPosts /> },
-            //{ path: "search/:query", element: <SearchContent /> },
+            { path: "search", element: <SearchContent />},
             //{ path: "browse", element: <Browse /> },
             //{ path: "create", element: <CreateRecipe /> },
             //{ path: "recipe/:id/edit", element: <EditRecipe /> },
