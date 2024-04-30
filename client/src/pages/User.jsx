@@ -27,7 +27,7 @@ export default function User() {
 
     return (
         <section className="max-w-6xl mx-auto">
-            <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between h-full">
+            <div className="flex flex-col 2xl:flex-row items-center 2xl:items-start justify-between h-full">
                 {/* User info in first column */}
                 <div className="flex flex-col items-center p-12 bg-orange-200 w-fit mx-4 h-fit lg:my-8 rounded-lg lg:min-w-96">
 
@@ -49,7 +49,7 @@ export default function User() {
                 </div>
 
                 {/* User posts populate columns 2 and 3*/}
-                <div className={"px-4 lg:p-8 my-4 lg:my-8 mx-4 lg:bg-gray-100 rounded-lg flex flex-col-reverse lg:flex-col-reverse gap-4 items-center justify-between max-w-[40em] lg:max-w-none w-full " + (isArray ? "h-full" : "h-fit")}>
+                <div className={"px-4 2xl:p-8 my-4 2xl:my-8 mx-4 2xl:bg-gray-100 rounded-lg flex flex-col-reverse 2xl:flex-col-reverse gap-4 items-center justify-between max-w-[40em] 2xl:max-w-none w-full " + (isArray ? "h-full" : "h-fit")}>
                     <div className="flex flex-col w-full gap-4">
                         {
                             isArray === true ?

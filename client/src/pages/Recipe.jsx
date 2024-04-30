@@ -21,7 +21,7 @@ export default function Recipe () {
 
     return (
         <article className="w-full h-full">
-            <div className="lg:bg-orange-100 p-4 w-full max-w-2xl mx-auto lg:my-8 lg:rounded-lg">
+            <div className="lg:bg-orange-100 p-4 w-full max-w-xl xl:max-w-2xl mx-auto lg:my-8 lg:rounded-lg">
                 
                 <div className="flex justify-between">
                     <button className="btn btn-ghost p-0" onClick={() => navigate(-1)}>

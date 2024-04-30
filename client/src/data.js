@@ -37,7 +37,7 @@ export const data = [
     },
     {
         "id": "1",
-        "title": "Post from afar",
+        "title": "Texas slow cooked pulled pork BBQ",
         "category": "Historical",
         "date_posted": "2024-04-05T00:17:53.670Z",
         "prep_time_mins": 9,
