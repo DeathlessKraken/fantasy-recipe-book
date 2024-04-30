@@ -23,6 +23,7 @@ Create recipe post
 Edit recipe post
 Delete recipe post
 Register account
+Update user account information
 Login to account
 Logout of account
 */
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
             //{ path: "recipe/:id/edit", element: <EditRecipe /> },
             //{ path: "recipe/:id/delete", element: <DeleteRecipe /> },
             { path: "register", element: <Register />, action: registerAction },
+            //{ path: "user/:id/update", element: <UpdateAccount /> },
             { path: "login", element: <Login />, action: loginAction },
             //{ path: "logout", element: <Logout /> },
         ]
