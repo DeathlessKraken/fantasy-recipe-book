@@ -35,9 +35,11 @@ export default function User() {
                     <img className="w-48 rounded-full border-4 border-sky-400" src={AvatarPFP} alt={"profile picture of user " + "USERNAME"} />
 
                     <div className="flex flex-col gap-1 py-4 text-md text-default font-small">
-                        <p>User: { authorData[0].name }</p>
-                        <p>Posts: { authorData[0].posts }</p>
-                        <p>Member since: September, 2018</p>
+                        <div className="flex flex-col">
+                            <p>User: { authorData[0].name }</p>
+                            <p>Posts: { authorData[0].posts }</p>
+                            <p>Member since: September, 2018</p>
+                        </div>
                         <div className="my-4">
                             <p className="font-medium">Upload New Profile Picture:</p>
                             <input type="file" className="file-input file-input-bordered file-input-sm file-input-neutral w-full max-w-xs text-slate-200" />

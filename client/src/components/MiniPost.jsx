@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function MiniPost (props) {
     const { post } = props;
 
@@ -11,9 +13,15 @@ export default function MiniPost (props) {
             </div>
             
             <div className="flex gap-4 justify-center items-center lg:px-4">
-                <button className="btn btn-sm btn-info">View</button>
-                <button className="btn btn-sm btn-accent">Edit</button>
-                <button className="btn btn-sm btn-error">Delete</button>
+                <Link to={`/recipe/${post.id}`}>
+                    <button className="btn btn-sm btn-info">View</button>
+                </Link>
+                <Link to={`/recipe/${post.id}/edit`}>
+                    <button className="btn btn-sm btn-accent">Edit</button>
+                </Link>
+                <Link to={`/recipe/${post.id}/delete`}>
+                    <button className="btn btn-sm btn-error">Delete</button>
+                </Link>
             </div>
         </div>
     );
