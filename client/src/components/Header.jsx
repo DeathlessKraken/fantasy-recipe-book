@@ -43,7 +43,8 @@ export default function Header () {
 
                 <li className="justify-center"><Search /></li>
 
-                <div className="flex justify-self-end"> 
+                {/* Right side of header. Hidden until I figure out what to put here. */}
+                <div className="hidden justify-self-end"> 
                   <li className="justify-center"><Link to={isLoggedIn ? "/create/" : "/login/"} className="link link-hover text-slate-800 text-lg">Post Recipe</Link></li>
                   {/* If logged in, create post link and show avatar. If not logged in, show create, log in, sign up */}
                   {isLoggedIn ? <li className="mr-4"><Avatar /></li> :
