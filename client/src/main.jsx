@@ -12,10 +12,13 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import User from "./pages/User";
 import SearchContent from "./pages/SearchContent";
+import Logout from "./pages/Logout";
+import UpdateAccount from "./pages/UpdateAccount";
 
 //Actions
 import { registerAction } from "./utils/registerAction";
 import { loginAction } from "./utils/loginAction";
+import { updateAction } from "./utils/updateAction";
 
 /*
 Home page - browse recipes
@@ -48,9 +51,9 @@ const router = createBrowserRouter([
             //{ path: "recipe/:id/edit", element: <EditRecipe /> },
             //{ path: "recipe/:id/delete", element: <DeleteRecipe /> },
             { path: "register", element: <Register />, action: registerAction },
-            //{ path: "user/:id/update", element: <UpdateAccount /> },
+            { path: "user/:id/update", element: <UpdateAccount />, action: updateAction },
             { path: "login", element: <Login />, action: loginAction },
-            //{ path: "logout", element: <Logout /> },
+            { path: "logout", element: <Logout /> },
         ]
     }
 ]);
