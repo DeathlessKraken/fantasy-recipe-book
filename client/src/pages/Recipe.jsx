@@ -30,8 +30,12 @@ export default function Recipe () {
 
                     {/* Protected edit/delete buttons for author */}
                     <div className="flex gap-4 pb-4 justify-end">
-                        <button className="btn btn-accent">Edit</button>
-                        <button className="btn btn-error">Delete</button>
+                        <Link to={`/recipe/${post.id}/edit`}>
+                            <button className="btn btn-accent">Edit</button>
+                        </Link>
+                        <Link to={`/recipe/${post.id}/delete`}>
+                            <button className="btn btn-error">Delete</button>
+                        </Link>
                     </div>
                 </div>
                 
