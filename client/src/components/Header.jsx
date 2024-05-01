@@ -6,7 +6,7 @@ import FFLogo from "../assets/FF_Logo.svg";
 import { useState } from "react";
 
 export default function Header () {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); //Dummy tester state
+  const [isLoggedIn, setIsLoggedIn] = useState(true); //Dummy tester state
 
   function handleToggle() {
     document.getElementById('my-drawer-3').click();

@@ -15,6 +15,7 @@ import SearchContent from "./pages/SearchContent";
 import Logout from "./pages/Logout";
 import UpdateAccount from "./pages/UpdateAccount";
 import Browse from "./pages/Browse";
+import CreateRecipe from "./pages/CreateRecipe";
 
 //Actions
 import { registerAction } from "./utils/registerAction";
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
             { path: "user/:id", element: <User /> },
             { path: "search", element: <SearchContent />},
             { path: "browse", element: <Browse /> },
-            //{ path: "create", element: <CreateRecipe /> },
+            { path: "create", element: <CreateRecipe /> },
             //{ path: "recipe/:id/edit", element: <EditRecipe /> },
             //{ path: "recipe/:id/delete", element: <DeleteRecipe /> },
             { path: "register", element: <Register />, action: registerAction },

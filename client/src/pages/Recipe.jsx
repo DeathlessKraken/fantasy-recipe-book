@@ -53,7 +53,7 @@ export default function Recipe () {
                     </div>
                 </div>
 
-                {/* Short description, no more than 45 words. */}
+                {/* Short description, no more than 200 chars. */}
                 <p className="italic text-slate-600 my-4">{post.description}</p>
 
                 <div className="m-auto w-fit h-fit rounded-lg overflow-hidden">
