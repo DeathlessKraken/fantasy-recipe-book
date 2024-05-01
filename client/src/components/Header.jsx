@@ -66,7 +66,7 @@ export default function Header () {
             {/* Sidebar content here */}
             <Link to="/" onClick={() => handleToggle()}><img src={FFLogo} alt="Logo of fantasy foods" className="h-24 w-24 mb-4"/></Link>
             <Link to="/" onClick={() => handleToggle()}><li className="my-2 text-lg">Home</li></Link>
-            <Link to="/" onClick={() => handleToggle()}><li className="my-2 text-lg">Browse Recipes</li></Link>
+            <Link to="/browse" onClick={() => handleToggle()}><li className="my-2 text-lg">Browse Recipes</li></Link>
             <Link to={isLoggedIn ? "/create/" : "/login/"} onClick={() => handleToggle()}><li className="my-2 text-lg">Post a Recipe</li></Link>
 
             {isLoggedIn ? <Link to="/logout/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log Out</li></Link> :
