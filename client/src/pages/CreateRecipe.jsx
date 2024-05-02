@@ -2,7 +2,6 @@ import { useState } from "react";
 import TipTap from "../components/Editor/TipTap";
 import { generateHTML } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Heading from "@tiptap/extension-heading";
 import Image from "@tiptap/extension-image";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
@@ -33,7 +32,6 @@ export default function CreateRecipe () {
     });
     
     function sanitizeHTML(html) {
-        console.log(DOMPurify.sanitize(html));
         return DOMPurify.sanitize(html);
     }
     
@@ -55,7 +53,20 @@ export default function CreateRecipe () {
                     }
                 );
             });
-        } else {
+        } else if(event.target.name.includes("ingredient")) {
+            setInputs(prevInputs => {
+                return (
+                    {
+                        ...prevInputs,
+                        ingredients: {
+                            ...prevInputs.ingredients,
+                            [event.target.name]: event.target.value
+                        }
+                    }
+                );
+            });
+        }
+         else {
             setInputs(prevInputs => {
                 return (
                     {
@@ -108,12 +119,18 @@ export default function CreateRecipe () {
             }
         }
     }
-        
+
     const extensions = [
-        StarterKit,
-        Heading.configure({
-            HTMLAttributes: {
-                class: "text-bold text-3xl"
+        StarterKit.configure({
+            heading: {
+                HTMLAttributes: {
+                    class: "text-bold text-3xl"
+                }
+            },
+            paragraph: {
+                HTMLAttributes: {
+                    class: "min-h-[1rem]"
+                }
             }
         }),
         Image,
@@ -236,17 +253,15 @@ export default function CreateRecipe () {
                                 return(
                                     <div key={idx} className="flex flex-col gap-1 text-default">
                                         <label htmlFor={`ingredient${idx + 1}`}>{`Ingredient ${idx + 1}`}</label>
-                                        <textarea 
-                                            className="textarea textarea-ghost textarea-md leading-normal w-full max-w-2xl 
+                                        <input type="text"
+                                            className="input input-ghost input-md leading-normal w-full max-w-2xl 
                                                 focus:outline-slate-600 active:bg-slate-100 focus:bg-slate-100 !text-default" 
-                                            maxLength={300}
-                                            rows={4}
                                             id={`ingredient${idx + 1}`}
                                             name={`ingredient${idx + 1}`}
-                                            value={inputs.ingredients[`step${idx + 1}`]}
+                                            value={inputs.ingredients[`ingredient${idx + 1}`]}
                                             onChange={handleInputChange}
                                         >
-                                        </textarea>
+                                        </input>
 
                                         <div className="flex gap-2 mt-2">
                                             {
@@ -350,6 +365,7 @@ export default function CreateRecipe () {
                     <div className="flex flex-col gap-2 text-default">
                         {
                             Object.values(inputs.ingredients).map((item, idx) => {
+                                console.log(item)
                                 return (
                                     <div key={idx} className="flex gap-1">
                                         <input type="checkbox" id={"item" + idx} className="checkbox checkbox-info"/>

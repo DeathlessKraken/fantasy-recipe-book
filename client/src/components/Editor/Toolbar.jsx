@@ -4,7 +4,7 @@ import {
     Italic,
     Strikethrough,
     RemoveFormatting,
-    Pilcrow,
+    ArrowDownFromLine,
     Heading1,
     List,
     ListOrdered,
@@ -78,10 +78,10 @@ export default function Toolbar (props) {
               <RemoveFormatting />
             </button>
             <button
-              onClick={() => editor.chain().focus().setParagraph().run()}
+              onClick={() => editor.chain().focus().setHardBreak().run()}
               className={editor.isActive('paragraph') ? 'is-active' : ''}
             >
-              <Pilcrow />
+              <ArrowDownFromLine />
             </button>
             <button
               onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
