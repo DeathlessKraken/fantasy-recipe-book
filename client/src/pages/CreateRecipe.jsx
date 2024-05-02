@@ -373,30 +373,68 @@ export default function CreateRecipe () {
                         {content.content && parse(sanitizeHTML(generateHTML(content, extensions)))}
                     </div>
 
-                    <div className="flex flex-col gap-2 text-default">
-                        {
-                            Object.values(inputs.ingredients).map((item, idx) => {
-                                return (
-                                    <div key={idx} className="flex gap-1">
-                                        <input type="checkbox" id={"item" + idx} className="checkbox checkbox-info" onClick={() => handleIngredientCheckbox(idx)}/>
-                                        <label htmlFor={"item" + idx} id={"desc" + idx}>{item}</label>
-                                    </div>
-                                );
-                            })
-                        }
+                    <div className="flex flex-col sm:flex-row gap-4 sm:justify-center">
+                        <div className="stats stats-horizontal mt-4 sm:mt-0 self-center bg-slate-200 text-slate-700 text-xs w-64 sm:w-fit">
+                          <div className="stat">
+                            <div className="stat-title text-slate-700 font-semibold">Prep Time</div>
+                            <div className="stat-value">{inputs.prepTime | 0}</div>
+                            <div className="stat-desc text-slate-700 font-medium">Minutes</div>
+                          </div>
+
+                          <div className="stat">
+                            <div className="stat-title text-slate-700 font-semibold">Cook Time</div>
+                            <div className="stat-value">{inputs.cookTime | 0}</div>
+                            <div className="stat-desc text-slate-700 font-medium">Minutes</div>
+                          </div>
+                        </div>
+
+                        <div className="stats stats-horizontal mb-4 sm:mb-0 self-center bg-slate-200 text-slate-700 text-xs w-64 sm:w-fit">
+                            <div className="stat">
+                              <div className="stat-title text-slate-700 font-semibold">Total Time</div>
+                              <div className="stat-value">{Number.parseInt(inputs.prepTime) + Number.parseInt(inputs.cookTime) | 0 }</div>
+                              <div className="stat-desc text-slate-700 font-medium">Minutes</div>
+                            </div>
+
+                            <div className="stat">
+                              <div className="stat-title text-slate-700 font-semibold">Servings</div>
+                              <div className="stat-value">{inputs.servings | 0}</div>
+                              <div className="stat-desc h-[1rem]"></div>
+                            </div>
+                        </div>
                     </div>
 
-                    <ol type="1" className="text-default list-decimal px-4">
-                        {
-                            Object.values(inputs.instructions).map((item, idx) => {
-                                return (
-                                    <li key={idx} className="my-4">
-                                        {item}
-                                    </li>
-                                );
-                            })
-                        }
-                    </ol>
+                    {/* Only show on preview if first object key is not blank */}
+                    {
+                        Object.values(inputs.ingredients)[0] !== "" &&
+                        <div className="flex flex-col gap-2 text-default">
+                            {
+                                Object.values(inputs.ingredients).map((item, idx) => {
+                                    return (
+                                        <div key={idx} className="flex gap-1">
+                                            <input type="checkbox" id={"item" + idx} className="checkbox checkbox-info" onClick={() => handleIngredientCheckbox(idx)}/>
+                                            <label htmlFor={"item" + idx} id={"desc" + idx}>{item}</label>
+                                        </div>
+                                    );
+                                })
+                            }
+                        </div>
+                    }
+
+                    {/* Only show on preview if first object key is not blank */}
+                    {
+                        Object.values(inputs.instructions)[0] !== "" &&
+                        <ol type="1" className="text-default list-decimal px-4">
+                            {
+                                Object.values(inputs.instructions).map((item, idx) => {
+                                    return (
+                                        <li key={idx} className="my-4">
+                                            {item}
+                                        </li>
+                                    );
+                                })
+                            }
+                        </ol>
+                    }
 
                 </div>
             </div>

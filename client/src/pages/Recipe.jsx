@@ -95,6 +95,7 @@ export default function Recipe () {
                             <div className="stat">
                               <div className="stat-title text-slate-700 font-semibold">Servings</div>
                               <div className="stat-value">{post.servings}</div>
+                              <div className="stat-desc h-[1rem]"></div>
                             </div>
                         </div>
                     </div>
