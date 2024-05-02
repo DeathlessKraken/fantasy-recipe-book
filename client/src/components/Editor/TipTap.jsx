@@ -16,6 +16,11 @@ export default function TipTap (props) {
         onUpdate: ({editor}) => {
             onChange(editor.getJSON());
         },
+        editorProps: {
+            attributes: {
+                class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl m-1 focus:outline-none',
+            }
+        }
     });
 
     if(!editor) {
@@ -25,8 +30,8 @@ export default function TipTap (props) {
     return (
         <>
             <div className='flex flex-col border-2 border-black rounded-lg my-10'>
-              <Toolbar editor={editor}/>
-                <EditorContent editor={editor} style={{ padding: "1rem", whiteSpace: "pre-line" }} />
+                <Toolbar editor={editor}/>
+                <EditorContent editor={editor} style={{ whiteSpace: "pre-line" }} />
             </div>
         </>
     );

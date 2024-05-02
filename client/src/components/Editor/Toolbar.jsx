@@ -31,6 +31,12 @@ export default function Toolbar (props) {
     return (
         <div className="flex gap-5 p-2 border-black border-b-2">
             <button
+              onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+              className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+            >
+              <Heading1 />
+            </button>
+            <button
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 disabled={
                   !editor.can()
@@ -69,14 +75,6 @@ export default function Toolbar (props) {
             >
               <Strikethrough/>
             </button>
-            <button 
-                onClick={() => {
-                    editor.chain().focus().unsetAllMarks().run();
-                    editor.chain().focus().clearNodes().run();
-                }
-            }>
-              <RemoveFormatting />
-            </button>
             <button
               onClick={() => editor.chain().focus().setHardBreak().run()}
               className={editor.isActive('paragraph') ? 'is-active' : ''}
@@ -84,36 +82,17 @@ export default function Toolbar (props) {
               <ArrowDownFromLine />
             </button>
             <button
-              onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-              className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
-            >
-              <Heading1 />
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleBulletList().run()}
-              className={editor.isActive('bulletList') ? 'is-active' : ''}
-            >
-              <List />
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleOrderedList().run()}
-              className={editor.isActive('orderedList') ? 'is-active' : ''}
-            >
-              <ListOrdered />
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleBlockquote().run()}
-              className={editor.isActive('blockquote') ? 'is-active' : ''}
-            >
-              <Quote />
-            </button>
-            <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-              <SquareSplitVertical />
-            </button>
-            <button
               onClick={addImage}
             >
               <Image />
+            </button>
+            <button 
+                onClick={() => {
+                    editor.chain().focus().unsetAllMarks().run();
+                    editor.chain().focus().clearNodes().run();
+                }
+            }>
+              <RemoveFormatting />
             </button>
             <button
               onClick={() => editor.chain().focus().undo().run()}
