@@ -6,6 +6,7 @@ import Heading from "@tiptap/extension-heading";
 import Image from "@tiptap/extension-image";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
+import { Plus, Minus } from "lucide-react";
 
 import CustomRecipeGreen from "../components/CustomRecipeGreen";
 import CustomRecipeOrange from "../components/CustomRecipeOrange";
@@ -15,14 +16,20 @@ export default function CreateRecipe () {
     const [user, setUser] = useState('ThreeSheets');
     const [inputs, setInputs] = useState({
         customRecipe: false,
-        title: 'Preview Title',
+        title: '',
         category: 'Meals',
         originalPost: '',
-        desc: 'Preview description',
+        desc: '',
         image: '',
         prepTime: 0,
         cookTime: 0,
         servings: 0,
+        ingredients: {
+            ingredient1: ""
+        },
+        instructions: {
+            step1: ""
+        }
     });
     
     function sanitizeHTML(html) {
@@ -36,14 +43,70 @@ export default function CreateRecipe () {
     }
     
     function handleInputChange(event) {
-        setInputs(prevInputs => {
-            return (
-                {
-                    ...prevInputs,
-                    [event.target.name]: event.target.value
-                }
+        if(event.target.name.includes("step")) {
+            setInputs(prevInputs => {
+                return (
+                    {
+                        ...prevInputs,
+                        instructions: {
+                            ...prevInputs.instructions,
+                            [event.target.name]: event.target.value
+                        }
+                    }
                 );
-        });
+            });
+        } else {
+            setInputs(prevInputs => {
+                return (
+                    {
+                        ...prevInputs,
+                        [event.target.name]: event.target.value
+                    }
+                );
+            });
+        }
+    }
+
+    function handleButtonClick (category, type, idx) {
+        if(category === "ingredient") {
+            if(type === "add") {
+                setInputs(prevInputs => {
+                    return ({
+                        ...prevInputs,
+                        ingredients: {
+                            ...prevInputs.ingredients,
+                            [`ingredient${idx + 2}`]: ""
+                        }
+                    });
+                })
+            } else {
+                setInputs(prevInputs => {
+                    delete prevInputs.ingredients[`ingredient${idx + 1}`];
+                    return ({
+                        ...prevInputs,
+                    });
+                })
+            }
+        } else {
+            if(type === "add") {
+                setInputs(prevInputs => {
+                    return ({
+                        ...prevInputs,
+                        instructions: {
+                            ...prevInputs.instructions,
+                            [`step${idx + 2}`]: ""
+                        }
+                    });
+                })
+            } else {
+                setInputs(prevInputs => {
+                    delete prevInputs.instructions[`step${idx + 1}`];
+                    return ({
+                        ...prevInputs,
+                    });
+                })
+            }
+        }
     }
         
     const extensions = [
@@ -162,7 +225,88 @@ export default function CreateRecipe () {
                                     onChange={handleInputChange}
                             />
                         </div>
+
+
                     </div>
+
+                    {/* Ingredients input */}
+                    <div className="flex flex-col gap-2 p-4 border-2 border-slate-500 rounded-lg">
+                        {
+                            Object.keys(inputs.ingredients).map((step, idx, array) => {
+                                return(
+                                    <div key={idx} className="flex flex-col gap-1 text-default">
+                                        <label htmlFor={`ingredient${idx + 1}`}>{`Ingredient ${idx + 1}`}</label>
+                                        <textarea 
+                                            className="textarea textarea-ghost textarea-md leading-normal w-full max-w-2xl 
+                                                focus:outline-slate-600 active:bg-slate-100 focus:bg-slate-100 !text-default" 
+                                            maxLength={300}
+                                            rows={4}
+                                            id={`ingredient${idx + 1}`}
+                                            name={`ingredient${idx + 1}`}
+                                            value={inputs.ingredients[`step${idx + 1}`]}
+                                            onChange={handleInputChange}
+                                        >
+                                        </textarea>
+
+                                        <div className="flex gap-2 mt-2">
+                                            {
+                                                (idx === array.length - 1) &&
+                                                <button className="btn btn-info w-fit" name="ingredient" onClick={() => handleButtonClick('ingredient', 'add', idx)}>
+                                                    <Plus/>
+                                                </button>
+                                            }
+                                            {
+                                                (idx > 0 && idx === array.length - 1) &&
+                                                <button className="btn btn-info w-fit" name="ingredient" onClick={() => handleButtonClick('ingredient', 'subtract', idx)}>
+                                                    <Minus />
+                                                </button>
+                                            }
+                                        </div>
+                                    </div>
+                                );
+                            })
+                        }
+                    </div>
+
+                    {/* Instructions input */}
+                    <div className="flex flex-col gap-2 p-4 border-2 border-slate-500 rounded-lg">
+                        {
+                            Object.keys(inputs.instructions).map((step, idx, array) => {
+                                return(
+                                    <div key={idx} className="flex flex-col gap-1 text-default">
+                                        <label htmlFor={`step${idx + 1}`}>{`Step ${idx + 1}`}</label>
+                                        <textarea 
+                                            className="textarea textarea-ghost textarea-md leading-normal w-full max-w-2xl 
+                                                focus:outline-slate-600 active:bg-slate-100 focus:bg-slate-100 !text-default" 
+                                            maxLength={300}
+                                            rows={4}
+                                            id={`step${idx + 1}`}
+                                            name={`step${idx + 1}`}
+                                            value={inputs.instructions[`step${idx + 1}`]}
+                                            onChange={handleInputChange}
+                                        >
+                                        </textarea>
+
+                                        <div className="flex gap-2 mt-2">
+                                            {
+                                                (idx === array.length - 1) &&
+                                                <button className="btn btn-info w-fit" name="instruction" onClick={() => handleButtonClick('instruction', 'add', idx)}>
+                                                    <Plus/>
+                                                </button>
+                                            }
+                                            {
+                                                (idx > 0 && idx === array.length - 1) &&
+                                                <button className="btn btn-info w-fit" name="instruction" onClick={() => handleButtonClick('instruction', 'subtract', idx)}>
+                                                    <Minus />
+                                                </button>
+                                            }
+                                        </div>
+                                    </div>
+                                );
+                            })
+                        }
+                    </div>
+
                 </div>
 
             </div>
@@ -202,6 +346,32 @@ export default function CreateRecipe () {
                     <div className="my-4">
                         {content.content && parse(sanitizeHTML(generateHTML(content, extensions)))}
                     </div>
+
+                    <div className="flex flex-col gap-2 text-default">
+                        {
+                            Object.values(inputs.ingredients).map((item, idx) => {
+                                return (
+                                    <div key={idx} className="flex gap-1">
+                                        <input type="checkbox" id={"item" + idx} className="checkbox checkbox-info"/>
+                                        <label htmlFor={"item" + idx} id={"desc" + idx}>{item}</label>
+                                    </div>
+                                );
+                            })
+                        }
+                    </div>
+
+                    <ol type="1" className="text-default list-decimal px-4">
+                        {
+                            Object.values(inputs.instructions).map((item, idx) => {
+                                return (
+                                    <li key={idx} className="my-4">
+                                        {item}
+                                    </li>
+                                );
+                            })
+                        }
+                    </ol>
+
                 </div>
             </div>
         </section>
