@@ -437,7 +437,14 @@ export default function CreateRecipe () {
                     }
 
                 </div>
+
+                {/* Submit recipe */}
+                <div className="flex justify-start w-full">
+                        <button className="btn btn-accent">Submit Recipe</button>
+                </div>
+
             </div>
+
         </section>
     );
 }
