@@ -120,6 +120,17 @@ export default function CreateRecipe () {
         }
     }
 
+    {/* Function to strikethrough labels on ingredient preview */}
+    function handleIngredientCheckbox(itemIdx) {
+        const item = document.getElementById(`desc${itemIdx}`);
+
+        if(item.style.textDecorationLine === "" || item.style.textDecorationLine === "none") {
+            item.setAttribute("style", "text-decoration-line: line-through");
+        } else {
+            item.setAttribute("style", "text-decoration-line: none");
+        }
+    }
+
     const extensions = [
         StarterKit.configure({
             heading: {
@@ -365,10 +376,9 @@ export default function CreateRecipe () {
                     <div className="flex flex-col gap-2 text-default">
                         {
                             Object.values(inputs.ingredients).map((item, idx) => {
-                                console.log(item)
                                 return (
                                     <div key={idx} className="flex gap-1">
-                                        <input type="checkbox" id={"item" + idx} className="checkbox checkbox-info"/>
+                                        <input type="checkbox" id={"item" + idx} className="checkbox checkbox-info" onClick={() => handleIngredientCheckbox(idx)}/>
                                         <label htmlFor={"item" + idx} id={"desc" + idx}>{item}</label>
                                     </div>
                                 );
