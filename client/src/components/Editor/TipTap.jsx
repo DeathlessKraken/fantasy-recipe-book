@@ -24,7 +24,7 @@ export default function TipTap (props) {
 
     return (
         <>
-            <div className='flex flex-col border-2 border-black rounded-lg'>
+            <div className='flex flex-col border-2 border-black rounded-lg my-10'>
               <Toolbar editor={editor}/>
                 <EditorContent editor={editor} style={{ padding: "1rem", whiteSpace: "pre-line" }} />
             </div>
