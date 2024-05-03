@@ -53,7 +53,7 @@ const router = createBrowserRouter([
             { path: "browse", element: <Browse /> },
             { path: "random", element: <RandomRecipe /> },
             { path: "create", element: <CreateRecipe /> },
-            //{ path: "recipe/:id/edit", element: <EditRecipe /> },
+            { path: "recipe/:id/edit", element: <CreateRecipe edit={true} /> },
             { path: "recipe/:id/delete", element: <DeleteRecipe /> },
             { path: "register", element: <Register />, action: registerAction },
             { path: "user/:id/update", element: <UpdateAccount />, action: updateAction },

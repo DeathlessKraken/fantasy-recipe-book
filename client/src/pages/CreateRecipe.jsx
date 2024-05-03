@@ -9,8 +9,15 @@ import { Plus, Minus } from "lucide-react";
 
 import CustomRecipeGreen from "../components/CustomRecipeGreen";
 import CustomRecipeOrange from "../components/CustomRecipeOrange";
+import { useParams } from "react-router-dom";
 
-export default function CreateRecipe () {
+//Testing
+import data from "../data";
+
+export default function CreateRecipe (props) {
+    const { edit } = props;
+    const { id } = useParams();
+    const [isEdit, setIsEdit] = useState(false);
     const [content, setContent] = useState({});
     const [user, setUser] = useState('ThreeSheets');
     const [inputs, setInputs] = useState({
@@ -30,6 +37,51 @@ export default function CreateRecipe () {
             step1: ""
         }
     });
+
+    if(edit && !isEdit) {
+        //Modify for production, dummy data is incomplete so I'm manually setting missing fields.
+        //When loading actual previous data, a lot of this will change.
+        setIsEdit(true);
+        setContent({
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": `${data[id].body}`
+                  }
+                ]
+              }
+            ]
+        });
+        setInputs({
+            customRecipe: true,
+            title: data[id].title,
+            category: 'Beverages',
+            originalPost: "",
+            desc: data[id].description,
+            image: data[id].media,
+            prepTime: data[id].prep_time_mins,
+            cookTime: data[id].cook_time_mins,
+            servings: data[id].servings,
+            ingredients: Object.fromEntries(data[id].ingredients.map((item, idx) => {
+                return (
+                    [
+                        `ingredient${idx + 1}`, item
+                    ]
+                );
+            })),
+            instructions: Object.fromEntries(data[id].instructions.map((item, idx) => {
+                return (
+                    [
+                        `step${idx + 1}`, item
+                    ]
+                );
+            })),
+        })
+    }
     
     function sanitizeHTML(html) {
         return DOMPurify.sanitize(html);
@@ -222,7 +274,7 @@ export default function CreateRecipe () {
                         />
                     </div>
 
-                    <TipTap extensions={extensions} onChange={handleContentChange}/>
+                    <TipTap extensions={extensions} onChange={handleContentChange} editContent={isEdit && content}/>
 
                     {/* Input for prep time, cook time, servings */}
                     <div className="flex flex-col sm:flex-row gap-2 sm:gap-10">
@@ -371,7 +423,7 @@ export default function CreateRecipe () {
                     {/* User is required to upload primary image. */}
                     {
                         !inputs.image ? <p><i>Image goes here</i></p>
-                            : <img src={inputs.image} alt="" />
+                            : <img src={inputs.image} alt="" className="m-auto w-fit h-fit rounded-lg overflow-hidden" />
                     }
                     
                     <div className="my-4">

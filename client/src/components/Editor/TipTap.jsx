@@ -1,13 +1,19 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import Toolbar from './Toolbar';
+import { useState } from 'react';
 
 //Fixed Menu always appears on top.
 //Bubble menu appears when selecting text.
 //Floating menu appears when you place cursor on empty line.
-const placeholder = "<p>Write your post here!</p>";
 
 export default function TipTap (props) {
-    const { extensions, onChange } = props;
+    const { extensions, onChange, editContent } = props;
+
+    let placeholder = "<p>Write your post here!</p>";
+
+    if(editContent) {
+        placeholder = editContent;
+    }
 
     const editor = useEditor({
         extensions: extensions, 
