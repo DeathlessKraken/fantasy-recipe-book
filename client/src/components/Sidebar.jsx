@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 export default function Sidebar () {
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     return (
         <div className="w-fit fixed top-[6rem] z-10 min-h-screen hidden lg:flex">

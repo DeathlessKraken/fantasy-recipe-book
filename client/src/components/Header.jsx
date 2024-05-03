@@ -6,7 +6,7 @@ import FFLogo from "../assets/FF_Logo.svg";
 import { useState } from "react";
 
 export default function Header () {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); //Dummy tester state
+  const [isLoggedIn, setIsLoggedIn] = useState(false); //Dummy tester state
 
   function handleToggle() {
     document.getElementById('my-drawer-3').click();
@@ -68,7 +68,7 @@ export default function Header () {
             <Link to="/" onClick={() => handleToggle()}><li className="my-2 text-lg">Home</li></Link>
             <Link to="/browse" onClick={() => handleToggle()}><li className="my-2 text-lg">Browse Recipes</li></Link>
             <Link to={isLoggedIn ? "/create/" : "/login/"} onClick={() => handleToggle()}><li className="my-2 text-lg">Post a Recipe</li></Link>
-
+            <Link to="/random" onClick={() => handleToggle()}><li className="my-2 text-lg">Random Recipe</li></Link>
             {isLoggedIn ? <Link to="/logout/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log Out</li></Link> :
               <>
                 <Link to="/login/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log In</li></Link>
