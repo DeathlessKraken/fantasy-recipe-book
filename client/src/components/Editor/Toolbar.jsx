@@ -25,7 +25,7 @@ export default function Toolbar (props) {
     if (!editor) return null;
 
     return (
-        <div className="flex gap-5 p-2 border-black border-b-2">
+        <div className="flex gap-5 p-2 border-black border-b-2 flex-wrap">
             <button
               onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
               className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}

@@ -225,7 +225,7 @@ export default function CreateRecipe () {
                     <TipTap extensions={extensions} onChange={handleContentChange}/>
 
                     {/* Input for prep time, cook time, servings */}
-                    <div className="flex gap-16">
+                    <div className="flex flex-col sm:flex-row gap-2 sm:gap-10">
                         <div className="flex flex-col gap-1 text-default">
                             <label htmlFor="prepTimeInput">Prep time (mins):</label>
                             <input type="number" id="prepTimeInput" 
@@ -270,7 +270,7 @@ export default function CreateRecipe () {
                                     <div key={idx} className="flex flex-col gap-1 text-default">
                                         <label htmlFor={`ingredient${idx + 1}`}>{`Ingredient ${idx + 1}`}</label>
                                         <input type="text"
-                                            className="input input-ghost input-md leading-normal w-full max-w-2xl 
+                                            className="input input-ghost input-md leading-normal w-full max-w-sm 
                                                 focus:outline-slate-600 active:bg-slate-100 focus:bg-slate-100 !text-default" 
                                             id={`ingredient${idx + 1}`}
                                             name={`ingredient${idx + 1}`}
@@ -343,7 +343,7 @@ export default function CreateRecipe () {
             </div>
 
             {/* Post Preview */}
-            <div className="flex flex-col gap-2 mx-auto w-full max-w-xl my-4 xl:max-w-2xl lg:rounded-lg">
+            <div className="flex flex-col p-4 lg:p-0 gap-2 mx-auto w-full max-w-xl my-4 xl:max-w-2xl lg:rounded-lg">
                 <h1 className="text-default font-semibold text-xl mt-2">Post Preview</h1>
                 <div className="lg:bg-orange-100 p-4 w-full max-w-xl xl:max-w-2xl lg:rounded-lg text-default">
 

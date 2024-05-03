@@ -2,8 +2,8 @@ export default function CustomRecipeOrange (props) {
     const { onChange, value } = props;
 
     return (
-        <div className="flex flex-col gap-1 text-default py-6 outline items-center rounded-lg outline-warning">
-            <p className="text-xl font-semibold mb-4">Is this a custom recipe, with your own special twist?</p>
+        <div className="flex flex-col gap-1 text-default py-6 px-2 outline items-center rounded-lg outline-warning">
+            <p className="text-xl font-semibold mb-4 text-center">Is this a custom recipe, with your own special twist?</p>
             <div className="flex flex-col gap-2">
                 <div className="flex gap-2">
                     <input type="radio" id="customInputNo" name="customRecipe"
