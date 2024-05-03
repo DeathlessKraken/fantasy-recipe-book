@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { data as dummyData } from "../data";
 import LeftArrow from "../assets/Arrow_Left.svg";
@@ -7,7 +7,8 @@ import BoxArrowDown from "../assets/BoxArrowDown.svg";
 
 export default function Recipe () {
     const navigate = useNavigate();
-    const [post, setPost] = useState(dummyData[1]);
+    const { id } = useParams();
+    const [post, setPost] = useState(dummyData[id]);
 
     function handleIngredientCheckbox(itemIndex) {
         const item = document.getElementById("desc" + itemIndex);
