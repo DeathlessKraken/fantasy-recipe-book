@@ -6,10 +6,6 @@ import {
     RemoveFormatting,
     ArrowDownFromLine,
     Heading1,
-    List,
-    ListOrdered,
-    Quote,
-    SquareSplitVertical,
     Undo,
     Redo,
     Image

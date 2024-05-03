@@ -144,7 +144,11 @@ export default function CreateRecipe () {
                 }
             }
         }),
-        Image,
+        Image.configure({
+            HTMLAttributes: {
+                class: "max-w-[20rem] rounded-lg"
+            }
+        }),
     ]
 
     //Parse content to json, render in preview section with tiptap getJSON
@@ -198,6 +202,7 @@ export default function CreateRecipe () {
                             className="textarea textarea-ghost textarea-md w-full max-w-lg 
                                 focus:outline-slate-600 active:bg-slate-100 focus:bg-slate-100 !text-default" 
                             maxLength={200}
+                            rows={3}
                             placeholder="Recipe description" 
                             id="descInput"
                             name="desc"
@@ -373,7 +378,7 @@ export default function CreateRecipe () {
                         {content.content && parse(sanitizeHTML(generateHTML(content, extensions)))}
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-4 sm:justify-center">
+                    <div className="flex flex-col sm:flex-row gap-4 sm:justify-center my-4">
                         <div className="stats stats-horizontal mt-4 sm:mt-0 self-center bg-slate-200 text-slate-700 text-xs w-64 sm:w-fit">
                           <div className="stat">
                             <div className="stat-title text-slate-700 font-semibold">Prep Time</div>
