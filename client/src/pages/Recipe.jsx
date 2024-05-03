@@ -6,6 +6,11 @@ import LeftArrow from "../assets/Arrow_Left.svg";
 import BoxArrowDown from "../assets/BoxArrowDown.svg";
 
 export default function Recipe () {
+
+    //TODO:
+    //If previous page was /random/, go back two pages.
+    //If they came from any other page, just go back one.
+
     const navigate = useNavigate();
     const { id } = useParams();
     const [post, setPost] = useState(dummyData[id]);

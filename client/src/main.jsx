@@ -17,6 +17,7 @@ import UpdateAccount from "./pages/UpdateAccount";
 import Browse from "./pages/Browse";
 import CreateRecipe from "./pages/CreateRecipe";
 import RandomRecipe from "./pages/RandomRecipe";
+import DeleteRecipe from "./pages/DeleteRecipe";
 
 //Actions
 import { registerAction } from "./utils/registerAction";
@@ -53,7 +54,7 @@ const router = createBrowserRouter([
             { path: "random", element: <RandomRecipe /> },
             { path: "create", element: <CreateRecipe /> },
             //{ path: "recipe/:id/edit", element: <EditRecipe /> },
-            //{ path: "recipe/:id/delete", element: <DeleteRecipe /> },
+            { path: "recipe/:id/delete", element: <DeleteRecipe /> },
             { path: "register", element: <Register />, action: registerAction },
             { path: "user/:id/update", element: <UpdateAccount />, action: updateAction },
             { path: "login", element: <Login />, action: loginAction },
