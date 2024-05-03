@@ -26,7 +26,8 @@ export default function Browse () {
                 <div className="flex flex-col sm:flex-row gap-4 min-w-fit my-4 xl:my-0">
                     <div className="flex flex-col gap-1">
                         <label htmlFor="browseSelect" className="text-default">Browse by:</label>
-                        <select id="browseSelect" defaultValue={0} className="select w-full max-w-xs">
+                        <select id="browseSelect" defaultValue={0} className="select select-ghost w-full max-w-sm focus:outline-slate-600
+                            active:bg-slate-100 focus:bg-slate-100 !text-default">
                           <option>Title</option>
                           <option>Tag</option>
                           <optgroup label="Category">
@@ -43,13 +44,14 @@ export default function Browse () {
                     <div className="flex items-end gap-1">
                         <div className="flex flex-col gap-1">
                             <label htmlFor="sortSelect" className="text-default">Sort:</label>
-                            <select id="sortSelect" defaultValue={0} className="select w-full max-w-xs">
+                            <select id="sortSelect" defaultValue={0} className="select select-ghost w-full max-w-xs focus:outline-slate-600
+                            active:bg-slate-100 focus:bg-slate-100 !text-default">
                               <option>Alphabetical (A-Z)</option>
                               <option>Popularity</option>
                               <option>Date Posted</option>
                             </select>
                         </div>
-                        <img onClick={handleSortChange} className="w-10 h-10 m-1" src={sortIcon} alt={`sort order button, ${sortDirection}`} />
+                        <img onClick={handleSortChange} className="w-10 h-10 m-1 cursor-pointer" src={sortIcon} alt={`sort order button, ${sortDirection}`} />
                     </div>
                 </div>
             </div>
