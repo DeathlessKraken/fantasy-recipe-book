@@ -1,10 +1,12 @@
 import express from 'express';
 import 'dotenv/config';
-import pg from 'pg';
 import cors from 'cors';
+import './db/db.js';
 
 import { router as authRoutes } from './routes/authRoutes.js';
 import { router as postRoutes } from './routes/postRoutes.js';
+
+import { getUsers } from './db/db.js';
 
 const app = express();
 const port = process.env.PORT;
@@ -18,6 +20,5 @@ app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 
 app.listen(port, () => {
-    //connect to db
     console.log(`Server running on port ${port}`);
 });
