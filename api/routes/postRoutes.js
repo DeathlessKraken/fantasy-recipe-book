@@ -1,9 +1,8 @@
 import { Router } from "express";
+import submitPost from "../controllers/postController.js";
 
 const router = Router();
 
-router.get('/', (req, res) => {
-    res.json("Test post route.");
-});
+router.get('/', submitPost);
 
 export { router };
