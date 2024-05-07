@@ -1,8 +1,10 @@
 import { Router } from "express";
-import submitPost from "../controllers/postController.js";
+import { submitPost, deletePost, editPost } from "../controllers/postController.js";
 
 const router = Router();
 
-router.get('/', submitPost);
+router.post('/submit', submitPost);
+router.delete('/delete', deletePost);
+router.put('/edit', editPost);
 
 export { router };

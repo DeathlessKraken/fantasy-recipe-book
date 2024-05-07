@@ -3,7 +3,7 @@ import 'dotenv/config';
 import pg from 'pg';
 import cors from 'cors';
 
-import { router as userRoutes } from './routes/userRoutes.js';
+import { router as authRoutes } from './routes/authRoutes.js';
 import { router as postRoutes } from './routes/postRoutes.js';
 
 const app = express();
@@ -14,7 +14,7 @@ app.use(express.json()); // support parsing of application/json type post data
 
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
-app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 
 app.listen(port, () => {
