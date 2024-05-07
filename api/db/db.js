@@ -1,5 +1,6 @@
 import pg from 'pg';
 
+//Uses environment variables by default.
 const pool = new pg.Pool({
     connectionTimeoutMillis: 2000,
 });
