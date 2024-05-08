@@ -7,8 +7,6 @@ import './db/db.js';
 import { router as authRoutes } from './routes/authRoutes.js';
 import { router as postRoutes } from './routes/postRoutes.js';
 
-import { getUsers } from './db/db.js';
-
 const app = express();
 const port = process.env.PORT;
 
