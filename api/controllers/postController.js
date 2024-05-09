@@ -1,3 +1,7 @@
+export function getPosts (req, res) {
+    
+}
+
 export function submitPost (req, res) {
     res.json("Submit post route");
 }

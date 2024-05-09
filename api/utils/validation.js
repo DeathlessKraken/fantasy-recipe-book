@@ -53,4 +53,8 @@ const loginSchema = Joi.object({
     })
 }).length(2);
 
+const postSchema = Joi.object({
+    title: Joi.string().trim().min(3).max(50).required(),
+});
+
 export { registerSchema, loginSchema };
