@@ -43,4 +43,14 @@ const registerSchema = Joi.object({
 
 }).length(4);
 
-export { registerSchema };
+const loginSchema = Joi.object({
+    username: Joi.string().trim().required().messages({
+        "string.empty": "Field cannot be empty.",
+    }),
+
+    password: Joi.string().trim().required().messages({
+        "string.empty": "Field cannot be empty.",
+    })
+}).length(2);
+
+export { registerSchema, loginSchema };

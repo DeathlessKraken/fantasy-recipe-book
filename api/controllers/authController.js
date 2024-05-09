@@ -1,13 +1,16 @@
-import bcrypt, { genSalt } from "bcrypt";
-import { registerSchema } from "../utils/validation.js";
+import bcrypt from "bcrypt";
+import { loginSchema, registerSchema } from "../utils/validation.js";
 import checkUniqueEmail from "../db/checkUniqueEmail.js";
 import checkUniqueUsername from "../db/checkUniqueUsername.js"
 import saveUser from "../db/saveUser.js";
+import generateToken from "../utils/generateToken.js";
+import checkProfanity from "../utils/checkProfanity.js";
+import getHashedPasswordFromUser from "../db/getHashedPasswordFromUser.js";
 
 export async function register(req, res) {
     //Grab input from request body
     //Perform validation/sanitation on input
-    //Return success code with jwt token, signing them in.
+    //Return success code with jwt token
     try {
         const { email, username, password, confirmPassword, admin } = req.body;
 
@@ -30,7 +33,13 @@ export async function register(req, res) {
             return;
         }
 
-        //Test error outputs, make sure no sensitive info leaks to client [ ]
+        //Check for profanity of username
+        if(checkProfanity(username)) {
+            res.status(400).json({error: "Username includes profanity."});
+            return;
+        }
+
+        //Test error outputs, make sure no sensitive info leaks to client [x]
         //Validate inputs
         const result = await registerSchema.validateAsync({
             email: email,
@@ -47,7 +56,9 @@ export async function register(req, res) {
 
         //hash password
         const salt = 11;
-        const hashedPassword = await bcrypt.hash(result.password, salt).then(hash => hash);
+        const hashedPassword = await bcrypt.hash(result.password, salt)
+            .then(hash => hash)
+            .catch(error => {throw new Error("Error generating hashed password.", {cause:500})});
 
         //Save to db
         await saveUser({
@@ -58,11 +69,15 @@ export async function register(req, res) {
             role: role
         });
 
+        //Generate token with trusted payload
+        const token = generateToken({user: result.username});
+
         //Send response
         res.status(201).json({
             message: "Successfully registered new account.",
             email: result.email,
             username: result.username,
+            token: token
         });
 
     } catch (error) {
@@ -75,10 +90,44 @@ export async function register(req, res) {
     }
 }
 
-export function login(req, res) {
-    res.json("login route");
-}
+export async function login(req, res) {
+    //Check user exists
+    //Compare hashed password
+    //check credentials
+    //return token if successful
+    try {
+        const { username, password } = req.body;
 
-export function logout(req, res) {
-    res.json("logout route");
+        const result = await loginSchema.validateAsync({username, password});
+
+        //Throws error if user exists
+        const goodUser = await checkUniqueUsername(result.username).finally(() => false).catch((error) => true);
+        const hashedPassword = await getHashedPasswordFromUser(result.username);
+
+        //compare input to hashed password
+        const goodPass = await bcrypt.compare(result.password, hashedPassword)
+            .then(result => result)
+            .catch(error => undefined);
+
+        if(!goodUser || !goodPass) {
+            throw new Error("Invalid username or password.", { cause: 400 });
+        }
+
+        //Generate token
+        const token = generateToken({user: result.username});
+
+        //Send response
+        res.status(200).json({
+            message: "Successfully logged in.",
+            username: result.username,
+            token: token
+        });
+
+    } catch (error) {
+        if(error.details) {
+            res.status(400).json({"Error authenicating user:": error.details[0].message});
+        } else {
+            res.status(error.cause).json({"Error authenicating user:": error.message});
+        }
+    }
 }
