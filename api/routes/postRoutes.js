@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { submitPost, deletePost, editPost } from "../controllers/postController.js";
+import { 
+    submitPost, 
+    deletePost, 
+    editPost,
+    getPosts,
+    getSinglePost
+} from "../controllers/postController.js";
 
 const router = Router();
 
@@ -7,7 +13,7 @@ const router = Router();
 router.get('/posts', getPosts);
 
 //Get specific recipe from url slug
-router.get('/post/:id');
+router.get('/post/:id', getSinglePost);
 
 router.post('/submit', submitPost);
 router.delete('/delete', deletePost);

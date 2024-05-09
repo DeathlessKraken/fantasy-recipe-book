@@ -41,7 +41,7 @@ const registerSchema = Joi.object({
 
     confirmPassword: Joi.ref('password'),
 
-}).length(4);
+}).length(4).required();
 
 const loginSchema = Joi.object({
     username: Joi.string().trim().required().messages({
@@ -51,10 +51,38 @@ const loginSchema = Joi.object({
     password: Joi.string().trim().required().messages({
         "string.empty": "Field cannot be empty.",
     })
-}).length(2);
+}).length(2).required();
 
 const postSchema = Joi.object({
     title: Joi.string().trim().min(3).max(50).required(),
+    category: Joi.string().trim().pattern(/(beverages|appetizers|meals|bread|desserts|other)/i).required()
+        .messages({"string.pattern.base": "Category must match 'beverages', 'appetizers', 'meals', 'bread', 'desserts', or 'other'"}),
+    post_origin: Joi.string().trim().uri({
+        scheme: ["https"],
+        domain: { minDomainSegments: 2 }
+    }),
+    is_personal: Joi.boolean(),
+    description: Joi.string().trim().max(300),
+    body: Joi.string().trim().max(5000),
+    media_url: Joi.string().trim().uri({
+        scheme: ["https"],
+        domain: { minDomainSegments: 2 }
+    }).required(),
+    prep_time: Joi.number().integer().min(1).max(999).required(),
+    cook_time: Joi.number().integer().min(1).max(999).required(),
+    servings: Joi.number().integer().min(1).max(999).required(),
+    ingredients: Joi.object().min(1).max(25)
+        .pattern(Joi.string().trim().pattern(/^ingredient(?!0)\d{1,2}$/), 
+            Joi.string().trim().min(3).max(60))
+        .required().messages({"object.unknown": "Ingredient keys must be in format 'ingredient[1-99]'"}),
+    instructions: Joi.object().min(1).max(25)
+        .pattern(Joi.string().trim().pattern(/^step(?!0)\d{1,2}$/), Joi.string().trim().min(3).max(300))
+        .required().messages({"object.unknown": "Instruction keys must be in format 'step[1-99]'"}),
+}).xor('is_personal','post_origin').required().max(12)
+.messages({
+    "object.missing": "Post must contain is_personal boolean OR post_origin URL.",
+    "object.max": "Post object must have no more than 12 keys.",
+    "object.xor": "Post cannot contain BOTH is_personal boolean and post_origin URL."
 });
 
-export { registerSchema, loginSchema };
+export { registerSchema, loginSchema, postSchema };
