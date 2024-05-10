@@ -74,10 +74,16 @@ const postSchema = Joi.object({
     ingredients: Joi.object().min(1).max(25)
         .pattern(Joi.string().trim().pattern(/^ingredient(?!0)\d{1,2}$/), 
             Joi.string().trim().min(3).max(60))
-        .required().messages({"object.unknown": "Ingredient keys must be in format 'ingredient[1-99]'"}),
+        .required().messages({
+            "object.unknown": "Ingredient keys must be in format 'ingredient[1-99]'",
+            "object.max": "Ingredients object must have no more than 25 keys.",
+        }),
     instructions: Joi.object().min(1).max(25)
         .pattern(Joi.string().trim().pattern(/^step(?!0)\d{1,2}$/), Joi.string().trim().min(3).max(300))
-        .required().messages({"object.unknown": "Instruction keys must be in format 'step[1-99]'"}),
+        .required().messages({
+            "object.unknown": "Instruction keys must be in format 'step[1-99]'",
+            "object.max": "Instructions object must have no more than 25 keys."
+        }),
 }).xor('is_personal','post_origin').required().max(12)
 .messages({
     "object.missing": "Post must contain is_personal boolean OR post_origin URL.",

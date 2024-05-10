@@ -1,4 +1,10 @@
+import savePost from "../db/savePost.js";
 import { postSchema } from "../utils/validation.js";
+import escape from "validator/lib/escape.js";
+import slugify from "slugify";
+import uniqueSlug from "unique-slug";
+import isJWT from "validator/lib/isJWT.js";
+import getUserFromToken from "../utils/getUserFromToken.js";
 
 export function getPosts (req, res) {
     res.json("Get posts route");
@@ -42,13 +48,61 @@ export async function submitPost (req, res) {
             servings,
             ingredients,
             instructions
-        }).catch(error => {console.log(error);throw new Error("Error validating input: " + error.details[0].message, { cause: 400 })});
+        }).catch(error => {throw new Error("Error validating input: " + error.details[0].message, { cause: 400 })});
 
-        console.log(inputs);
+        //Escape title, description, body, and ingredients/instructions inputs before saving to db.
+        const cleanTitle = escape(inputs.title);
+        let cleanDescription = inputs.description;
+        let cleanBody = inputs.body;
+        if(cleanDescription) { cleanDescription = escape(inputs.description); }
+        if(cleanBody) { cleanBody = escape(inputs.body); }
+
+        const cleanIngredients = {};
+        const cleanInstructions = {};
+        Object.keys(inputs.ingredients).map(key => {
+            cleanIngredients[key] = escape(inputs.ingredients[key]);
+        });
+        Object.keys(inputs.instructions).map(key => {
+            cleanInstructions[key] = escape(inputs.instructions[key]);
+        });
+
+        //Generate non-user inputs
+        const slug = slugify(inputs.title, {remove: /[*+~.()'"!:@]/g, lower: true, strict: true}) + "-" + uniqueSlug();
+
+        const token = req.header('authorization').split(' ')[1];
+        if(!isJWT(token)) {
+            throw new Error("Unable to verify token in Auth header.", {cause:401});
+        }
+
+        const user = await getUserFromToken(token);
+        
+        await savePost({
+            user,
+            createdat: new Date().toISOString(),
+            post_views: 0,
+            isdeleted: false,
+            title: cleanTitle,
+            category: inputs.category,
+            post_origin: inputs.post_origin,
+            is_personal: inputs.is_personal,
+            description: cleanDescription,
+            body: cleanBody,
+            media_url: inputs.media_url,
+            prep_time: inputs.prep_time,
+            cook_time: inputs.cook_time,
+            servings: inputs.servings,
+            ingredients: cleanIngredients,
+            instructions: cleanInstructions
+        });
 
         res.json("Post submitted successfully.");
     } catch (error) {
-        res.status(error.cause).json(error.message);
+        if(error.cause){
+            res.status(error.cause).json(error.message);
+        } else {
+            console.log(error);
+            res.status(500).json("Something went wrong. Please try again later.");
+        }
     }
 }
 
