@@ -17,7 +17,7 @@ router.get('/', getPosts);
 router.get('/:slug', getSinglePost);
 
 router.post('/submit', protectRoute, submitPost);
-router.delete('/delete', protectRoute, deletePost);
-router.put('/edit', protectRoute, editPost);
+router.delete('/:slug/delete/', protectRoute, deletePost);
+router.put('/:slug/edit', protectRoute, editPost);
 
 export { router };

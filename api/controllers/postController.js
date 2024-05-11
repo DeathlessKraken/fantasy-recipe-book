@@ -4,7 +4,10 @@ import escape from "validator/lib/escape.js";
 import slugify from "slugify";
 import uniqueSlug from "unique-slug";
 import getRecipeFromSlug from "../db/getRecipeFromSlug.js";
-//import getRecipeFromResult from "../utils/getRecipeFromResult.js";
+import getIdFromUser from "../db/getIdFromUser.js";
+import getUserFromSlug from "../db/getUserFromSlug.js";
+import deletePostForId from "../db/deletePostForId.js";
+import checkPostExistsFromSlug from "../db/checkPostExistsFromSlug.js";
 
 export function getPosts (req, res) {
     res.json("Get posts route");
@@ -33,8 +36,6 @@ export async function getSinglePost (req, res) {
             res.status(500).json("Something went wrong. Please try again later.");
         }
     }
-
-
 }
 
 //Get data from body
@@ -126,8 +127,46 @@ export async function submitPost (req, res) {
     }
 }
 
-export function deletePost (req, res) {
-    res.json("Delete post route")
+//Get id from username
+//If post author matches that id, mark deleted
+export async function deletePost (req, res) {
+    const dirtySlug = req.params.slug;
+    
+    try {
+        const slug = await slugSchema.validateAsync(dirtySlug)
+            .catch(error => {throw new Error("Unable to validate url: " + error.details[0].message, { cause: 400 })});
+            
+        //Grab username from post being deleted
+        const user = await getUserFromSlug(slug);
+        
+        //Confirm user exists, and it's their post.
+        if(!user) throw new Error(`Unable to find user ${req.user} for url ${req.originalUrl}`, {cause:404});
+        if(user !== req.user) {
+            throw new Error(`Signed in user does not match post author.`, {cause:403});
+        }
+        
+        //Confirm post exists
+        const exists = await checkPostExistsFromSlug(slug);
+        if(!exists) throw new Error(`Unable to locate post for url ${req.originalUrl}`, {cause:404});
+            
+        //Mark post as deleted
+        const userId = await getIdFromUser(req.user);
+        if(!userId) {
+            throw new Error(`Unable to find user ${req.user}`, {cause:404});
+        }
+        
+        await deletePostForId(userId, slug);
+
+        res.status(200).json("Post successfully deleted.");
+
+    } catch (error) {
+        if(error.cause){
+            res.status(error.cause).json(error.message);
+        } else {
+            console.log(error);
+            res.status(500).json("Something went wrong. Please try again later.");
+        }
+    }
 }
 
 export function editPost (req, res) {
