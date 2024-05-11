@@ -10,13 +10,14 @@ import deletePostForId from "../db/deletePostForId.js";
 import checkPostExistsFromSlug from "../db/checkPostExistsFromSlug.js";
 import getRecipes from "../db/getRecipes.js";
 
+//Getting many posts does not increase view count
 export async function getPosts (req, res) {
     try {
         const result = await getRecipes();
 
         if(result.length < 1) throw new Error(`No posts available.`, {cause:404});
 
-        //This may be a waste of processing power...
+        //Parse json object from db
         const recipes = result.map(obj => {
             return obj.json_build_object;
         });
@@ -32,6 +33,7 @@ export async function getPosts (req, res) {
     }
 }
 
+//Getting a single post increase view count
 export async function getSinglePost (req, res) {
     const dirtySlug = req.params.slug;
     

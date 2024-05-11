@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 //Dummy data
-import AvatarPFP from "../assets/Avatar0.jpg";
 import data, { authorDummyData } from "../data";
 import paginatePosts from "../utils/paginatePosts";
 import MiniPost from "../components/MiniPost";
@@ -32,7 +31,7 @@ export default function User() {
                 <div className="flex flex-col items-center p-12 bg-orange-200 w-fit mx-4 h-fit lg:my-8 rounded-lg lg:min-w-96">
 
                     {/* TODO: Update image alt to username */}
-                    <img className="w-48 rounded-full border-4 border-sky-400" src={AvatarPFP} alt={"profile picture of user " + "USERNAME"} />
+                    <img className="w-48 rounded-full border-4 border-sky-400" src={authorData[0].avatar} alt={"profile picture of user " + "USERNAME"} />
 
                     <div className="flex flex-col gap-1 py-4 text-md text-default font-small">
                         <div className="flex flex-col">

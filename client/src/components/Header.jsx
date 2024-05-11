@@ -68,7 +68,8 @@ export default function Header () {
             <Link to="/" onClick={() => handleToggle()}><li className="my-2 text-lg">Home</li></Link>
             <Link to="/browse" onClick={() => handleToggle()}><li className="my-2 text-lg">Browse Recipes</li></Link>
             <Link to={isLoggedIn ? "/create/" : "/login/"} onClick={() => handleToggle()}><li className="my-2 text-lg">Post a Recipe</li></Link>
-            <Link to="/random" onClick={() => handleToggle()}><li className="my-2 text-lg">Random Recipe</li></Link>
+            {/* TEMPORARILY HIDDEN FOR TESTING */}
+            <Link to="/random" onClick={() => handleToggle()}><li className="hidden my-2 text-lg">Random Recipe</li></Link>
             {isLoggedIn ? <Link to="/logout/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log Out</li></Link> :
               <>
                 <Link to="/login/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log In</li></Link>

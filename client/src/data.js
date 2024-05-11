@@ -1,71 +1,179 @@
-import Avatar0 from './assets/Avatar0.jpg';
-import Avatar1 from './assets/Avatar1.jpg';
-import Avatar2 from './assets/Avatar2.jpg';
-import Avatar3 from './assets/Avatar3.png';
-import Avatar4 from './assets/Avatar4.jpg';
+import Avatar0 from './assets/Avatar0.png';
+//import Avatar1 from './assets/Avatar1.jpg';
+//import Avatar2 from './assets/Avatar2.jpg';
+//import Avatar3 from './assets/Avatar3.png';
+//import Avatar4 from './assets/Avatar4.jpg';
 
 export const data = [
     {
         "id": "0",
-        "title": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, culpa vel consectetur molestias, non obcaecati minima quam dicta fugiat quas, consequatur pariatur asperiores possimus quod modi error fuga quae amet facilis eligendi harum totam. Veniam natus facere ex id repellendus?",
-        "category": "Lord of the Rings",
-        "date_posted": "2024-04-05T00:17:53.670Z",
-        "prep_time_mins": 999,
-        "cook_time_mins": 999,
-        "servings": 999,
+        "title": "Lembas Bread",
+        "category": "Bread",
+        "date_posted": "2024-05-11 00:31:58.42Z",
+        "prep_time_mins": 5,
+        "cook_time_mins": 15,
+        "servings": 8,
         "author": "Three Sheets",
-        "description": "Kale and Quinoa Salad with Black Beans: Vibrant green kale is massaged with a lemony, cumin and chile dressing and tossed with chilled quinoa and black beans for a zesty quinoa salad. ",
-        body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta quia consequuntur reiciendis unde dolore voluptates nobis veniam, rerum et, est, ratione ullam labore suscipit magnam sequi eaque ex quam? Labore possimus assumenda illo, veritatis laudantium itaque voluptatibus molestiae amet quae commodi rerum ad corporis libero fugit deserunt numquam earum quam vero ratione asperiores! Ipsum architecto dolorem consequuntur eos provident dolore modi exercitationem ipsa tempora, explicabo veniam iusto deleniti, nisi natus! Natus tempora nisi cumque explicabo! Vitae enim sed aperiam impedit unde voluptatibus hic alias nam, cumque perferendis rem reiciendis dicta sit necessitatibus quasi tempore, culpa sequi ullam nulla non velit consequatur sint! Aut saepe praesentium suscipit illo inventore cumque consectetur molestiae sapiente iure quo. Deserunt facilis hic ea eum totam unde, temporibus aut modi odit corrupti quos accusantium facere delectus vel eaque quibusdam labore excepturi inventore iure dolore magni perspiciatis quia! Corporis excepturi natus deserunt maxime magnam? Adipisci beatae laboriosam aliquid iusto, quia magni, amet aperiam neque fugiat illo sunt voluptatibus natus? Harum accusantium qui nesciunt et commodi quaerat! Iste quis aperiam neque, repudiandae iure eveniet in ullam saepe voluptate dolores temporibus, possimus quas. Ipsum dolorem at ipsam. Voluptatum quod sint cum inventore adipisci aperiam alias? Reiciendis quae saepe blanditiis?",
-        "media": "https://www.oldehansa.ee/wp-content/uploads/2017/09/Merchant-Guild%C2%B4s-Saturday-Feast-1024x683.jpg",
+        "description": "'The food was mostly in the form of very thin cakes, made of meal that was baked a light brown on the outside, and inside was the colour of cream.' - Fellowship of the Rings",
+        "body": "While this recipe won't satiate your appetite with a single bite, it will serve as a delightful treat perfect for afternoon tea….or any of the other 6 hobbit meals throughout the day (including breakfast, second breakfast, elevenses, luncheon, dinner, and/or supper). Resembling a scone, this recipe produces bread that is light in taste and satisfying in texture. Bake these up to celebrate Hobbit Day, to serve at your next Lord of the Rings party, or to enjoy during your next marathon (book or movies).",
+        "media": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2F3.bp.blogspot.com%2F-g-xo2RN9CNA%2FUvl_pT6o1VI%2FAAAAAAAA4yg%2FW0ZnqgCV-8c%2Fs1600%2FDSCF3424.JPG&f=1&nofb=1&ipt=4739972cbd8ac72d06543dd14537b3dd3f1505127d984eacb9bd89fcb034cbf9&ipo=images",
         "ingredients": [
-            "1/2 pound chicken, I used a combo of red and white quinoa, rinsed very well",
-            "1 can Olives",
-            "2 cups vegetable broth",
-            "2 cloves garlic, minced",
-            "1/4 cup freshly squeezed lemon or lime juice",
-            "3 teaspoons chia seeds",
-            "1 avocado, sliced or cubed",
-            "1/2 cup grated carrot",
-            "1/2 tablespoon cumin",
+            "2 1/2 cups all purpose flour",
+            "1 Tbsp baking powder",
+            "1/4 tsp salt",
+            "1/2 c butter",
+            "1/3 c brown sugar",
+            "1 tsp cinnamon",
+            "1/2 tsp honey",
+            "2/3 c heavy whipping cream",
+            "1/2 tsp vanilla extract",
         ],
         "instructions": [
-            "Heat a saucepan. Add the rinsed and drained quinoa and the garlic and toast it until almost dry. Add the vegetable broth, bring to a boil, reduce heat, and cover. Simmer until all the water is absorbed, about 20 minutes. Remove from heat and allow to cool.",
-            "While the quinoa is cooking, make the dressing in a small bowl or measuring cup: whisk together the lemon juice, 3 tablespoons broth, chia/flax seeds, chile powders, cumin, and salt. Allow to stand until the chia seeds start to thicken the dressing.",
-            "Place the kale in a large serving bowl. Add half of the dressing and massage it into the kale using a wringing motion until the kale is very tender. Two minutes of massaging should do it, but the longer, the better. Add the quinoa, black beans, carrot, and bell pepper, along with the remaining dressing. Mix well and refrigerate until ready to serve.",
-            "Just before serving, check the seasoning and add more lemon juice, chile powder, cumin, and salt, as needed. Stir in chopped avocado, if desired, or serve with slices of avocado on the side.",
+            "Preheat oven to 425F. Mix the flour, baking powder and salt into a large bowl. Add the butter and mix with a well till fine granules (easiest way is with an electric mixer). Then add the sugar and cinnamon, and mix them thoroughly.",
+            "Finally add the cream, honey, and vanilla and stir them in with a fork until a nice, thick dough forms.",
+            "Roll the dough out about 1/2 in thickness. Cut out 3-inch squares and transfer the dough to a cookie sheet.Criss-cross each square from corner-to-corner with a knife, lightly (not cutting through the dough).",
+            "Bake for about 12 minutes or more (depending on the thickness of the bread) until it is set and lightly golden.",
         ]
     },
     {
         "id": "1",
-        "title": "Texas slow cooked pulled pork BBQ",
-        "category": "Historical",
+        "title": "Butter Beer",
+        "category": "Beverages",
         "date_posted": "2024-04-05T00:17:53.670Z",
-        "prep_time_mins": 9,
-        "cook_time_mins": 7,
-        "servings": 3,
+        "prep_time_mins": 2,
+        "cook_time_mins": 2,
+        "servings": 2,
         "author": "Three Sheets",
-        "description": "Kale and Quinoa Salad with Black Beans: Vibrant green kale is massaged with a lemony, cumin and chile dressing and tossed with chilled quinoa and black beans for a zesty quinoa salad. ",
-        "body": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Non reiciendis dignissimos sunt iste a officiis eveniet recusandae temporibus repellendus eligendi! Similique, deserunt veritatis nobis magni eos praesentium sequi est exercitationem nihil cum placeat ipsam fugit facere repudiandae maiores repellendus explicabo quaerat mollitia quasi cumque odit modi officiis! Tempora exercitationem alias corporis a doloribus optio odit commodi aliquam cupiditate vitae? Aliquam nihil voluptatibus dolores placeat, eum fugiat ducimus voluptates quae ullam magnam aspernatur atque tenetur. Libero, nihil et modi inventore incidunt ut esse est recusandae culpa voluptatum expedita aliquam voluptatibus nam laborum iusto sequi architecto blanditiis alias aperiam quidem veniam laudantium. Voluptatem quidem quod, alias explicabo deserunt nam ducimus magnam est quae repudiandae. Sint porro, ",
-        "media": "https://images.saymedia-content.com/.image/t_share/MTg5MDU4MjM2Njk0MjEwMzc3/medieval-food.jpg",
+        "description": "Bring the magic of the wizarding world to your home with a glass of this delectable homemade butter beer! With creamy, butterscotch flavor and whipped cream topping, everyone in your family will be wanting a refill.",
+        "body": "This homemade butterbeer tastes just as good (if not better!) than what we got from Universal Studios, and it only takes 4 simple ingredients to make! It’s the perfect addition to any Harry Potter themed birthday party or when you’re just craving something sweet and refreshing! It’s a drink that the whole family will enjoy! The Harry Potter fans in your house will especially love it. (Although if you’re looking for an adults-only version made with alcohol, I have some extra tips below.) It’s the perfect thing to sip on as you have a Harry Potter movie marathon!",
+        "media": "https://therecipecritic.com/wp-content/uploads/2022/09/Butterbeer-750x1000.jpg",
         "ingredients": [
-            "1/2 pound chicken, I used a combo of red and white quinoa, rinsed very well",
-            "1 can Olives",
-            "2 cups vegetable broth",
-            "2 cloves garlic, minced",
-            "1/4 cup freshly squeezed lemon or lime juice",
-            "3 teaspoons chia seeds",
-            "1 avocado, sliced or cubed",
-            "1/2 cup grated carrot",
-            "1/2 tablespoon cumin",
+            "2 cans or bottled cream soda (bottled is my fave)",
+            "2 tablespoons butterscotch syrup, more for drizzle",
+            "2 teaspoons butter extract",
+            "1 cup whipped cream"
         ],
         "instructions": [
-            "Heat a saucepan. Add the rinsed and drained quinoa and the garlic and toast it until almost dry. Add the vegetable broth, bring to a boil, reduce heat, and cover. Simmer until all the water is absorbed, about 20 minutes. Remove from heat and allow to cool.",
-            "While the quinoa is cooking, make the dressing in a small bowl or measuring cup: whisk together the lemon juice, 3 tablespoons broth, chia/flax seeds, chile powders, cumin, and salt. Allow to stand until the chia seeds start to thicken the dressing.",
-            "Place the kale in a large serving bowl. Add half of the dressing and massage it into the kale using a wringing motion until the kale is very tender. Two minutes of massaging should do it, but the longer, the better. Add the quinoa, black beans, carrot, and bell pepper, along with the remaining dressing. Mix well and refrigerate until ready to serve.",
-            "Just before serving, check the seasoning and add more lemon juice, chile powder, cumin, and salt, as needed. Stir in chopped avocado, if desired, or serve with slices of avocado on the side.",
+            "Pour chilled butter beer into large mugs or glasses. Make sure the cream soda is nice and chilled before making the butter beer!",
+            "Add 1 tablespoon of butterscotch syrup into each glass.",
+            "Add 1 teaspoon of butter extract into each glass. Feel free to use more if you like a lot of butter flavor!",
+            "Whisk together the ingredients in the glasses until fully mixed.",
+            "Top with whipped cream, and drizzle more butterscotch on top if desired!"
         ]
     },
     {
+        "id": "2",
+        "title": "Lembas Bread",
+        "category": "Bread",
+        "date_posted": "2024-05-11 00:31:58.42Z",
+        "prep_time_mins": 5,
+        "cook_time_mins": 15,
+        "servings": 8,
+        "author": "Three Sheets",
+        "description": "'The food was mostly in the form of very thin cakes, made of meal that was baked a light brown on the outside, and inside was the colour of cream.' - Fellowship of the Rings",
+        "body": "While this recipe won't satiate your appetite with a single bite, it will serve as a delightful treat perfect for afternoon tea….or any of the other 6 hobbit meals throughout the day (including breakfast, second breakfast, elevenses, luncheon, dinner, and/or supper). Resembling a scone, this recipe produces bread that is light in taste and satisfying in texture. Bake these up to celebrate Hobbit Day, to serve at your next Lord of the Rings party, or to enjoy during your next marathon (book or movies).",
+        "media": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2F3.bp.blogspot.com%2F-g-xo2RN9CNA%2FUvl_pT6o1VI%2FAAAAAAAA4yg%2FW0ZnqgCV-8c%2Fs1600%2FDSCF3424.JPG&f=1&nofb=1&ipt=4739972cbd8ac72d06543dd14537b3dd3f1505127d984eacb9bd89fcb034cbf9&ipo=images",
+        "ingredients": [
+            "2 1/2 cups all purpose flour",
+            "1 Tbsp baking powder",
+            "1/4 tsp salt",
+            "1/2 c butter",
+            "1/3 c brown sugar",
+            "1 tsp cinnamon",
+            "1/2 tsp honey",
+            "2/3 c heavy whipping cream",
+            "1/2 tsp vanilla extract",
+        ],
+        "instructions": [
+            "Preheat oven to 425F. Mix the flour, baking powder and salt into a large bowl. Add the butter and mix with a well till fine granules (easiest way is with an electric mixer). Then add the sugar and cinnamon, and mix them thoroughly.",
+            "Finally add the cream, honey, and vanilla and stir them in with a fork until a nice, thick dough forms.",
+            "Roll the dough out about 1/2 in thickness. Cut out 3-inch squares and transfer the dough to a cookie sheet.Criss-cross each square from corner-to-corner with a knife, lightly (not cutting through the dough).",
+            "Bake for about 12 minutes or more (depending on the thickness of the bread) until it is set and lightly golden.",
+        ]
+    },
+    {
+        "id": "3",
+        "title": "Butter Beer",
+        "category": "Beverages",
+        "date_posted": "2024-04-05T00:17:53.670Z",
+        "prep_time_mins": 2,
+        "cook_time_mins": 2,
+        "servings": 2,
+        "author": "Three Sheets",
+        "description": "Bring the magic of the wizarding world to your home with a glass of this delectable homemade butter beer! With creamy, butterscotch flavor and whipped cream topping, everyone in your family will be wanting a refill.",
+        "body": "This homemade butterbeer tastes just as good (if not better!) than what we got from Universal Studios, and it only takes 4 simple ingredients to make! It’s the perfect addition to any Harry Potter themed birthday party or when you’re just craving something sweet and refreshing! It’s a drink that the whole family will enjoy! The Harry Potter fans in your house will especially love it. (Although if you’re looking for an adults-only version made with alcohol, I have some extra tips below.) It’s the perfect thing to sip on as you have a Harry Potter movie marathon!",
+        "media": "https://therecipecritic.com/wp-content/uploads/2022/09/Butterbeer-750x1000.jpg",
+        "ingredients": [
+            "2 cans or bottled cream soda (bottled is my fave)",
+            "2 tablespoons butterscotch syrup, more for drizzle",
+            "2 teaspoons butter extract",
+            "1 cup whipped cream"
+        ],
+        "instructions": [
+            "Pour chilled butter beer into large mugs or glasses. Make sure the cream soda is nice and chilled before making the butter beer!",
+            "Add 1 tablespoon of butterscotch syrup into each glass.",
+            "Add 1 teaspoon of butter extract into each glass. Feel free to use more if you like a lot of butter flavor!",
+            "Whisk together the ingredients in the glasses until fully mixed.",
+            "Top with whipped cream, and drizzle more butterscotch on top if desired!"
+        ]
+    },
+    {
+        "id": "4",
+        "title": "Lembas Bread",
+        "category": "Bread",
+        "date_posted": "2024-05-11 00:31:58.42Z",
+        "prep_time_mins": 5,
+        "cook_time_mins": 15,
+        "servings": 8,
+        "author": "Three Sheets",
+        "description": "'The food was mostly in the form of very thin cakes, made of meal that was baked a light brown on the outside, and inside was the colour of cream.' - Fellowship of the Rings",
+        "body": "While this recipe won't satiate your appetite with a single bite, it will serve as a delightful treat perfect for afternoon tea….or any of the other 6 hobbit meals throughout the day (including breakfast, second breakfast, elevenses, luncheon, dinner, and/or supper). Resembling a scone, this recipe produces bread that is light in taste and satisfying in texture. Bake these up to celebrate Hobbit Day, to serve at your next Lord of the Rings party, or to enjoy during your next marathon (book or movies).",
+        "media": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2F3.bp.blogspot.com%2F-g-xo2RN9CNA%2FUvl_pT6o1VI%2FAAAAAAAA4yg%2FW0ZnqgCV-8c%2Fs1600%2FDSCF3424.JPG&f=1&nofb=1&ipt=4739972cbd8ac72d06543dd14537b3dd3f1505127d984eacb9bd89fcb034cbf9&ipo=images",
+        "ingredients": [
+            "2 1/2 cups all purpose flour",
+            "1 Tbsp baking powder",
+            "1/4 tsp salt",
+            "1/2 c butter",
+            "1/3 c brown sugar",
+            "1 tsp cinnamon",
+            "1/2 tsp honey",
+            "2/3 c heavy whipping cream",
+            "1/2 tsp vanilla extract",
+        ],
+        "instructions": [
+            "Preheat oven to 425F. Mix the flour, baking powder and salt into a large bowl. Add the butter and mix with a well till fine granules (easiest way is with an electric mixer). Then add the sugar and cinnamon, and mix them thoroughly.",
+            "Finally add the cream, honey, and vanilla and stir them in with a fork until a nice, thick dough forms.",
+            "Roll the dough out about 1/2 in thickness. Cut out 3-inch squares and transfer the dough to a cookie sheet.Criss-cross each square from corner-to-corner with a knife, lightly (not cutting through the dough).",
+            "Bake for about 12 minutes or more (depending on the thickness of the bread) until it is set and lightly golden.",
+        ]
+    },
+    {
+        "id": "5",
+        "title": "Butter Beer",
+        "category": "Beverages",
+        "date_posted": "2024-04-05T00:17:53.670Z",
+        "prep_time_mins": 2,
+        "cook_time_mins": 2,
+        "servings": 2,
+        "author": "Three Sheets",
+        "description": "Bring the magic of the wizarding world to your home with a glass of this delectable homemade butter beer! With creamy, butterscotch flavor and whipped cream topping, everyone in your family will be wanting a refill.",
+        "body": "This homemade butterbeer tastes just as good (if not better!) than what we got from Universal Studios, and it only takes 4 simple ingredients to make! It’s the perfect addition to any Harry Potter themed birthday party or when you’re just craving something sweet and refreshing! It’s a drink that the whole family will enjoy! The Harry Potter fans in your house will especially love it. (Although if you’re looking for an adults-only version made with alcohol, I have some extra tips below.) It’s the perfect thing to sip on as you have a Harry Potter movie marathon!",
+        "media": "https://therecipecritic.com/wp-content/uploads/2022/09/Butterbeer-750x1000.jpg",
+        "ingredients": [
+            "2 cans or bottled cream soda (bottled is my fave)",
+            "2 tablespoons butterscotch syrup, more for drizzle",
+            "2 teaspoons butter extract",
+            "1 cup whipped cream"
+        ],
+        "instructions": [
+            "Pour chilled butter beer into large mugs or glasses. Make sure the cream soda is nice and chilled before making the butter beer!",
+            "Add 1 tablespoon of butterscotch syrup into each glass.",
+            "Add 1 teaspoon of butter extract into each glass. Feel free to use more if you like a lot of butter flavor!",
+            "Whisk together the ingredients in the glasses until fully mixed.",
+            "Top with whipped cream, and drizzle more butterscotch on top if desired!"
+        ]
+    },
+    /*{
         "id": "2",
         "title": "Texas pulled pork barbecue the ocky way, no dingus",
         "category": "Lord of the Rings",
@@ -1110,15 +1218,15 @@ export const data = [
             "Place the kale in a large serving bowl. Add half of the dressing and massage it into the kale using a wringing motion until the kale is very tender. Two minutes of massaging should do it, but the longer, the better. Add the quinoa, black beans, carrot, and bell pepper, along with the remaining dressing. Mix well and refrigerate until ready to serve.",
             "Just before serving, check the seasoning and add more lemon juice, chile powder, cumin, and salt, as needed. Stir in chopped avocado, if desired, or serve with slices of avocado on the side.",
         ]
-    },
+    },*/
 ];
 
 export const authorDummyData = [
-    {id: 0, avatar: Avatar0, name: 'Ernest Achiever', posts: 7},
-    {id: 1, avatar: Avatar1, name: 'Ernest Achiever', posts: 2},
-    {id: 2, avatar: Avatar2, name: 'Ernest Achiever', posts: 4},
-    {id: 3, avatar: Avatar3, name: 'Ernest Achiever', posts: 26},
-    {id: 4, avatar: Avatar4, name: 'Ernest Achiever', posts: 3},
+    {id: 0, avatar: Avatar0, name: 'Three Sheets', posts: 7},
+    //{id: 1, avatar: Avatar1, name: 'Ernest Achiever', posts: 2},
+    //{id: 2, avatar: Avatar2, name: 'Ernest Achiever', posts: 4},
+    //{id: 3, avatar: Avatar3, name: 'Ernest Achiever', posts: 26},
+    //{id: 4, avatar: Avatar4, name: 'Ernest Achiever', posts: 3},
 ];
 
 export default data;

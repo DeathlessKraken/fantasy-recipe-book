@@ -55,7 +55,8 @@ export default function Recipe () {
                     <p className="text-default text-sm">{"Found in: " + post.category}</p>
 
                     {/* If this is not an origial recipe, this link will appear. */}
-                    <a href="https://blog.fatfreevegan.com/2013/06/kale-and-quinoa-salad-with-black-beans.html"><p className="link link-info link-hover">Original Post</p></a>
+                    {/* TEMPORARILY HIDDEN FOR TESTING */}
+                    <a className="hidden" href="https://blog.fatfreevegan.com/2013/06/kale-and-quinoa-salad-with-black-beans.html"><p className="link link-info link-hover">Original Post</p></a>
                     </div>
                 </div>
 
