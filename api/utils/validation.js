@@ -73,13 +73,13 @@ const postSchema = Joi.object({
     servings: Joi.number().integer().min(1).max(999).required(),
     ingredients: Joi.object().min(1).max(25)
         .pattern(Joi.string().trim().pattern(/^ingredient(?!0)\d{1,2}$/), 
-            Joi.string().trim().min(3).max(60))
+            Joi.string().trim().min(3).max(100))
         .required().messages({
             "object.unknown": "Ingredient keys must be in format 'ingredient[1-99]'",
             "object.max": "Ingredients object must have no more than 25 keys.",
         }),
     instructions: Joi.object().min(1).max(25)
-        .pattern(Joi.string().trim().pattern(/^step(?!0)\d{1,2}$/), Joi.string().trim().min(3).max(300))
+        .pattern(Joi.string().trim().pattern(/^step(?!0)\d{1,2}$/), Joi.string().trim().min(3).max(500))
         .required().messages({
             "object.unknown": "Instruction keys must be in format 'step[1-99]'",
             "object.max": "Instructions object must have no more than 25 keys."

@@ -17,7 +17,6 @@ export function getSinglePost (req, res) {
 //Get data from body
 //Validate/sanitize
 //Save to db
-
 export async function submitPost (req, res) {
     const {
         title,
@@ -50,6 +49,10 @@ export async function submitPost (req, res) {
             instructions
         }).catch(error => {throw new Error("Error validating input: " + error.details[0].message, { cause: 400 })});
 
+        if(!inputs.is_personal && !inputs.post_origin) {
+            throw new Error("You must provide post_origin link if this is not your recipe.", {cause:400});
+        }
+
         //Escape title, description, body, and ingredients/instructions inputs before saving to db.
         const cleanTitle = escape(inputs.title);
         let cleanDescription = inputs.description;
@@ -69,6 +72,7 @@ export async function submitPost (req, res) {
         //Generate non-user inputs
         const slug = slugify(inputs.title, {remove: /[*+~.()'"!:@]/g, lower: true, strict: true}) + "-" + uniqueSlug();
 
+        //Stick this bit into getUserFromToken
         const token = req.header('authorization').split(' ')[1];
         if(!isJWT(token)) {
             throw new Error("Unable to verify token in Auth header.", {cause:401});
@@ -78,13 +82,13 @@ export async function submitPost (req, res) {
         
         await savePost({
             user,
+            slug,
             createdat: new Date().toISOString(),
             post_views: 0,
             isdeleted: false,
             title: cleanTitle,
             category: inputs.category,
             post_origin: inputs.post_origin,
-            is_personal: inputs.is_personal,
             description: cleanDescription,
             body: cleanBody,
             media_url: inputs.media_url,

@@ -325,7 +325,7 @@ export default function CreateRecipe (props) {
                                             className="input input-ghost input-md leading-normal w-full max-w-sm 
                                                 focus:outline-slate-600 active:bg-slate-100 focus:bg-slate-100 !text-default" 
                                             id={`ingredient${idx + 1}`}
-                                            maxLength={60}
+                                            maxLength={100}
                                             name={`ingredient${idx + 1}`}
                                             value={inputs.ingredients[`ingredient${idx + 1}`]}
                                             onChange={handleInputChange}
@@ -362,7 +362,7 @@ export default function CreateRecipe (props) {
                                         <textarea 
                                             className="textarea textarea-ghost textarea-md leading-normal w-full max-w-2xl 
                                                 focus:outline-slate-600 active:bg-slate-100 focus:bg-slate-100 !text-default" 
-                                            maxLength={300}
+                                            maxLength={500}
                                             rows={4}
                                             id={`step${idx + 1}`}
                                             name={`step${idx + 1}`}
