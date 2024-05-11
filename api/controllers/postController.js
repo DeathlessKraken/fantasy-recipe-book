@@ -8,9 +8,28 @@ import getIdFromUser from "../db/getIdFromUser.js";
 import getUserFromSlug from "../db/getUserFromSlug.js";
 import deletePostForId from "../db/deletePostForId.js";
 import checkPostExistsFromSlug from "../db/checkPostExistsFromSlug.js";
+import getRecipes from "../db/getRecipes.js";
 
-export function getPosts (req, res) {
-    res.json("Get posts route");
+export async function getPosts (req, res) {
+    try {
+        const result = await getRecipes();
+
+        if(result.length < 1) throw new Error(`No posts available.`, {cause:404});
+
+        //This may be a waste of processing power...
+        const recipes = result.map(obj => {
+            return obj.json_build_object;
+        });
+
+        res.status(200).json(recipes);
+    } catch (error) {
+        if(error.cause){
+            res.status(error.cause).json(error.message);
+        } else {
+            console.log(error);
+            res.status(500).json("Something went wrong. Please try again later.");
+        }
+    }
 }
 
 export async function getSinglePost (req, res) {
