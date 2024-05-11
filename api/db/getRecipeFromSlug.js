@@ -9,12 +9,12 @@ export default async function getRecipeFromSlug(slug) {
         + "";*/
 
     const query = "UPDATE recipe SET post_views = recipe.post_views + 1 "
-        + "FROM (SELECT title, u.username, r.createdat, updatedat, category, post_origin, description, body, media_url, "
+        + "FROM (SELECT r.slug, title, u.username, r.createdat, updatedat, category, post_origin, description, body, media_url, "
         + "prep_time, cook_time, servings, ingredients, instructions, post_views "
         + "FROM recipe r JOIN user_profile u ON u.id = r.author "
-        + "WHERE slug = $1 AND r.isdeleted = false) sub "
-        + "WHERE slug = $1 AND isdeleted = false "
-        + "RETURNING json_build_object('title', sub.title, 'author', sub.username, 'createdAt', sub.createdat, 'updatedAt', sub.updatedat, "
+        + "WHERE r.slug = $1 AND r.isdeleted = false) sub "
+        + "WHERE recipe.slug = $1 AND isdeleted = false "
+        + "RETURNING json_build_object('slug', sub.slug,'title', sub.title, 'author', sub.username, 'createdAt', sub.createdat, 'updatedAt', sub.updatedat, "
         + "'category', sub.category, 'post_origin', sub.post_origin, 'description', sub.description, 'body', sub.body, 'media_url', sub.media_url, "
         + "'prep_time', sub.prep_time, 'cook_time', sub.cook_time, 'servings', sub.servings, 'ingredients', sub.ingredients, 'instructions', sub.instructions, "
         + "'post_views', (sub.post_views + 1))"
@@ -37,6 +37,7 @@ export default async function getRecipeFromSlug(slug) {
         return post.rows[0].json_build_object;
     } catch (error) {
         await client.query('ROLLBACK');
+        console.log(error);
         throw new Error("Unable to retrieve recipe from database.", {cause:500});
     } finally {
         client.release();
