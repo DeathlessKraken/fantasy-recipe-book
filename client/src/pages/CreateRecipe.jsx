@@ -228,6 +228,7 @@ export default function CreateRecipe (props) {
                             className="input input-ghost focus:outline-slate-600 w-full max-w-sm 
                                 active:bg-slate-100 focus:bg-slate-100 !text-default" 
                             name="title"
+                            maxLength={60}
                             value={inputs.title}
                             onChange={handleInputChange}
                         />

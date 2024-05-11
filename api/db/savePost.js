@@ -21,7 +21,7 @@ export default async function savePost({
 }) {
     const client = await pool.connect();
 
-    const id = (await getIdFromUser(user)).id;
+    const id = (await getIdFromUser(user));
     
     const query = "INSERT INTO recipe (slug, title, author, createdat, category, post_origin, description, "
     + "body, media_url, prep_time, cook_time, servings, ingredients, instructions, post_views, isdeleted) "

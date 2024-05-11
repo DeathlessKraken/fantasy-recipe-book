@@ -3,8 +3,6 @@ import { postSchema } from "../utils/validation.js";
 import escape from "validator/lib/escape.js";
 import slugify from "slugify";
 import uniqueSlug from "unique-slug";
-import isJWT from "validator/lib/isJWT.js";
-import getUserFromToken from "../utils/getUserFromToken.js";
 
 export function getPosts (req, res) {
     res.json("Get posts route");
@@ -71,17 +69,9 @@ export async function submitPost (req, res) {
 
         //Generate non-user inputs
         const slug = slugify(inputs.title, {remove: /[*+~.()'"!:@]/g, lower: true, strict: true}) + "-" + uniqueSlug();
-
-        //Stick this bit into getUserFromToken
-        const token = req.header('authorization').split(' ')[1];
-        if(!isJWT(token)) {
-            throw new Error("Unable to verify token in Auth header.", {cause:401});
-        }
-
-        const user = await getUserFromToken(token);
         
         await savePost({
-            user,
+            user: req.user,
             slug,
             createdat: new Date().toISOString(),
             post_views: 0,
@@ -100,6 +90,7 @@ export async function submitPost (req, res) {
         });
 
         res.json("Post submitted successfully.");
+        
     } catch (error) {
         if(error.cause){
             res.status(error.cause).json(error.message);

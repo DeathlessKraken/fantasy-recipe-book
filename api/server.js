@@ -6,6 +6,7 @@ import './db/db.js';
 
 import { router as authRoutes } from './routes/authRoutes.js';
 import { router as postRoutes } from './routes/postRoutes.js';
+import errorHandler, { notFound } from './middleware/errorHandler.js';
 
 const app = express();
 const port = process.env.PORT;
@@ -17,6 +18,9 @@ app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
+
+app.all("*", notFound);
+app.use(errorHandler);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

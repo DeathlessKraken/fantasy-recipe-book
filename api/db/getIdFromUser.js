@@ -7,7 +7,7 @@ export default async function getIdFromUser (user) {
             [user]
         );
 
-        return result.rows[0];
+        return result.rows[0].id;
     } catch (error) {
         throw new Error("Unable to retrieve user from database.", {cause:500});
     }

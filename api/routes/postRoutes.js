@@ -6,6 +6,7 @@ import {
     getPosts,
     getSinglePost
 } from "../controllers/postController.js";
+import protectRoute from "../middleware/protectRoute.js";
 
 const router = Router();
 
@@ -15,7 +16,7 @@ router.get('/posts', getPosts);
 //Get specific recipe from url slug
 router.get('/post/:id', getSinglePost);
 
-router.post('/submit', submitPost);
+router.post('/submit', protectRoute, submitPost);
 router.delete('/delete', deletePost);
 router.put('/edit', editPost);
 

@@ -54,7 +54,7 @@ const loginSchema = Joi.object({
 }).length(2).required();
 
 const postSchema = Joi.object({
-    title: Joi.string().trim().min(3).max(50).required(),
+    title: Joi.string().trim().min(3).max(60).required(),
     category: Joi.string().trim().pattern(/(beverages|appetizers|meals|bread|desserts|other)/i).required()
         .messages({"string.pattern.base": "Category must match 'beverages', 'appetizers', 'meals', 'bread', 'desserts', or 'other'"}),
     post_origin: Joi.string().trim().uri({
