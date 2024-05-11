@@ -1,6 +1,6 @@
 export function notFound (req, res, next) {
     res.status(404);
-    next(new Error(`Route not found: ${req.originalUrl}`, {cause: 404}));
+    next(new Error(`Route not found: ${req.method} - ${req.originalUrl}`, {cause: 404}));
 }
 
 export default function errorHandler (err, req, res, next) {

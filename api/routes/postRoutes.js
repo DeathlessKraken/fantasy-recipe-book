@@ -11,13 +11,13 @@ import protectRoute from "../middleware/protectRoute.js";
 const router = Router();
 
 //Get all recipes; default limit 50; returns next_url as cursor
-router.get('/posts', getPosts);
+router.get('/', getPosts);
 
 //Get specific recipe from url slug
-router.get('/post/:id', getSinglePost);
+router.get('/:slug', getSinglePost);
 
 router.post('/submit', protectRoute, submitPost);
-router.delete('/delete', deletePost);
-router.put('/edit', editPost);
+router.delete('/delete', protectRoute, deletePost);
+router.put('/edit', protectRoute, editPost);
 
 export { router };

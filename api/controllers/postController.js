@@ -1,15 +1,40 @@
 import savePost from "../db/savePost.js";
-import { postSchema } from "../utils/validation.js";
+import { postSchema, slugSchema } from "../utils/validation.js";
 import escape from "validator/lib/escape.js";
 import slugify from "slugify";
 import uniqueSlug from "unique-slug";
+import getRecipeFromSlug from "../db/getRecipeFromSlug.js";
+//import getRecipeFromResult from "../utils/getRecipeFromResult.js";
 
 export function getPosts (req, res) {
     res.json("Get posts route");
 }
 
-export function getSinglePost (req, res) {
-    res.json("Get single post route");
+export async function getSinglePost (req, res) {
+    const dirtySlug = req.params.slug;
+    
+    try {
+        const slug = await slugSchema.validateAsync(dirtySlug)
+            .catch(error => {throw new Error("Unable to validate url: " + error.details[0].message, { cause: 400 })});
+
+        const result = await getRecipeFromSlug(slug);
+
+        if(!result) {
+            throw new Error(`Unable to find a match for url slug ${slug}`, {cause:400});
+        }
+        
+        res.status(200).json(result);
+
+    } catch (error) {
+        if(error.cause){
+            res.status(error.cause).json(error.message);
+        } else {
+            console.log(error);
+            res.status(500).json("Something went wrong. Please try again later.");
+        }
+    }
+
+
 }
 
 //Get data from body
@@ -90,7 +115,7 @@ export async function submitPost (req, res) {
         });
 
         res.json("Post submitted successfully.");
-        
+
     } catch (error) {
         if(error.cause){
             res.status(error.cause).json(error.message);

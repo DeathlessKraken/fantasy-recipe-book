@@ -91,4 +91,6 @@ const postSchema = Joi.object({
     "object.xor": "Post cannot contain BOTH is_personal boolean and post_origin URL."
 });
 
-export { registerSchema, loginSchema, postSchema };
+const slugSchema = Joi.string().min(8).pattern(/^[a-zA-Z0-9-]+$/);
+
+export { registerSchema, loginSchema, postSchema, slugSchema };

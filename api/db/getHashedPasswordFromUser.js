@@ -13,7 +13,6 @@ export default async function getHashedPasswordFromUser(user) {
 
         return result.rows[0].user_password;
     } catch (error) {
-        console.log(error)
         throw new Error('Error reading database.', {cause: 500});
     }
 }
