@@ -116,6 +116,7 @@ export async function submitPost (req, res) {
         const slug = slugify(inputs.title, {remove: /[*+~.()'"!:@]/g, lower: true, strict: true}) + "-" + uniqueSlug();
         
         await savePost({
+            isUpdate: false,
             user: req.user,
             slug,
             createdat: new Date().toISOString(),
@@ -188,6 +189,108 @@ export async function deletePost (req, res) {
     }
 }
 
-export function editPost (req, res) {
-    res.json("edit post route");
+
+//Get info from user, v/s
+//Replace post in db with new values
+//DON'T update slug, isdeleted, post_views, createdat, author
+//UPDATE updatedat
+//Make sure this is their post
+export async function editPost (req, res) {
+    const {
+        title,
+        category,
+        post_origin,
+        description,
+        is_personal,
+        body,
+        media_url,
+        prep_time,
+        cook_time,
+        servings,
+        ingredients,
+        instructions
+    } = req.body;
+
+    const dirtySlug = req.params.slug;
+
+    try {
+        const slug = await slugSchema.validateAsync(dirtySlug)
+            .catch(error => {throw new Error("Unable to validate url: " + error.details[0].message, { cause: 400 })});
+            
+        //Grab username from post being edited
+        const user = await getUserFromSlug(slug);
+        
+        //Confirm user exists, and it's their post.
+        if(!user) throw new Error(`Unable to find user ${req.user} for url ${req.originalUrl}`, {cause:404});
+        if(user !== req.user) {
+            throw new Error(`Signed in user does not match post author.`, {cause:403});
+        }
+        
+        //Confirm post exists
+        const exists = await checkPostExistsFromSlug(slug);
+        if(!exists) throw new Error(`Unable to locate post for url ${req.originalUrl}`, {cause:404});
+
+        const inputs = await postSchema.validateAsync({
+            title,
+            category,
+            post_origin,
+            is_personal,
+            description,
+            body,
+            media_url,
+            prep_time,
+            cook_time,
+            servings,
+            ingredients,
+            instructions
+        }).catch(error => {throw new Error("Error validating input: " + error.details[0].message, { cause: 400 })});
+
+        if(!inputs.is_personal && !inputs.post_origin) {
+            throw new Error("You must provide post_origin link if this is not your recipe.", {cause:400});
+        }
+
+        //Escape title, description, body, and ingredients/instructions inputs before saving to db.
+        const cleanTitle = escape(inputs.title);
+        let cleanDescription = inputs.description;
+        let cleanBody = inputs.body;
+        if(cleanDescription) { cleanDescription = escape(inputs.description); }
+        if(cleanBody) { cleanBody = escape(inputs.body); }
+
+        const cleanIngredients = {};
+        const cleanInstructions = {};
+        Object.keys(inputs.ingredients).map(key => {
+            cleanIngredients[key] = escape(inputs.ingredients[key]);
+        });
+        Object.keys(inputs.instructions).map(key => {
+            cleanInstructions[key] = escape(inputs.instructions[key]);
+        });
+        
+        await savePost({
+            isUpdate: true,
+            user: req.user,
+            slug,
+            updatedat: new Date().toISOString(),
+            title: cleanTitle,
+            category: inputs.category,
+            post_origin: inputs.post_origin,
+            description: cleanDescription,
+            body: cleanBody,
+            media_url: inputs.media_url,
+            prep_time: inputs.prep_time,
+            cook_time: inputs.cook_time,
+            servings: inputs.servings,
+            ingredients: cleanIngredients,
+            instructions: cleanInstructions
+        });
+
+        res.json("Post updated successfully.");
+
+    } catch (error) {
+        if(error.cause){
+            res.status(error.cause).json(error.message);
+        } else {
+            console.log(error);
+            res.status(500).json("Something went wrong. Please try again later.");
+        }
+    }
 }
