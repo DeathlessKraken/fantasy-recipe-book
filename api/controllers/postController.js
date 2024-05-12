@@ -1,5 +1,5 @@
 import savePost from "../db/savePost.js";
-import { postSchema, slugSchema, userSchema } from "../utils/validation.js";
+import { postSchema, slugSchema, userSchema, querySchema } from "../utils/validation.js";
 import escape from "validator/lib/escape.js";
 import slugify from "slugify";
 import uniqueSlug from "unique-slug";
@@ -13,8 +13,15 @@ import getRecipesFromUser from "../db/getRecipesFromUser.js";
 
 //Getting many posts does not increase view count
 export async function getPosts (req, res) {
+    const category = req.query.category;
+    const sort = req.query.sort;
+    const time = req.query.time;
+    
     try {
-        const result = await getRecipes();
+        const queries = await querySchema.validateAsync({category, sort, time})
+            .catch(error => {throw new Error("Unable to parse queries: " + error.details[0].message, { cause: 400 })});
+
+        const result = await getRecipes(queries);
 
         if(result.length < 1) throw new Error(`No posts available.`, {cause:404});
 

@@ -12,17 +12,20 @@ import protectRoute from "../middleware/protectRoute.js";
 const router = Router();
 
 //Get all recipes; default limit 50; returns next_url as cursor
+//Default sort by title alphabetical
+//Optional CATEGORY query (default - all, ...categories)
+//Optional SORT query (default - alphabetical, popularity, date)
+//Optional TIME query (default - all, year, month, week)
 router.get('/', getPosts);
 
 //Get specific recipe from url slug
 router.get('/:slug', getSinglePost);
 
 //Get posts from user
+//Optional CATEGORY query (default - all, ...categories)
+//Optional SORT query (default - alphabetical, popularity, date)
+//Optional TIME query (default - all, year, month, week)
 router.get('/user/:user', getUserPosts);
-
-//Get posts by category (default sort alpabetical, optional sort by views or date created)
-//query params for sort if exist
-//router.get('/:category', getPosts);
 
 router.post('/submit', protectRoute, submitPost);
 router.delete('/:slug/delete/', protectRoute, deletePost);

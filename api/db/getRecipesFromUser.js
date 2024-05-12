@@ -24,7 +24,6 @@ export default async function getRecipesFromUser(user) {
 
         return result.rows;
     } catch (error) {
-        console.log(error);
         throw new Error("Unable to retrieve recipe from database.", {cause:500});
     }
 }

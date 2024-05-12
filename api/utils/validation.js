@@ -55,7 +55,7 @@ const loginSchema = Joi.object({
 
 const postSchema = Joi.object({
     title: Joi.string().trim().min(3).max(60).required(),
-    category: Joi.string().trim().pattern(/(beverages|appetizers|meals|bread|desserts|other)/i).required()
+    category: Joi.string().trim().pattern(/^(beverages|appetizers|meals|bread|desserts|other)$/i).lowercase().required()
         .messages({"string.pattern.base": "Category must match 'beverages', 'appetizers', 'meals', 'bread', 'desserts', or 'other'"}),
     post_origin: Joi.string().trim().uri({
         scheme: ["https"],
@@ -95,4 +95,16 @@ const slugSchema = Joi.string().trim().min(8).pattern(/^[a-zA-Z0-9-]+$/).require
 
 const userSchema = Joi.string().trim().alphanum().required();
 
-export { registerSchema, loginSchema, postSchema, slugSchema, userSchema };
+const querySchema = Joi.object({
+    category: Joi.string().trim().pattern(/^(beverages|appetizers|meals|bread|desserts|other)$/i).lowercase()
+        .messages({"string.pattern.base": "Category must match 'beverages', 'appetizers', 'meals', 'bread', 'desserts', or 'other'"}),
+
+    sort: Joi.string().trim().pattern(/^(alphabetical|date|popularity)$/i).lowercase()
+        .messages({"string.pattern.base": "Sort must match 'alphabetical', 'date', or 'popularity'"}),
+
+    time: Joi.string().trim().pattern(/^(year|month|week)$/i).lowercase()
+        .messages({"string.pattern.base": "Time must match 'year', 'month', or 'week'"})
+
+}).max(3);
+
+export { registerSchema, loginSchema, postSchema, slugSchema, userSchema, querySchema };
