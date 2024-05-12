@@ -1,5 +1,5 @@
 import savePost from "../db/savePost.js";
-import { postSchema, slugSchema } from "../utils/validation.js";
+import { postSchema, slugSchema, userSchema } from "../utils/validation.js";
 import escape from "validator/lib/escape.js";
 import slugify from "slugify";
 import uniqueSlug from "unique-slug";
@@ -9,6 +9,7 @@ import getUserFromSlug from "../db/getUserFromSlug.js";
 import deletePostForId from "../db/deletePostForId.js";
 import checkPostExistsFromSlug from "../db/checkPostExistsFromSlug.js";
 import getRecipes from "../db/getRecipes.js";
+import getRecipesFromUser from "../db/getRecipesFromUser.js";
 
 //Getting many posts does not increase view count
 export async function getPosts (req, res) {
@@ -48,6 +49,36 @@ export async function getSinglePost (req, res) {
         }
         
         res.status(200).json(result);
+
+    } catch (error) {
+        if(error.cause){
+            res.status(error.cause).json(error.message);
+        } else {
+            console.log(error);
+            res.status(500).json("Something went wrong. Please try again later.");
+        }
+    }
+}
+
+export async function getUserPosts (req, res) {
+    const dirtyUser = req.params.user;
+    
+    try {
+        const user = await userSchema.validateAsync(dirtyUser)
+            .catch(error => {throw new Error("Unable to validate user: " + error.details[0].message, { cause: 400 })});
+
+        const result = await getRecipesFromUser(user);
+        
+        if(!result) {
+            throw new Error(`Unable to find posts for user ${user}`, {cause:400});
+        }
+
+        //Parse json object from db
+        const recipes = result.map(obj => {
+            return obj.json_build_object;
+        });
+
+        res.status(200).json(recipes);
 
     } catch (error) {
         if(error.cause){

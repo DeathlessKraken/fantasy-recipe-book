@@ -28,8 +28,7 @@ export default function Browse () {
                         <label htmlFor="browseSelect" className="text-default">Browse by:</label>
                         <select id="browseSelect" defaultValue={0} className="select select-ghost w-full max-w-sm focus:outline-slate-600
                             active:bg-slate-100 focus:bg-slate-100 !text-default">
-                          <option>Title</option>
-                          <option>Tag</option>
+                          <option>All</option>
                           <optgroup label="Category">
                             <option>Beverages</option>
                             <option>Appetizers</option>
@@ -41,7 +40,7 @@ export default function Browse () {
                         </select>
                     </div>
 
-                    <div className="flex items-end gap-1">
+                    <div className="flex items-end gap-4">
                         <div className="flex flex-col gap-1">
                             <label htmlFor="sortSelect" className="text-default">Sort:</label>
                             <select id="sortSelect" defaultValue={0} className="select select-ghost w-full max-w-xs focus:outline-slate-600
@@ -51,7 +50,19 @@ export default function Browse () {
                               <option>Date Posted</option>
                             </select>
                         </div>
-                        <img onClick={handleSortChange} className="w-10 h-10 m-1 cursor-pointer" src={sortIcon} alt={`sort order button, ${sortDirection}`} />
+
+                        <div className="flex items-end gap-1">
+                            <div className="flex flex-col gap-1">
+                                <select id="timeSelect" defaultValue={0} className="select select-ghost w-full max-w-xs focus:outline-slate-600
+                                active:bg-slate-100 focus:bg-slate-100 !text-default">
+                                  <option>All Time</option>
+                                  <option>This Year</option>
+                                  <option>This Month</option>
+                                  <option>This Week</option>
+                                </select>
+                            </div>
+                            <img onClick={handleSortChange} className="w-10 h-10 m-1 cursor-pointer" src={sortIcon} alt={`sort order button, ${sortDirection}`} />
+                        </div>
                     </div>
                 </div>
             </div>
