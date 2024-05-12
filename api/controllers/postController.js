@@ -52,7 +52,7 @@ export async function getSinglePost (req, res) {
         const result = await getRecipeFromSlug(slug);
 
         if(!result) {
-            throw new Error(`Unable to find a match for url slug ${slug}`, {cause:400});
+            throw new Error(`Unable to find a match for url slug ${slug}`, {cause:404});
         }
         
         res.status(200).json(result);
@@ -69,15 +69,21 @@ export async function getSinglePost (req, res) {
 
 export async function getUserPosts (req, res) {
     const dirtyUser = req.params.user;
+    const category = req.query.category;
+    const sort = req.query.sort;
+    const time = req.query.time;
     
     try {
         const user = await userSchema.validateAsync(dirtyUser)
             .catch(error => {throw new Error("Unable to validate user: " + error.details[0].message, { cause: 400 })});
 
-        const result = await getRecipesFromUser(user);
+        const queries = await querySchema.validateAsync({category, sort, time})
+            .catch(error => {throw new Error("Unable to parse queries: " + error.details[0].message, { cause: 400 })});
+
+        const result = await getRecipesFromUser(user, queries);
         
         if(!result) {
-            throw new Error(`Unable to find posts for user ${user}`, {cause:400});
+            throw new Error(`Unable to find posts for user ${user}`, {cause:404});
         }
 
         //Parse json object from db
