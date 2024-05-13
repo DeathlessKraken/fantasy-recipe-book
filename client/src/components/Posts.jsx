@@ -1,13 +1,10 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-
-import { data as dummyPosts } from "../data";
+import PostSkeleton from "./skeletons/PostSkeleton";
+import useGetPosts from "../hooks/useGetPosts";
 
 export default function Posts () {
-    const [posts, setPosts] = useState(dummyPosts);
-    const titleLength = 50;
-    const descriptionLength = 150;
-    
+    const {loading, posts} = useGetPosts();
+
     return (
       <section 
         className="
@@ -15,29 +12,44 @@ export default function Posts () {
           grid-cols-1 
           gap-4 
           gap-y-8
-          md:grid-cols-2
+          sm:grid-cols-2
+          md:grid-cols-3
           md:gap-8
-          lg:grid-cols-1
-          xl:grid-cols-2
+          lg:grid-cols-2
+          xl:grid-cols-3
           xl:gap-16 
           xl:px-16
         ">
-        {posts.length > 0 ? posts.map((post) => {
+
+        {loading === true && 
+          <>
+            <PostSkeleton />
+            <PostSkeleton />
+            <PostSkeleton />
+            <PostSkeleton />
+            <PostSkeleton />
+            <PostSkeleton />
+            <PostSkeleton />
+            <PostSkeleton />
+            <PostSkeleton />
+          </>
+        }
+
+        {(loading === false && posts.length > 0) && posts.map((post, idx) => {
             return (
-                <div key={post.id} className="card bg-slate-200 shadow-xl">
-                  <Link to={`/recipe/${post.id}`}><figure><img className="h-56 w-full object-cover rounded-t-xl" src={post.media} alt={post.title}/></figure></Link>
+              <Link key={idx} to={`/recipe/${post.slug}`} className="card bg-slate-200 shadow-xl">
+                  <figure><img className="w-full h-48 object-cover rounded-t-xl" src={post.media_url} alt={post.title}/></figure>
                   <div className="card-body">
-                    <h2 className="card-title text-default">{post.title.length > titleLength ? post.title.slice(0, titleLength) + "..." : post.title}</h2>
-                    <p className="text-default">{post.body.length > descriptionLength ? post.body.slice(0, descriptionLength) + "..." : post.body}</p>
-                    <div className="card-actions justify-end">
-                      <Link to={`/recipe/${post.id}`}>
-                        <button className="btn btn-ghost text-primary">View Recipe</button>
-                      </Link>
+                    <p className="text-orange-600 text-base flex-none">{post.category.slice(0, 1).toUpperCase() + post.category.slice(1)}</p>
+                    <h2 className="card-title text-default text-lg">{post.title}</h2>
+                    <div className="flex justify-between flex-grow items-end text-sm text-default">
+                      <p>{post.author}</p>
+                      <p className="text-end">{post.prep_time + post.cook_time} Minutes</p>
                     </div>
                   </div>
-                </div>
+              </Link>
             );
-        }) : <h1>No posts available!</h1>}
+        })}
       </section>
     );
 }
