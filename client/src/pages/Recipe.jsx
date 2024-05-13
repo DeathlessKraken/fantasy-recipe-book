@@ -1,19 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { data as dummyData } from "../data";
 import LeftArrow from "../assets/Arrow_Left.svg";
 import BoxArrowDown from "../assets/BoxArrowDown.svg";
+import useGetSinglePost from "../hooks/useGetSinglePost";
 
 export default function Recipe () {
-
-    //TODO:
-    //If previous page was /random/, go back two pages.
-    //If they came from any other page, just go back one.
-
+    const { loading, post } = useGetSinglePost();
     const navigate = useNavigate();
-    const { id } = useParams();
-    const [post, setPost] = useState(dummyData[id]);
 
     function handleIngredientCheckbox(itemIndex) {
         const item = document.getElementById("desc" + itemIndex);
@@ -27,6 +21,8 @@ export default function Recipe () {
 
     return (
         <article className="w-full h-full">
+
+            {!loading &&
             <div className="lg:bg-orange-100 p-4 w-full max-w-xl xl:max-w-2xl mx-auto lg:my-8 lg:rounded-lg">
                 
                 <div className="flex justify-between">
@@ -36,10 +32,10 @@ export default function Recipe () {
 
                     {/* Protected edit/delete buttons for author */}
                     <div className="flex gap-4 pb-4 justify-end">
-                        <Link to={`/recipe/${post.id}/edit`}>
+                        <Link to={`/recipe/${post.slug}/edit`}>
                             <button className="btn btn-accent">Edit</button>
                         </Link>
-                        <Link to={`/recipe/${post.id}/delete`}>
+                        <Link to={`/recipe/${post.slug}/delete`}>
                             <button className="btn btn-error">Delete</button>
                         </Link>
                     </div>
@@ -51,7 +47,7 @@ export default function Recipe () {
                 <div className="flex flex-col mt-2">
                     <div className="flex flex-col">
                         <h2 className="text-default text-sm">Posted by: <Link to={`/user/${post.author}`} 
-                            className="link link-info link-hover">{post.author}</Link> on {new Date(post.date_posted).toLocaleDateString()}</h2>
+                            className="link link-info link-hover">{post.author}</Link> on {new Date(post.createdAt).toLocaleDateString()}</h2>
                     <p className="text-default text-sm">{"Found in: " + post.category}</p>
 
                     {/* If this is not an origial recipe, this link will appear. */}
@@ -64,7 +60,7 @@ export default function Recipe () {
                 <p className="italic text-slate-600 my-4">{post.description}</p>
 
                 <div className="m-auto w-fit h-fit rounded-lg overflow-hidden">
-                    <img src={post.media} alt={post.title} />
+                    <img src={post.media_url} alt={post.title} />
                 </div>
 
                 {/* Jump to recipe and possible share links */}
@@ -81,13 +77,13 @@ export default function Recipe () {
                         <div className="stats stats-horizontal mt-4 sm:mt-0 self-center bg-slate-200 text-slate-700 text-xs w-64 sm:w-fit">
                           <div className="stat">
                             <div className="stat-title text-slate-700 font-semibold">Prep Time</div>
-                            <div className="stat-value">{post.prep_time_mins}</div>
+                            <div className="stat-value">{post.prep_time}</div>
                             <div className="stat-desc text-slate-700 font-medium">Minutes</div>
                           </div>
 
                           <div className="stat">
                             <div className="stat-title text-slate-700 font-semibold">Cook Time</div>
-                            <div className="stat-value">{post.cook_time_mins}</div>
+                            <div className="stat-value">{post.cook_time}</div>
                             <div className="stat-desc text-slate-700 font-medium">Minutes</div>
                           </div>
                         </div>
@@ -95,7 +91,7 @@ export default function Recipe () {
                         <div className="stats stats-horizontal mb-4 sm:mb-0 self-center bg-slate-200 text-slate-700 text-xs w-64 sm:w-fit">
                             <div className="stat">
                               <div className="stat-title text-slate-700 font-semibold">Total Time</div>
-                              <div className="stat-value">{post.cook_time_mins + post.prep_time_mins}</div>
+                              <div className="stat-value">{post.cook_time + post.prep_time}</div>
                               <div className="stat-desc text-slate-700 font-medium">Minutes</div>
                             </div>
 
@@ -109,7 +105,7 @@ export default function Recipe () {
 
                     <div className="flex flex-col gap-2 text-default">
                         {
-                            post.ingredients.map((item, idx) => {
+                            Object.values(post.ingredients).map((item, idx) => {
                                 return (
                                     <div key={idx} className="flex gap-1">
                                         <input type="checkbox" id={"item" + idx} className="checkbox checkbox-info" onClick={() => handleIngredientCheckbox(idx)}/>
@@ -122,7 +118,7 @@ export default function Recipe () {
 
                     <ol type="1" className="text-default list-decimal px-4">
                         {
-                            post.instructions.map((item, idx) => {
+                            Object.values(post.instructions).map((item, idx) => {
                                 return (
                                     <li key={idx} className="my-4">
                                         {item}
@@ -133,6 +129,7 @@ export default function Recipe () {
                     </ol>
                 </div>
             </div>
+        }
         </article>
     );
 }
