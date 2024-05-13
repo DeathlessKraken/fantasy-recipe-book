@@ -4,6 +4,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import LeftArrow from "../assets/Arrow_Left.svg";
 import BoxArrowDown from "../assets/BoxArrowDown.svg";
 import useGetSinglePost from "../hooks/useGetSinglePost";
+import DOMPurify from "dompurify";
+import parse from "html-react-parser";
 
 export default function Recipe () {
     const { loading, post } = useGetSinglePost();
@@ -17,6 +19,10 @@ export default function Recipe () {
         } else {
             item.setAttribute("style", "text-decoration-line: none");
         }
+    }
+
+    function showCleanHTML(input) {
+        return parse((DOMPurify.sanitize(input)));
     }
 
     return (
@@ -42,7 +48,7 @@ export default function Recipe () {
                 </div>
                 
                 {/* Title */}
-                <h1 className="text-default text-3xl mt-4">{post.title}</h1>
+                <h1 className="text-default text-3xl mt-4">{showCleanHTML(post.title)}</h1>
                 {/* Post user info */}
                 <div className="flex flex-col mt-2">
                     <div className="flex flex-col">
@@ -57,10 +63,10 @@ export default function Recipe () {
                 </div>
 
                 {/* Short description, no more than 200 chars. */}
-                <p className="italic text-slate-600 my-4">{post.description}</p>
+                <p className="italic text-slate-600 my-4">{showCleanHTML(post.description)}</p>
 
                 <div className="m-auto w-fit h-fit rounded-lg overflow-hidden">
-                    <img src={post.media_url} alt={post.title} />
+                    <img src={showCleanHTML(post.media_url)} alt={post.title} />
                 </div>
 
                 {/* Jump to recipe and possible share links */}
@@ -69,7 +75,7 @@ export default function Recipe () {
                     Skip to Recipe
                 </button>
 
-                <p className="text-default leading-relaxed my-4">{post.body}</p>
+                <p className="text-default leading-relaxed my-4">{showCleanHTML(post.body)}</p>
 
                 <div id="recipe" className="flex flex-col gap-4 my-4">
 
@@ -109,7 +115,7 @@ export default function Recipe () {
                                 return (
                                     <div key={idx} className="flex gap-1">
                                         <input type="checkbox" id={"item" + idx} className="checkbox checkbox-info" onClick={() => handleIngredientCheckbox(idx)}/>
-                                        <label htmlFor={"item" + idx} id={"desc" + idx}>{item}</label>
+                                        <label htmlFor={"item" + idx} id={"desc" + idx}>{showCleanHTML(item)}</label>
                                     </div>
                                 );
                             })
@@ -121,7 +127,7 @@ export default function Recipe () {
                             Object.values(post.instructions).map((item, idx) => {
                                 return (
                                     <li key={idx} className="my-4">
-                                        {item}
+                                        {showCleanHTML(item)}
                                     </li>
                                 );
                             })
