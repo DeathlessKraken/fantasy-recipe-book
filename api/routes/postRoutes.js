@@ -13,6 +13,8 @@ const router = Router();
 
 //Get all recipes; default limit 50; returns next_url as cursor
 //Default sort by title alphabetical
+//Search posts in db
+//Allows "" for quoted text, and - symbol for negation
 //Optional CATEGORY query (default - all, ...categories)
 //Optional SORT query (default - alphabetical, popularity, date)
 //Optional TIME query (default - all, year, month, week)
@@ -22,10 +24,9 @@ router.get('/', getPosts);
 router.get('/:slug', getSinglePost);
 
 //Get posts from user
-//Optional CATEGORY query (default - all, ...categories)
-//Optional SORT query (default - alphabetical, popularity, date)
-//Optional TIME query (default - all, year, month, week)
+//Optional queries accepted
 router.get('/user/:user', getUserPosts);
+
 
 router.post('/submit', protectRoute, submitPost);
 router.delete('/:slug/delete/', protectRoute, deletePost);

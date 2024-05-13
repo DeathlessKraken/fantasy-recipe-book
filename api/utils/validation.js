@@ -103,8 +103,14 @@ const querySchema = Joi.object({
         .messages({"string.pattern.base": "Sort must match 'alphabetical', 'date', or 'popularity'"}),
 
     time: Joi.string().trim().pattern(/^(year|month|week)$/i).lowercase()
-        .messages({"string.pattern.base": "Time must match 'year', 'month', or 'week'"})
+        .messages({"string.pattern.base": "Time must match 'year', 'month', or 'week'"}),
 
-}).max(3);
+    search: Joi.string().trim().pattern(/^[a-z0-9- "]+$/i)
+        .messages({
+            "string.pattern.base": 'Invalid characters in search query. Must match [a-z0-9- "]',
+            "string.empty": "Cannot search for empty string."
+        })
+
+}).max(4);
 
 export { registerSchema, loginSchema, postSchema, slugSchema, userSchema, querySchema };
