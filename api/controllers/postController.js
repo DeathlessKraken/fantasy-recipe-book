@@ -74,17 +74,19 @@ export async function getUserPosts (req, res) {
     const category = req.query.category;
     const sort = req.query.sort;
     const time = req.query.time;
+
+    const search = req.query.query;
     
     try {
         const user = await userSchema.validateAsync(dirtyUser)
             .catch(error => {throw new Error("Unable to validate user: " + error.details[0].message, { cause: 400 })});
 
-        const queries = await querySchema.validateAsync({category, sort, time})
+        const queries = await querySchema.validateAsync({category, sort, time, search})
             .catch(error => {throw new Error("Unable to parse queries: " + error.details[0].message, { cause: 400 })});
 
         const result = await getRecipesFromUser(user, queries);
         
-        if(!result) {
+        if(!result || result.length < 1) {
             throw new Error(`No posts available.`, {cause:404});
         }
 
