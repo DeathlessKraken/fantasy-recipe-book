@@ -29,8 +29,10 @@ export default async function getRecipes(queries) {
             searchQuery += "AND LOWER(r.category) = $2 ";
             values.push(category);
         }
-        else {postQuery += "AND LOWER(r.category) = $1 ";}
-        values.push(category);
+        else {
+            postQuery += "AND LOWER(r.category) = $1 ";
+            values.push(category);
+        }
     } 
     
     if(time === 'year') {
