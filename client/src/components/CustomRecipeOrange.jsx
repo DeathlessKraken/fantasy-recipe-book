@@ -6,7 +6,7 @@ export default function CustomRecipeOrange (props) {
             <p className="text-xl font-semibold mb-4 text-center">Is this a custom recipe, with your own special twist?</p>
             <div className="flex flex-col gap-2">
                 <div className="flex gap-2">
-                    <input type="radio" id="customInputNo" name="customRecipe"
+                    <input type="radio" id="customInputNo" name="is_personal"
                         className="radio radio-primary selected" 
                         defaultChecked
                         value={false}
@@ -15,7 +15,7 @@ export default function CustomRecipeOrange (props) {
                     <label htmlFor="customInputNo"><span className="font-bold">No</span>, this is not my recipe.</label>
                 </div>
                 <div className="flex gap-2">
-                    <input type="radio" id="customInputYes" name="customRecipe"
+                    <input type="radio" id="customInputYes" name="is_personal"
                         className="radio radio-primary selected" 
                         value={true}
                         onChange={onChange}
@@ -28,9 +28,11 @@ export default function CustomRecipeOrange (props) {
                 <input type="text" id="originalURLInput" placeholder="URL of original post" 
                     className="input input-ghost focus:outline-slate-600 w-full max-w-sm 
                         active:bg-slate-100 focus:bg-slate-100 !text-default" 
-                    name="originalPost"
-                    value={value.originalPost}
+                    name="post_origin"
+                    value={value}
+                    autoComplete="off"
                     onChange={onChange}
+                    maxLength={2048}
                 />
             </div>
         </div>

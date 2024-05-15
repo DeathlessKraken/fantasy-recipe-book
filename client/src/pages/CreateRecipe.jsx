@@ -3,32 +3,36 @@ import TipTap from "../components/Editor/TipTap";
 import { generateHTML } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
+import CharacterCount from "@tiptap/extension-character-count";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 import { Plus, Minus } from "lucide-react";
+import isURL from "validator/lib/isURL";
+import toast from "react-hot-toast";
+import useSubmitPost from "../hooks/useSubmitPost";
 
 import CustomRecipeGreen from "../components/CustomRecipeGreen";
 import CustomRecipeOrange from "../components/CustomRecipeOrange";
-import { useParams } from "react-router-dom";
+//import { useParams } from "react-router-dom";
 
 //Testing
-import data from "../data";
+//import data from "../data";
 
 export default function CreateRecipe (props) {
     const { edit } = props;
-    const { id } = useParams();
-    const [isEdit, setIsEdit] = useState(false);
+    //const { id } = useParams();
+    //const [isEdit, setIsEdit] = useState(false);
     const [content, setContent] = useState({});
     const [user, setUser] = useState('ThreeSheets');
     const [inputs, setInputs] = useState({
-        customRecipe: false,
+        is_personal: false,
         title: '',
         category: 'Meals',
-        originalPost: '',
-        desc: '',
-        image: '',
-        prepTime: 0,
-        cookTime: 0,
+        post_origin: '',
+        description: '',
+        media_url: '',
+        prep_time: 0,
+        cook_time: 0,
         servings: 0,
         ingredients: {
             ingredient1: ""
@@ -38,7 +42,72 @@ export default function CreateRecipe (props) {
         }
     });
 
-    if(edit && !isEdit) {
+    function handleSubmit() {
+        //Make sure link is proper URI and filled out if NOT personal, max 2048 chars
+        if(inputs.is_personal === false || inputs.is_personal === "false") {
+            console.log(isURL(inputs.post_origin))
+            if(!isURL(inputs.post_origin)) {
+                toast.error("Original Post link must be a URL.");
+                return;
+            } else if(inputs.post_origin.length > 2048) {
+                toast.error("Original Post URL is too long (2048 characters max.)");
+                return;
+            }
+        }
+        //title is filled, min 8, max 60 chars;
+        if(!inputs.title) {
+            toast.error("Please provide a title.");
+            return;
+        } else if(inputs.title.length < 5) {
+            toast.error("Title must be at least 5 characters long.");
+            return;
+        }
+        //description max 300 chars, not required.
+        //primary image is required to be uploaded
+
+        //body max 5000 chars, not required.
+        //prep, cook, servings required, min 0 value, at least value 1 required, max 999. required.
+        if(inputs.prep_time < 1) {
+            toast.error("Prep time must be between 1 and 999.");
+            return;
+        } else if(inputs.cook_time < 1) {
+            toast.error("Cook time must be between 1 and 999.");
+            return;
+        } else if(inputs.servings < 1) {
+            toast.error("Servings must be between 1 and 999.");
+            return;
+        }
+        //ingredients max 25 keys, 100 chars per. one required.
+        if(Object.keys(inputs.ingredients).length > 25) {
+            toast.error("Ingredients cannot exceed 25 items.");
+            return;
+        } else if(Object.values(inputs.ingredients)[0].length < 3) {
+            toast.error("You provide at least one ingredient.");
+            return;
+        } else if(Object.values(inputs.ingredients)[Object.values(inputs.ingredients).length - 1].length < 3) {
+            toast.error("Please fill out all added ingredients.");
+            return;
+        }
+        //instructions max 25 keys, 500 chars per. one required.
+        if(Object.keys(inputs.instructions).length > 25) {
+            toast.error("Instructions cannot exceed 25 items.");
+            return;
+        } else if(Object.values(inputs.instructions)[0].length < 3) {
+            toast.error("You provide at least one instruction.");
+            return;
+        } else if(Object.values(inputs.instructions)[Object.values(inputs.instructions).length - 1].length < 3) {
+            toast.error("Please fill out all added instructions.");
+            return;
+        }
+
+        const error = useSubmitPost({...inputs, body: content});
+        if(!error){
+            console.log(content);
+            toast.success("Post successfully submitted.");
+        }
+    }
+
+    /*if(edit && !isEdit) {
         //Modify for production, dummy data is incomplete so I'm manually setting missing fields.
         //When loading actual previous data, a lot of this will change.
         setIsEdit(true);
@@ -81,7 +150,7 @@ export default function CreateRecipe (props) {
                 );
             })),
         })
-    }
+    }*/
     
     function sanitizeHTML(html) {
         return DOMPurify.sanitize(html);
@@ -133,15 +202,20 @@ export default function CreateRecipe (props) {
     function handleButtonClick (category, type, idx) {
         if(category === "ingredient") {
             if(type === "add") {
-                setInputs(prevInputs => {
-                    return ({
-                        ...prevInputs,
-                        ingredients: {
-                            ...prevInputs.ingredients,
-                            [`ingredient${idx + 2}`]: ""
-                        }
-                    });
-                })
+                if(Object.values(inputs.ingredients)[idx].length < 3){
+                    toast.error("Please fill out the previous ingredient.");
+                    return;
+                } else {
+                    setInputs(prevInputs => {
+                        return ({
+                            ...prevInputs,
+                            ingredients: {
+                                ...prevInputs.ingredients,
+                                [`ingredient${idx + 2}`]: ""
+                            }
+                        });
+                    })
+                }
             } else {
                 setInputs(prevInputs => {
                     delete prevInputs.ingredients[`ingredient${idx + 1}`];
@@ -152,15 +226,20 @@ export default function CreateRecipe (props) {
             }
         } else {
             if(type === "add") {
-                setInputs(prevInputs => {
-                    return ({
-                        ...prevInputs,
-                        instructions: {
-                            ...prevInputs.instructions,
-                            [`step${idx + 2}`]: ""
-                        }
-                    });
-                })
+                if(Object.values(inputs.instructions)[idx].length < 3){
+                    toast.error("Please fill out the previous instruction.");
+                    return;
+                } else {
+                    setInputs(prevInputs => {
+                        return ({
+                            ...prevInputs,
+                            instructions: {
+                                ...prevInputs.instructions,
+                                [`step${idx + 2}`]: ""
+                            }
+                        });
+                    })
+                }
             } else {
                 setInputs(prevInputs => {
                     delete prevInputs.instructions[`step${idx + 1}`];
@@ -172,7 +251,7 @@ export default function CreateRecipe (props) {
         }
     }
 
-    {/* Function to strikethrough labels on ingredient preview */}
+    /* Function to strikethrough labels on ingredient preview */
     function handleIngredientCheckbox(itemIdx) {
         const item = document.getElementById(`desc${itemIdx}`);
 
@@ -201,6 +280,9 @@ export default function CreateRecipe (props) {
                 class: "max-w-[20rem] rounded-lg"
             }
         }),
+        CharacterCount.configure({
+            limit: 5000
+        })
     ]
 
     //Parse content to json, render in preview section with tiptap getJSON
@@ -217,9 +299,9 @@ export default function CreateRecipe (props) {
                 <div className="flex flex-col text-default gap-6">
 
                     {
-                        (inputs.customRecipe === true || inputs.customRecipe === "true") ? 
-                            <CustomRecipeGreen value={inputs} onChange={handleInputChange} /> 
-                            : <CustomRecipeOrange value={inputs} onChange={handleInputChange} />
+                        (inputs.is_personal === true || inputs.is_personal === "true") ? 
+                            <CustomRecipeGreen onChange={handleInputChange} /> 
+                            : <CustomRecipeOrange value={inputs.post_origin} onChange={handleInputChange} />
                     }
 
                     <div className="flex flex-col gap-1 text-default">
@@ -231,6 +313,7 @@ export default function CreateRecipe (props) {
                             maxLength={60}
                             value={inputs.title}
                             onChange={handleInputChange}
+                            autoComplete="off"
                         />
                     </div>
 
@@ -258,9 +341,10 @@ export default function CreateRecipe (props) {
                             rows={3}
                             placeholder="Recipe description" 
                             id="descInput"
-                            name="desc"
-                            value={inputs.desc}
+                            name="description"
+                            value={inputs.description}
                             onChange={handleInputChange}
+                            autoComplete="off"
                         >
                         </textarea>
                     </div>
@@ -271,11 +355,10 @@ export default function CreateRecipe (props) {
                             className="file-input file-input-ghost focus:outline-slate-600 w-full max-w-sm 
                                 active:bg-slate-100 focus:bg-slate-100 !text-default" 
                             name="image"
-                            
                         />
                     </div>
 
-                    <TipTap extensions={extensions} onChange={handleContentChange} editContent={isEdit && content}/>
+                    <TipTap extensions={extensions} onChange={handleContentChange} />
 
                     {/* Input for prep time, cook time, servings */}
                     <div className="flex flex-col sm:flex-row gap-2 sm:gap-10">
@@ -284,10 +367,13 @@ export default function CreateRecipe (props) {
                             <input type="number" id="prepTimeInput" 
                                 className="input input-ghost focus:outline-slate-600 w-20
                                 active:bg-slate-100 focus:bg-slate-100 !text-default" 
-                                name="prepTime"
-                                value={inputs.prepTime}
+                                name="prep_time"
+                                value={inputs.prep_time}
                                 onChange={handleInputChange}
-                                />
+                                autoComplete="off"
+                                min={0}
+                                max={999}
+                            />
                         </div>
 
                         <div className="flex flex-col gap-1 text-default">
@@ -295,9 +381,12 @@ export default function CreateRecipe (props) {
                             <input type="number" id="cookTimeInput" 
                                 className="input input-ghost focus:outline-slate-600 w-20
                                     active:bg-slate-100 focus:bg-slate-100 !text-default" 
-                                    name="cookTime"
-                                    value={inputs.cookTime}
+                                    name="cook_time"
+                                    value={inputs.cook_time}
                                     onChange={handleInputChange}
+                                    autoComplete="off"
+                                    min={0}
+                                    max={999}
                             />
                         </div>
 
@@ -309,6 +398,9 @@ export default function CreateRecipe (props) {
                                     name="servings"
                                     value={inputs.servings}
                                     onChange={handleInputChange}
+                                    max={999}
+                                    min={0}
+                                    autoComplete="off"
                             />
                         </div>
 
@@ -329,13 +421,14 @@ export default function CreateRecipe (props) {
                                             maxLength={100}
                                             name={`ingredient${idx + 1}`}
                                             value={inputs.ingredients[`ingredient${idx + 1}`]}
+                                            autoComplete="off"
                                             onChange={handleInputChange}
                                         >
                                         </input>
 
                                         <div className="flex gap-2 mt-2">
                                             {
-                                                (idx === array.length - 1) &&
+                                                (idx === array.length - 1 && Object.keys(inputs.ingredients).length < 25) &&
                                                 <button className="btn btn-info w-fit" name="ingredient" onClick={() => handleButtonClick('ingredient', 'add', idx)}>
                                                     <Plus/>
                                                 </button>
@@ -369,12 +462,13 @@ export default function CreateRecipe (props) {
                                             name={`step${idx + 1}`}
                                             value={inputs.instructions[`step${idx + 1}`]}
                                             onChange={handleInputChange}
-                                        >
+                                            autoComplete="off"
+                                            >
                                         </textarea>
 
                                         <div className="flex gap-2 mt-2">
                                             {
-                                                (idx === array.length - 1) &&
+                                                (idx === array.length - 1 && Object.keys(inputs.instructions).length < 25) &&
                                                 <button className="btn btn-info w-fit" name="instruction" onClick={() => handleButtonClick('instruction', 'add', idx)}>
                                                     <Plus/>
                                                 </button>
@@ -412,7 +506,7 @@ export default function CreateRecipe (props) {
 
                         {/* If this is not an origial recipe, this link will appear. */}
                         {
-                            (inputs.customRecipe === false || inputs.customRecipe === 'false') &&
+                            (inputs.is_personal === false || inputs.is_personal === 'false') &&
                             <p className="link link-info link-hover">Original Post</p>
                         }
 
@@ -420,7 +514,7 @@ export default function CreateRecipe (props) {
                     </div>
 
                     {/* Short description, no more than 200 chars. */}
-                    <p className="italic text-slate-600 my-4">{inputs.desc}</p>
+                    <p className="italic text-slate-600 my-4">{inputs.description}</p>
 
                     {/* User is required to upload primary image. */}
                     {
@@ -436,13 +530,13 @@ export default function CreateRecipe (props) {
                         <div className="stats stats-horizontal mt-4 sm:mt-0 self-center bg-slate-200 text-slate-700 text-xs w-64 sm:w-fit">
                           <div className="stat">
                             <div className="stat-title text-slate-700 font-semibold">Prep Time</div>
-                            <div className="stat-value">{inputs.prepTime | 0}</div>
+                            <div className="stat-value">{inputs.prep_time | 0}</div>
                             <div className="stat-desc text-slate-700 font-medium">Minutes</div>
                           </div>
 
                           <div className="stat">
                             <div className="stat-title text-slate-700 font-semibold">Cook Time</div>
-                            <div className="stat-value">{inputs.cookTime | 0}</div>
+                            <div className="stat-value">{inputs.cook_time | 0}</div>
                             <div className="stat-desc text-slate-700 font-medium">Minutes</div>
                           </div>
                         </div>
@@ -450,7 +544,7 @@ export default function CreateRecipe (props) {
                         <div className="stats stats-horizontal mb-4 sm:mb-0 self-center bg-slate-200 text-slate-700 text-xs w-64 sm:w-fit">
                             <div className="stat">
                               <div className="stat-title text-slate-700 font-semibold">Total Time</div>
-                              <div className="stat-value">{Number.parseInt(inputs.prepTime) + Number.parseInt(inputs.cookTime) | 0 }</div>
+                              <div className="stat-value">{Number.parseInt(inputs.prep_time) + Number.parseInt(inputs.cook_time) | 0 }</div>
                               <div className="stat-desc text-slate-700 font-medium">Minutes</div>
                             </div>
 
@@ -499,7 +593,7 @@ export default function CreateRecipe (props) {
 
                 {/* Submit recipe */}
                 <div className="flex justify-start w-full">
-                        <button className="btn btn-accent">Submit Recipe</button>
+                        <button className="btn btn-accent" onClick={handleSubmit}>Submit Recipe</button>
                 </div>
 
             </div>

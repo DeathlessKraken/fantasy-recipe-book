@@ -38,6 +38,7 @@ export default function TipTap (props) {
             <div className='flex flex-col border-2 border-black rounded-lg my-10'>
                 <Toolbar editor={editor}/>
                 <EditorContent editor={editor} style={{ whiteSpace: "pre-line" }} />
+                <p className='flex w-full justify-end p-1 text-gray-500'>{editor.storage.characterCount.characters()}/5000 characters</p>
             </div>
         </>
     );

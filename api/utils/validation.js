@@ -57,7 +57,7 @@ const postSchema = Joi.object({
     title: Joi.string().trim().min(3).max(60).required(),
     category: Joi.string().trim().pattern(/^(beverages|appetizers|meals|bread|desserts|other)$/i).lowercase().required()
         .messages({"string.pattern.base": "Category must match 'beverages', 'appetizers', 'meals', 'bread', 'desserts', or 'other'"}),
-    post_origin: Joi.string().trim().uri({
+    post_origin: Joi.string().trim().max(2048).uri({
         scheme: ["https"],
         domain: { minDomainSegments: 2 }
     }),

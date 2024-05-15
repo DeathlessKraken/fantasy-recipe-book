@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import LeftArrow from "../assets/Arrow_Left.svg";
 import BoxArrowDown from "../assets/BoxArrowDown.svg";
