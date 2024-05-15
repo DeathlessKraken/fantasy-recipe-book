@@ -22,6 +22,7 @@ export default function CreateRecipe (props) {
     const { edit } = props;
     //const { id } = useParams();
     //const [isEdit, setIsEdit] = useState(false);
+    const {loading, submit} = useSubmitPost();
     const [content, setContent] = useState({});
     const [user, setUser] = useState('ThreeSheets');
     const [inputs, setInputs] = useState({
@@ -42,10 +43,9 @@ export default function CreateRecipe (props) {
         }
     });
 
-    function handleSubmit() {
+    async function handleSubmit(event) {
         //Make sure link is proper URI and filled out if NOT personal, max 2048 chars
         if(inputs.is_personal === false || inputs.is_personal === "false") {
-            console.log(isURL(inputs.post_origin))
             if(!isURL(inputs.post_origin)) {
                 toast.error("Original Post link must be a URL.");
                 return;
@@ -100,11 +100,9 @@ export default function CreateRecipe (props) {
             return;
         }
 
-        const error = useSubmitPost({...inputs, body: content});
-        if(!error){
-            console.log(content);
-            toast.success("Post successfully submitted.");
-        }
+        //Ready to submit
+        await submit();
+        //Navigate to new post after submission
     }
 
     /*if(edit && !isEdit) {
@@ -593,7 +591,10 @@ export default function CreateRecipe (props) {
 
                 {/* Submit recipe */}
                 <div className="flex justify-start w-full">
-                        <button className="btn btn-accent" onClick={handleSubmit}>Submit Recipe</button>
+                    {!loading ? <button className="btn btn-accent" onClick={handleSubmit}>Submit Recipe</button>
+                        :   <button className="btn btn-accent">
+                                <span className="loading loading-spinner loading-sm"></span>
+                            </button>}
                 </div>
 
             </div>

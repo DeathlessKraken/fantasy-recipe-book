@@ -22,6 +22,6 @@ export default async function protectRoute (req, res, next) {
         next();
         
     } catch (error) {
-        next(Error("Invalid authorization token.", {cause:401}));
+        next(Error("User not signed in.", {cause:401}));
     }
 }
