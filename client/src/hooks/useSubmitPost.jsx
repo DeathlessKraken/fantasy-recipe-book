@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-export default function useSubmitPost(post) {
+export default function useSubmitPost() {
     //If there are errors from API, toast it.
     const [loading, setLoading] = useState(false);
 

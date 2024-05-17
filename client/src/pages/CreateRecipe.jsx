@@ -43,7 +43,7 @@ export default function CreateRecipe (props) {
         }
     });
 
-    async function handleSubmit(event) {
+    async function handleSubmit() {
         //Make sure link is proper URI and filled out if NOT personal, max 2048 chars
         if(inputs.is_personal === false || inputs.is_personal === "false") {
             if(!isURL(inputs.post_origin)) {
