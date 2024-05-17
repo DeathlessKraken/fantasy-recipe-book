@@ -3,10 +3,11 @@ import { Toaster } from "react-hot-toast";
 import Header from "./Header";
 import Footer from "./Footer";
 import Sidebar from "./Sidebar";
+import AuthProvider from "./context/AuthContext";
 
 export default function Root () {
     return (
-        <>
+        <AuthProvider>
             <Sidebar />
             <div className="bg-[#fffef6] relative min-h-screen pb-[6rem] overflow-x-hidden">
                 <ScrollRestoration/>
@@ -38,6 +39,6 @@ export default function Root () {
                     <Outlet />
                 <Footer />
             </div>
-        </>
+        </AuthProvider>
     );
 }

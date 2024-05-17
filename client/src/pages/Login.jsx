@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import useLogin from "../hooks/useLogin";
 
 export default function Login () {
     const { loading, login } = useLogin();
@@ -8,13 +9,15 @@ export default function Login () {
         password: ""
     });
 
+    //if already logged in, navigate to home page.
+
     async function handleSubmit(e) {
         e.preventDefault();
         
         //perform client-side validation
 
-        await login(...inputs);
-
+        await login(inputs);
+        //Navigate to home
     }
 
     function handleChange(e) {
@@ -45,7 +48,7 @@ export default function Login () {
                 </label>
 
                 {!loading ? <button className="btn btn-info" type="submit" onClick={handleSubmit}>Login</button>
-                    :   <button className="btn btn-info">
+                    :   <button className="btn btn-info btn-disabled" disabled>
                             <span className="loading loading-spinner loading-sm"></span>
                         </button>}
             </form>
