@@ -1,23 +1,36 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import useLogin from "../hooks/useLogin";
+import toast from "react-hot-toast";
+import { useAuthContext } from "../components/context/AuthContext";
 
 export default function Login () {
     const { loading, login } = useLogin();
+    const { currentUser } = useAuthContext();
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState({
         username: "",
         password: ""
     });
 
-    //if already logged in, navigate to home page.
+    useEffect(() => {
+        if(currentUser) navigate('/');
+    })
 
     async function handleSubmit(e) {
         e.preventDefault();
         
         //perform client-side validation
+        if(!inputs.username || !inputs.password){
+            toast.error("Please fill in all fields");
+            return;
+        }
 
         await login(inputs);
+
         //Navigate to home
+        toast.success("Successfully logged in");
+        if(currentUser) navigate('/');
     }
 
     function handleChange(e) {
