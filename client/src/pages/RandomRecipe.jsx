@@ -5,9 +5,10 @@ import { useEffect } from "react";
 export default function RandomRecipe () {
     const navigate = useNavigate();
 
-    const recipeId = getRandomRecipeId();
+    //const recipeId = getRandomRecipeId();
 
     useEffect(() => {
-        navigate(`/recipe/${recipeId}`);
+        navigate(`/`);
+        //navigate(`/recipe/${recipeId}`);
     });
 }

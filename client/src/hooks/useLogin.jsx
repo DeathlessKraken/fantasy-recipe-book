@@ -13,7 +13,7 @@ export default function useLogin() {
         try {
             const response = await axios.post("http://localhost:3000/api/auth/login", {username, password});
 
-            setCurrentUser(response.data.token);
+            setCurrentUser({token: response.data.token, username: response.data.username});
             
         } catch (error) {
             setLoading(false);

@@ -40,7 +40,7 @@ export default function Browse () {
                         </select>
                     </div>
 
-                    <div className="flex items-end gap-4">
+                    <div className="flex items-end gap-4 flex-wrap">
                         <div className="flex flex-col gap-1">
                             <label htmlFor="sortSelect" className="text-default">Sort:</label>
                             <select id="sortSelect" defaultValue={0} className="select select-ghost w-full max-w-xs focus:outline-slate-600

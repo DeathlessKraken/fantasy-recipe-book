@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TipTap from "../components/Editor/TipTap";
 import { generateHTML } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -13,6 +13,8 @@ import useSubmitPost from "../hooks/useSubmitPost";
 
 import CustomRecipeGreen from "../components/CustomRecipeGreen";
 import CustomRecipeOrange from "../components/CustomRecipeOrange";
+import { useAuthContext } from "../components/context/AuthContext";
+import { useNavigate } from "react-router-dom";
 //import { useParams } from "react-router-dom";
 
 //Testing
@@ -22,9 +24,10 @@ export default function CreateRecipe (props) {
     const { edit } = props;
     //const { id } = useParams();
     //const [isEdit, setIsEdit] = useState(false);
+    const { currentUser, setCurrentUser } = useAuthContext();
+    const navigate = useNavigate();
     const {loading, submit} = useSubmitPost();
     const [content, setContent] = useState({});
-    const [user, setUser] = useState('ThreeSheets');
     const [inputs, setInputs] = useState({
         is_personal: false,
         title: '',
@@ -41,6 +44,10 @@ export default function CreateRecipe (props) {
         instructions: {
             step1: ""
         }
+    });
+
+    useEffect(() => {
+        if(!currentUser) navigate('/login');
     });
 
     async function handleSubmit() {
@@ -499,7 +506,7 @@ export default function CreateRecipe (props) {
                     {/* Post user info */}
                     <div className="flex flex-col mt-2">
                         <div className="flex flex-col">
-                            <h2 className="text-default text-sm">Posted by: <span className="text-info">{user}</span></h2>
+                            <h2 className="text-default text-sm">Posted by: <span className="text-info">{currentUser?.username}</span></h2>
                         <p className="text-default text-sm">{"Found in: " + inputs.category}</p>
 
                         {/* If this is not an origial recipe, this link will appear. */}

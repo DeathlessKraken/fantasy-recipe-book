@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
 import Search from "./Search";
-import Avatar from "./Avatar";
-
 import FFLogo from "../assets/FF_Logo.svg";
-import { useState } from "react";
+import { useAuthContext } from "./context/AuthContext";
 
 export default function Header () {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); //Dummy tester state
+  const { currentUser } = useAuthContext();
 
   function handleToggle() {
     document.getElementById('my-drawer-3').click();
@@ -32,7 +30,8 @@ export default function Header () {
             </div> 
 
             <div className="flex-1 px-2 mx-2 justify-end lg:hidden">
-                {isLoggedIn && <Avatar />}
+                {currentUser && <Link to={`/user/${currentUser.username}`}
+                  className="link link-hover text-slate-800">{currentUser.username}</Link>}
             </div>
 
             {/* Desktop Navbar */}
@@ -45,9 +44,13 @@ export default function Header () {
 
                 {/* Right side of header. Hidden until I figure out what to put here. */}
                 <div className="flex justify-self-end"> 
-                  <li className="hidden justify-center"><Link to={isLoggedIn ? "/create/" : "/login/"} className="link link-hover text-slate-800 text-lg">Post Recipe</Link></li>
+                  <li className="hidden justify-center"><Link to={currentUser ? "/create/" : "/login/"} className="link link-hover text-slate-800 text-lg">Post Recipe</Link></li>
                   {/* If logged in, create post link and show avatar. If not logged in, show create, log in, sign up */}
-                  {isLoggedIn ? <li className="mr-4"><Avatar /></li> :
+                  {currentUser ? 
+                      <>
+                        <li><Link to={`/user/${currentUser.username}`} className="link link-hover text-slate-800 text-lg">{currentUser.username}</Link></li>
+                        <li><Link to="/logout/" className="link link-hover text-slate-800 text-lg">Log Out</Link></li>
+                      </> :
                       <>
                         <li><Link to="/login/" className="link link-hover text-slate-800 text-lg">Log In</Link></li>
                         <li><Link to="/register/" className="link link-hover text-slate-800 text-lg">Sign Up</Link></li>
@@ -67,10 +70,10 @@ export default function Header () {
             <Link to="/" onClick={() => handleToggle()}><img src={FFLogo} alt="Logo of fantasy foods" className="h-24 w-24 mb-4"/></Link>
             <Link to="/" onClick={() => handleToggle()}><li className="my-2 text-lg">Home</li></Link>
             <Link to="/browse" onClick={() => handleToggle()}><li className="my-2 text-lg">Browse Recipes</li></Link>
-            <Link to={isLoggedIn ? "/create/" : "/login/"} onClick={() => handleToggle()}><li className="my-2 text-lg">Post a Recipe</li></Link>
+            <Link to={currentUser ? "/create/" : "/login/"} onClick={() => handleToggle()}><li className="my-2 text-lg">Post a Recipe</li></Link>
             {/* TEMPORARILY HIDDEN FOR TESTING */}
-            <Link to="/random" onClick={() => handleToggle()}><li className="hidden my-2 text-lg">Random Recipe</li></Link>
-            {isLoggedIn ? <Link to="/logout/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log Out</li></Link> :
+            <Link to="/random" className="hidden" onClick={() => handleToggle()}><li className="hidden my-2 text-lg">Random Recipe</li></Link>
+            {currentUser ? <Link to="/logout/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log Out</li></Link> :
               <>
                 <Link to="/login/" onClick={() => handleToggle()}><li className="my-2 text-lg">Log In</li></Link>
                 <Link to="/register/" onClick={() => handleToggle()}><li className="my-2 text-lg">Sign Up</li></Link>

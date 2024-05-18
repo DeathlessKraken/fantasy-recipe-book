@@ -1,9 +1,21 @@
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../components/context/AuthContext";
+import toast from "react-hot-toast";
+import { useEffect } from "react";
+
+
 export default function Logout () {
+    const { setCurrentUser } = useAuthContext();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setCurrentUser(null);
+        toast.success("Successfully logged out");
+        navigate('/login');
+    });
+
     return (
-        <section className="max-w-7xl flex flex-col items-center mx-auto p-8 lg:px-64 xl:px-36 2xl:px-8">
-            <h1 className="text-default font-semibold text-2xl lg:text-3xl my-6 xl:px-16 text-center">
-                Successfully logged out.
-            </h1>
-        </section>
+        <>
+        </>
     );
 }

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useAuthContext } from "./context/AuthContext";
 
 export default function Sidebar () {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { currentUser } = useAuthContext();
 
     return (
         <div className="w-fit fixed top-[6rem] z-10 min-h-screen hidden lg:flex">
@@ -10,8 +10,8 @@ export default function Sidebar () {
             {/* Sidebar content here */}
             <Link to="/" className=" hover:bg-slate-400 rounded-md px-4"><li className="my-2 text-xl">Home</li></Link>
             <Link to="/browse" className=" hover:bg-slate-400 rounded-md px-4"><li className="my-2 text-xl">Browse Recipes</li></Link>
-            <Link to={isLoggedIn ? "/create/" : "/login/"} className="hover:bg-slate-400 rounded-md px-4"><li className="my-2 text-xl">Post a Recipe</li></Link>
-            <Link to="/random" className=" hover:bg-slate-400 rounded-md px-4"><li className="my-2 text-xl">Random Recipe</li></Link>
+            <Link to={currentUser ? "/create/" : "/login/"} className="hover:bg-slate-400 rounded-md px-4"><li className="my-2 text-xl">Post a Recipe</li></Link>
+            <Link to="/random" className="hidden hover:bg-slate-400 rounded-md px-4"><li className="my-2 text-xl">Random Recipe</li></Link>
 
             {/* 
             {isLoggedIn ? <Link to="/logout/" className="hover:bg-slate-400 rounded-md px-4"><li className="my-2 text-xl">Log Out</li></Link> :

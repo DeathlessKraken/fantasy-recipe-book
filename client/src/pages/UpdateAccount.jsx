@@ -1,10 +1,22 @@
-import { Form } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../components/context/AuthContext";
+import { useEffect } from "react";
 
 
 //UPDATE FORM ACTION...maybe. Was previously /user/TESTUSER/update
 
 
 export default function UpdateAccount () {
+  const { currentUser } = useAuthContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(!currentUser) navigate('/login');
+  });
+
+  //confirm user is account user
+  //send patch to server
+
     return (
         <section className="w-full flex flex-col items-center">
             <h1 className="text-3xl text-default mx-auto w-fit my-4 lg:pt-4 text-center">Update Account Information</h1>
