@@ -82,7 +82,7 @@ export default function Recipe () {
                 <div className="text-default leading-relaxed my-4">
                     {/* I will need to revisit this... I recognize this line is trash. */}
                     {/* As I've been struggling with this particular bit of code, I'll let it slide TEMPORARILY */}
-                    {parse(generateHTML(JSON.parse(parse(post.body)), extensions))}
+                    {post.body && parse(DOMPurify.sanitize(generateHTML(JSON.parse(parse(post.body)), extensions)))}
                 </div>
 
                 <div id="recipe" className="flex flex-col gap-4 my-4">

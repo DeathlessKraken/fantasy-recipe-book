@@ -26,6 +26,7 @@ export default function CreateRecipe (props) {
     const navigate = useNavigate();
     const {loading, submit} = useSubmitPost();
     const [content, setContent] = useState({});
+    const [charCount, setCharCount] = useState(0);
     const [inputs, setInputs] = useState({
         is_personal: false,
         title: '',
@@ -106,7 +107,7 @@ export default function CreateRecipe (props) {
             return;
         }
 
-        const result = await submit({...inputs, body: JSON.stringify(content)});
+        const result = await submit({...inputs, body: JSON.stringify(content), charCount});
         if(result) {
             toast.success("Post Created");
             navigate(`/recipe/${result}`);
@@ -163,8 +164,9 @@ export default function CreateRecipe (props) {
     }
     
     
-    function handleContentChange(content) {
+    function handleContentChange(content, charCount) {
         setContent(content);
+        setCharCount(charCount);
     }
     
     function handleInputChange(event) {

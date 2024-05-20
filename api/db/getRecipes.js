@@ -49,7 +49,7 @@ export default async function getRecipes(queries) {
     //Maintain default sort if doesn't exist
     if(search && !sort) searchQuery += "ORDER BY s.ts_rank DESC";
     if(!sort) {
-        postQuery += "ORDER BY title ASC ";
+        postQuery += "ORDER BY post_views DESC ";
     } else if (search) {
         searchQuery += "ORDER BY s.ts_rank DESC";
         if(sort === 'alphabetical') { searchQuery += ", title ASC "; }

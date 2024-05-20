@@ -26,7 +26,7 @@ export default function Browse () {
                 <div className="flex flex-col sm:flex-row gap-4 min-w-fit my-4 xl:my-0">
                     <div className="flex flex-col gap-1">
                         <label htmlFor="browseSelect" className="text-default">Browse by:</label>
-                        <select id="browseSelect" defaultValue={0} className="select select-ghost w-full max-w-sm focus:outline-slate-600
+                        <select id="browseSelect" defaultValue={0} className="select select-bordered select-ghost w-full max-w-sm focus:outline-slate-600
                             active:bg-slate-100 focus:bg-slate-100 !text-default">
                           <option>All</option>
                           <optgroup label="Category">
@@ -43,7 +43,7 @@ export default function Browse () {
                     <div className="flex items-end gap-4 flex-wrap">
                         <div className="flex flex-col gap-1">
                             <label htmlFor="sortSelect" className="text-default">Sort:</label>
-                            <select id="sortSelect" defaultValue={0} className="select select-ghost w-full max-w-xs focus:outline-slate-600
+                            <select id="sortSelect" defaultValue={0} className="select select-bordered select-ghost w-full max-w-xs focus:outline-slate-600
                             active:bg-slate-100 focus:bg-slate-100 !text-default">
                               <option>Alphabetical (A-Z)</option>
                               <option>Popularity</option>
@@ -53,7 +53,7 @@ export default function Browse () {
 
                         <div className="flex items-end gap-1">
                             <div className="flex flex-col gap-1">
-                                <select id="timeSelect" defaultValue={0} className="select select-ghost w-full max-w-xs focus:outline-slate-600
+                                <select id="timeSelect" defaultValue={0} className="select select-bordered select-ghost w-full max-w-xs focus:outline-slate-600
                                 active:bg-slate-100 focus:bg-slate-100 !text-default">
                                   <option>All Time</option>
                                   <option>This Year</option>

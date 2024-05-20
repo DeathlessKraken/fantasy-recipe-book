@@ -20,7 +20,7 @@ export default function TipTap (props) {
         content: placeholder,
         autofocus: true,
         onUpdate: ({editor}) => {
-            onChange(editor.getJSON());
+            onChange(editor.getJSON(), editor.storage.characterCount.characters());
         },
         editorProps: {
             attributes: {

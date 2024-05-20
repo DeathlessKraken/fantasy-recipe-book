@@ -12,7 +12,7 @@ import protectRoute from "../middleware/protectRoute.js";
 const router = Router();
 
 //Get all recipes; TODO [ ] default limit 25; returns next_url as cursor
-//Default sort by title alphabetical
+//Default sort by title popularity
 //Optional Search posts in db, allows "" for quoted text, and - symbol for negation
 //Optional CATEGORY query (default - all, ...categories)
 //Optional SORT query (default - alphabetical, popularity, date)
