@@ -185,7 +185,7 @@ export async function submitPost (req, res) {
             instructions: cleanInstructions
         });
 
-        res.json("Post submitted successfully.");
+        res.status(201).json({message: "Post submitted successfully.", slug});
 
     } catch (error) {
         if(error.cause){
@@ -333,7 +333,7 @@ export async function editPost (req, res) {
             instructions: cleanInstructions
         });
 
-        res.json("Post updated successfully.");
+        res.status(200).json({message: "Post updated successfully.", slug});
 
     } catch (error) {
         if(error.cause){

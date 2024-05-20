@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function useGetPosts () {
     const [loading, setLoading] = useState(false);
@@ -12,7 +13,7 @@ export default function useGetPosts () {
                 const response = await axios.get(`http://localhost:3000/api/posts/`);
                 setPosts(response.data);
             } catch (error) {
-                //Pop toast
+                toast.error("Unable to communicate with server: " + error.response.data);
                 console.log(error);
             } finally {
                 setLoading(false);

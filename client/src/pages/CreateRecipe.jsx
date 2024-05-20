@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import TipTap from "../components/Editor/TipTap";
 import { generateHTML } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
-import CharacterCount from "@tiptap/extension-character-count";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 import { Plus, Minus } from "lucide-react";
 import isURL from "validator/lib/isURL";
 import toast from "react-hot-toast";
 import useSubmitPost from "../hooks/useSubmitPost";
+import extensions from "../components/Editor/Extensions";
 
 import CustomRecipeGreen from "../components/CustomRecipeGreen";
 import CustomRecipeOrange from "../components/CustomRecipeOrange";
@@ -71,6 +69,7 @@ export default function CreateRecipe (props) {
         }
         //description max 300 chars, not required.
         //primary image is required to be uploaded
+        inputs.media_url = "https://blog.fatfreevegan.com/wp-content/uploads/2010/04/ridiculously-easy-curried-chickpeas-quinoa-lettuce-680.jpg"
 
         //body max 5000 chars, not required.
         //prep, cook, servings required, min 0 value, at least value 1 required, max 999. required.
@@ -107,9 +106,11 @@ export default function CreateRecipe (props) {
             return;
         }
 
-        //Ready to submit
-        await submit();
-        //Navigate to new post after submission
+        const result = await submit({...inputs, body: JSON.stringify(content)});
+        if(result) {
+            toast.success("Post Created");
+            navigate(`/recipe/${result}`);
+        }
     }
 
     /*if(edit && !isEdit) {
@@ -266,29 +267,6 @@ export default function CreateRecipe (props) {
             item.setAttribute("style", "text-decoration-line: none");
         }
     }
-
-    const extensions = [
-        StarterKit.configure({
-            heading: {
-                HTMLAttributes: {
-                    class: "text-bold text-3xl"
-                }
-            },
-            paragraph: {
-                HTMLAttributes: {
-                    class: "min-h-[1rem]"
-                }
-            }
-        }),
-        Image.configure({
-            HTMLAttributes: {
-                class: "max-w-[20rem] rounded-lg"
-            }
-        }),
-        CharacterCount.configure({
-            limit: 5000
-        })
-    ]
 
     //Parse content to json, render in preview section with tiptap getJSON
         

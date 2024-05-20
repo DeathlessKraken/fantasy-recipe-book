@@ -6,6 +6,8 @@ import BoxArrowDown from "../assets/BoxArrowDown.svg";
 import useGetSinglePost from "../hooks/useGetSinglePost";
 import DOMPurify from "dompurify";
 import parse from "html-react-parser";
+import { generateHTML } from "@tiptap/react";
+import extensions from "../components/Editor/Extensions";
 
 export default function Recipe () {
     const { loading, post } = useGetSinglePost();
@@ -22,7 +24,7 @@ export default function Recipe () {
     }
 
     function showCleanHTML(input) {
-        return parse((DOMPurify.sanitize(input)));
+        return parse(DOMPurify.sanitize(input));
     }
 
     return (
@@ -58,7 +60,9 @@ export default function Recipe () {
 
                     {/* If this is not an origial recipe, this link will appear. */}
                     {/* TEMPORARILY HIDDEN FOR TESTING */}
-                    <a className="hidden" href="https://blog.fatfreevegan.com/2013/06/kale-and-quinoa-salad-with-black-beans.html"><p className="link link-info link-hover">Original Post</p></a>
+                    {post.post_origin &&
+                        <a href={post.post_origin}><p className="link link-info link-hover">Original Post</p></a>
+                    }
                     </div>
                 </div>
 
@@ -75,7 +79,11 @@ export default function Recipe () {
                     Skip to Recipe
                 </button>
 
-                <p className="text-default leading-relaxed my-4">{showCleanHTML(post.body)}</p>
+                <div className="text-default leading-relaxed my-4">
+                    {/* I will need to revisit this... I recognize this line is trash. */}
+                    {/* As I've been struggling with this particular bit of code, I'll let it slide TEMPORARILY */}
+                    {parse(generateHTML(JSON.parse(parse(post.body)), extensions))}
+                </div>
 
                 <div id="recipe" className="flex flex-col gap-4 my-4">
 

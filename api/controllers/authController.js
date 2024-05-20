@@ -82,9 +82,9 @@ export async function register(req, res) {
 
     } catch (error) {
         if(error.details) {
-            res.status(400).json({"Error registering user:": error.details[0].message});
+            res.status(400).json(error.details[0].message);
         } else {
-            res.status(error.cause).json({"Error registering user:": error.message});
+            res.status(error.cause).json(error.message);
         }
         return;
     }
@@ -125,9 +125,9 @@ export async function login(req, res) {
 
     } catch (error) {
         if(error.details) {
-            res.status(400).json({"Error authenicating user:": error.details[0].message});
+            res.status(400).json(error.details[0].message);
         } else {
-            res.status(error.cause).json({"Error authenicating user:": error.message});
+            res.status(error.cause).json(error.message);
         }
     }
 }

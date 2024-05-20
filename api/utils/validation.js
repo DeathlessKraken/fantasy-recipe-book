@@ -63,7 +63,8 @@ const postSchema = Joi.object({
     }),
     is_personal: Joi.boolean(),
     description: Joi.string().trim().max(300),
-    body: Joi.string().trim().max(5000),
+    //Body max is a little bigger than tiptap for escaped characters.
+    body: Joi.string().trim().max(5500),
     media_url: Joi.string().trim().uri({
         scheme: ["https"],
         domain: { minDomainSegments: 2 }

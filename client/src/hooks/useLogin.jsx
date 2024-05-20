@@ -17,7 +17,7 @@ export default function useLogin() {
             
         } catch (error) {
             setLoading(false);
-            toast.error("Unable to login: " + Object.values(error.response.data)[0]);
+            toast.error("Unable to login: " + error.response.data);
         } finally {
             setLoading(false);
         }

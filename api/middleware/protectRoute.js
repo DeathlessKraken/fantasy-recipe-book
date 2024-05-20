@@ -12,7 +12,7 @@ export default async function protectRoute (req, res, next) {
 
         const user = await jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
             if(err) {
-                throw Error;
+                throw Error("Invalid authorization token.", {cause: 401});
             } else {
                 return decoded.user;
             }
@@ -22,6 +22,10 @@ export default async function protectRoute (req, res, next) {
         next();
         
     } catch (error) {
-        next(Error("User not signed in.", {cause:401}));
+        if(error.cause) {
+            next(error);
+        } else {
+            next(Error("User not signed in.", {cause:401}));
+        }
     }
 }
