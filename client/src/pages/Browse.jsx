@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export default function Browse () {
     //Default ascending sort is normal; A-Z
-    const [sortDirection, setSortDirection] = useState('ascending');
+    const [sortDirection, setSortDirection] = useState('descending');
     const [sortIcon, setSortIcon] = useState(SortUp);
     const [limits, setLimits] = useState({
         category: "all",

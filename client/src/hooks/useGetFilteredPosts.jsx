@@ -11,8 +11,11 @@ export default function useGetFilteredPosts ({category, sort, time}) {
         async function getPosts() {
             setLoading(true);
             try {
+                // eslint-disable-next-line react-hooks/exhaustive-deps
                 if(category === 'all') category = null;
+                // eslint-disable-next-line react-hooks/exhaustive-deps
                 if(sort === 'popularity') sort = null;
+                // eslint-disable-next-line react-hooks/exhaustive-deps
                 if(time === 'all') time = null;
 
                 const response = await axios.get(`http://localhost:3000/api/posts/`, {
