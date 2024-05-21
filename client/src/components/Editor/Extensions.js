@@ -17,7 +17,7 @@ const extensions = [
     }),
     Image.configure({
         HTMLAttributes: {
-            class: "max-w-[20rem] rounded-lg"
+            class: "max-w-[fit] mx-auto rounded-lg"
         }
     }),
     CharacterCount.configure({

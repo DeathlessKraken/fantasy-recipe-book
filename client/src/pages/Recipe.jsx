@@ -59,9 +59,8 @@ export default function Recipe () {
                     <p className="text-default text-sm">{"Found in: " + post.category}</p>
 
                     {/* If this is not an origial recipe, this link will appear. */}
-                    {/* TEMPORARILY HIDDEN FOR TESTING */}
                     {post.post_origin &&
-                        <a href={post.post_origin}><p className="link link-info link-hover">Original Post</p></a>
+                        <a href={post.post_origin} target="_blank"><p className="link link-info link-hover">Original Post</p></a>
                     }
                     </div>
                 </div>
