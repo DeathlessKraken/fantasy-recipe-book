@@ -13,8 +13,8 @@ export default function useGetPosts () {
                 const response = await axios.get(`http://localhost:3000/api/posts/`);
                 setPosts(response.data);
             } catch (error) {
-                toast.error("Unable to communicate with server: " + error.response.data);
-                console.log(error);
+                toast.error("Error: " + error.response.data);
+                setPosts([]);
             } finally {
                 setLoading(false);
             }

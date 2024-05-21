@@ -15,7 +15,7 @@ export default function useGetSinglePost () {
                 setPost(response.data);
             } catch (error) {
                 toast.error("Unable to communicate with server: " + error.response.data);
-                console.log(error);
+                setPost({});
             } finally {
                 setLoading(false);
             }
