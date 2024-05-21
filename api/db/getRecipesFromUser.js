@@ -66,7 +66,7 @@ export default async function getRecipesFromUser(user, queries) {
         if(sort === 'alphabetical') { postQuery += "ORDER BY title ASC "; }
         else if(sort === 'popularity') { postQuery += "ORDER BY post_views DESC "; }
         //Sort by data, taking into account date edited
-        else if(sort === 'date') { postQuery += "ORDER BY greatest(r.createdat, r.updatedat) DESC "; }
+        else if(sort === 'date') { postQuery += "ORDER BY r.createdat DESC "; }
     }
 
     try {
