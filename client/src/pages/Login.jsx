@@ -30,7 +30,6 @@ export default function Login () {
         await login(inputs);
 
         //Navigate to home
-        toast.success("Successfully logged in");
         if(currentUser) navigate('/');
     }
 
